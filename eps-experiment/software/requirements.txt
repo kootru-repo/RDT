@@ -1,0 +1,39 @@
+# EPS Experiment - Python Dependencies
+# Install with: pip install -r requirements.txt
+
+# Core scientific computing
+numpy>=1.24
+scipy>=1.10
+matplotlib>=3.7
+
+# Data storage and handling
+h5py>=3.8
+pandas>=2.0
+
+# Instrument control
+pyvisa>=1.13
+pyvisa-py>=0.7  # Pure Python VISA backend
+
+# NI DAQ support (optional - only if using NI hardware)
+# nidaqmx>=0.9
+
+# Statistical analysis
+emcee>=3.1      # MCMC sampler
+corner>=2.2     # Posterior visualization
+arviz>=0.15     # Bayesian analysis
+
+# Interactive development
+jupyter>=1.0
+jupyterlab>=4.0
+ipywidgets>=8.0
+
+# Utilities
+tqdm>=4.65      # Progress bars
+PyYAML>=6.0     # Config file parsing
+python-dateutil>=2.8
+
+# Optional: Real-time plotting
+# pyqtgraph>=0.13
+
+# Optional: GPU monitoring (if using NVIDIA)
+# pynvml>=11.0

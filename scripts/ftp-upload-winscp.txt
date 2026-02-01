@@ -1,0 +1,41 @@
+# ============================================================
+#  WinSCP Script for Relational Drainage Theory Website
+#  Target: relationaldrainage.org
+# ============================================================
+#
+#  INSTRUCTIONS:
+#  1. Install WinSCP from https://winscp.net/
+#  2. Edit this file and replace YOUR_FTP_PASSWORD_HERE with your password
+#  3. Run from command line:
+#     "C:\Program Files (x86)\WinSCP\WinSCP.com" /script=ftp-upload-winscp.txt
+#
+#  Or use WinSCP GUI with the connection info:
+#    Host: 82.29.199.23
+#    User: u206872997.rdtftpadmin
+#    Port: 21
+#    Protocol: FTP
+# ============================================================
+
+# Open connection (replace YOUR_FTP_PASSWORD_HERE with actual password)
+open ftp://u206872997.rdtftpadmin:YOUR_FTP_PASSWORD_HERE@82.29.199.23/
+
+# Change to remote directory
+cd /domains/relationaldrainage.org/public_html
+
+# Create directories (ignore errors if exist)
+mkdir css
+mkdir js
+mkdir assets
+
+# Upload files (adjust path if needed)
+lcd ..
+put index.html
+put rdt-playground.html
+put css\* css/
+put js\* js/
+
+# Disconnect
+close
+
+# Exit WinSCP
+exit

@@ -1,0 +1,310 @@
+/**
+ * Relational Drainage Theory - Print Stylesheet
+ * Version 2.1 | January 2026
+ *
+ * Optimized for PDF generation and physical printing.
+ */
+
+@media print {
+  /* ============================================
+     RESET SCREEN-SPECIFIC STYLES
+     ============================================ */
+  *,
+  *::before,
+  *::after {
+    background: transparent !important;
+    color: #000 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  /* ============================================
+     PAGE SETUP
+     ============================================ */
+  @page {
+    size: A4;
+    margin: 2cm 2.5cm;
+  }
+
+  @page :first {
+    margin-top: 3cm;
+  }
+
+  html {
+    font-size: 11pt;
+  }
+
+  body {
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+    line-height: 1.5;
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* ============================================
+     HIDE NON-ESSENTIAL ELEMENTS
+     ============================================ */
+  .reading-progress,
+  .back-to-top,
+  .print-btn,
+  .skip-link,
+  .toast,
+  nav.toc {
+    display: none !important;
+  }
+
+  /* ============================================
+     TYPOGRAPHY
+     ============================================ */
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+    page-break-inside: avoid;
+    break-after: avoid;
+    break-inside: avoid;
+  }
+
+  h1 {
+    font-size: 24pt;
+    margin-bottom: 0.5cm;
+  }
+
+  h2 {
+    font-size: 16pt;
+    margin-top: 1cm;
+    margin-bottom: 0.5cm;
+    border-bottom: 0.5pt solid #000;
+    padding-bottom: 0.25cm;
+  }
+
+  h3 {
+    font-size: 13pt;
+    margin-top: 0.75cm;
+    margin-bottom: 0.3cm;
+  }
+
+  h4 {
+    font-size: 11pt;
+    margin-top: 0.5cm;
+    margin-bottom: 0.2cm;
+  }
+
+  p {
+    margin-bottom: 0.4cm;
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  /* ============================================
+     LINKS
+     ============================================ */
+  a {
+    text-decoration: underline;
+  }
+
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 9pt;
+    word-break: break-all;
+  }
+
+  a[href^="#"]::after {
+    content: "";
+  }
+
+  /* ============================================
+     HEADER
+     ============================================ */
+  .site-header {
+    text-align: center;
+    border-bottom: 1pt solid #000;
+    padding-bottom: 0.5cm;
+    margin-bottom: 1cm;
+  }
+
+  .site-title {
+    font-size: 24pt;
+    margin-bottom: 0.3cm;
+  }
+
+  .site-subtitle {
+    font-size: 12pt;
+    font-style: italic;
+  }
+
+  .site-authors {
+    font-size: 10pt;
+    margin-top: 0.3cm;
+  }
+
+  .site-version {
+    font-size: 9pt;
+    margin-top: 0.2cm;
+  }
+
+  /* ============================================
+     SECTIONS
+     ============================================ */
+  section {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .section {
+    margin-bottom: 1cm;
+  }
+
+  /* Allow page breaks within long sections */
+  section.section {
+    page-break-inside: auto;
+  }
+
+  /* ============================================
+     MATHEMATICAL ELEMENTS
+     ============================================ */
+  .axiom,
+  .theorem,
+  .definition,
+  .corollary,
+  .lemma,
+  .proposition {
+    border: 0.5pt solid #000;
+    border-left: 3pt solid #000;
+    padding: 0.4cm;
+    margin: 0.5cm 0;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .boxed {
+    border: 1pt solid #000;
+    padding: 0.4cm;
+    margin: 0.5cm 0;
+    text-align: center;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* ============================================
+     CONTENT BOXES
+     ============================================ */
+  .credit-box,
+  .test-box,
+  .app-box {
+    border: 0.5pt solid #000;
+    padding: 0.4cm;
+    margin: 0.5cm 0;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .credit-box h4,
+  .test-box h4,
+  .app-box h4 {
+    font-size: 11pt;
+    margin-bottom: 0.2cm;
+  }
+
+  /* ============================================
+     TABLES
+     ============================================ */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9pt;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  th, td {
+    border: 0.5pt solid #000;
+    padding: 0.2cm;
+    text-align: left;
+  }
+
+  th {
+    font-weight: bold;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  tr {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* ============================================
+     CODE & PREFORMATTED
+     ============================================ */
+  pre,
+  .dependency-tree {
+    border: 0.5pt solid #000;
+    padding: 0.4cm;
+    font-size: 8pt;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  code {
+    font-size: 9pt;
+  }
+
+  /* ============================================
+     LISTS
+     ============================================ */
+  ul, ol {
+    margin: 0.3cm 0;
+    padding-left: 1cm;
+  }
+
+  li {
+    margin: 0.1cm 0;
+  }
+
+  /* ============================================
+     BADGES
+     ============================================ */
+  .badge,
+  .confidence {
+    border: 0.5pt solid #000;
+    padding: 0.05cm 0.15cm;
+    font-size: 8pt;
+  }
+
+  /* ============================================
+     FOOTER
+     ============================================ */
+  .site-footer {
+    border-top: 1pt solid #000;
+    padding-top: 0.5cm;
+    margin-top: 1cm;
+    font-size: 9pt;
+    text-align: center;
+    page-break-before: avoid;
+  }
+
+  /* ============================================
+     EPIGRAPH
+     ============================================ */
+  .epigraph {
+    font-style: italic;
+    text-align: center;
+    padding: 0.5cm;
+    border-top: 0.5pt solid #000;
+    border-bottom: 0.5pt solid #000;
+    margin: 0.75cm 0;
+  }
+
+  /* ============================================
+     PAGE NUMBERS (if supported)
+     ============================================ */
+  @page {
+    @bottom-center {
+      content: counter(page);
+      font-size: 9pt;
+    }
+  }
+}

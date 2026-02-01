@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quantum Error Correction — RDT Innovation</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<style>
+:root {
+  --bg: #0a0a0f;
+  --text: #e8e8e8;
+  --accent: #f5f5dc;
+  --border: #333;
+  --purple: #8b5cf6;
+  --cyan: #06b6d4;
+  --gold: #f5f5dc;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  padding: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+a { color: var(--cyan); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+header {
+  text-align: center;
+  border-bottom: 2px solid var(--purple);
+  padding-bottom: 2rem;
+  margin-bottom: 3rem;
+}
+.back-link { text-align: left; margin-bottom: 1rem; }
+h1 { font-size: 2.5rem; color: var(--purple); margin-bottom: 0.5rem; letter-spacing: 2px; }
+.subtitle { font-style: italic; color: #888; font-size: 1.3rem; }
+.icon { font-size: 4rem; margin-bottom: 1rem; }
+
+section { margin-bottom: 3rem; }
+h2 { color: var(--purple); border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-bottom: 1.5rem; font-size: 1.6rem; }
+h3 { color: var(--cyan); margin: 2rem 0 1rem; font-size: 1.3rem; }
+h4 { color: var(--gold); margin: 1.5rem 0 0.75rem; font-size: 1.1rem; }
+p { margin-bottom: 1.2rem; text-align: justify; }
+
+.insight-box {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(6, 182, 212, 0.1));
+  border: 1px solid var(--purple);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+}
+.insight-box h4 { margin-top: 0; }
+
+.equation {
+  background: rgba(139, 92, 246, 0.1);
+  border-left: 3px solid var(--purple);
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  font-size: 1.1rem;
+  overflow-x: auto;
+}
+
+.diagram {
+  background: #0d0d12;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  white-space: pre;
+  overflow-x: auto;
+  color: #b0b0b0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+}
+th, td {
+  border: 1px solid var(--border);
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+th { background: rgba(139, 92, 246, 0.15); color: var(--purple); }
+tr:nth-child(even) { background: rgba(255, 255, 255, 0.02); }
+
+.warning {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid #ef4444;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+}
+.warning strong { color: #ef4444; }
+
+.success {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid #22c55e;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+}
+.success strong { color: #22c55e; }
+
+.spec-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+.spec-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.25rem;
+}
+.spec-card h5 { color: var(--cyan); margin-bottom: 0.75rem; }
+.spec-card ul { margin-left: 1.2rem; color: #aaa; }
+.spec-card li { margin-bottom: 0.4rem; }
+
+.phase {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(6, 182, 212, 0.05));
+  border-left: 4px solid var(--purple);
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 0 8px 8px 0;
+}
+
+.page-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem 0;
+  border-top: 1px solid var(--border);
+  margin-top: 3rem;
+}
+.page-nav a {
+  padding: 0.75rem 1.5rem;
+  background: rgba(139, 92, 246, 0.15);
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+.page-nav a:hover { background: rgba(139, 92, 246, 0.25); text-decoration: none; }
+
+footer {
+  text-align: center;
+  padding: 2rem 0;
+  border-top: 1px solid var(--border);
+  margin-top: 3rem;
+  color: #666;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="back-link"><a href="../index.html#innovations">&larr; Back to Innovations</a></div>
+  <div class="icon">🔮</div>
+  <h1>Ω-Topology Quantum Error Correction</h1>
+  <p class="subtitle">Working with reality's grain, not against it</p>
+</header>
+
+<section id="summary">
+  <h2>Executive Summary</h2>
+
+  <p>Current quantum error correction treats Hilbert space as an abstract mathematical structure. In RDT, quantum states correspond to positions in the finite configuration space Ω, and superposition represents uncertainty about which adjacent configuration is occupied. This suggests error correction codes that exploit the natural topology of Ω.</p>
+
+  <div class="insight-box">
+    <h4>The RDT Insight</h4>
+    <p>Standard QEC fights decoherence abstractly. RDT suggests decoherence follows natural "pathways" in configuration space — some transitions are more probable because they're Ω-adjacent. By mapping these adjacencies, we can design codes that work with this structure rather than against it.</p>
+  </div>
+</section>
+
+<section id="theory">
+  <h2>Theoretical Foundation</h2>
+
+  <h3>2.1 Standard Quantum Error Correction</h3>
+
+  <p>Standard QEC encodes logical qubits into larger physical systems:</p>
+
+  <div class="equation">$$|0_L\rangle = \frac{1}{\sqrt{2}}(|000\rangle + |111\rangle), \quad |1_L\rangle = \frac{1}{\sqrt{2}}(|000\rangle - |111\rangle)$$</div>
+
+  <p>Errors are detected by measuring stabilizers that identify which error occurred, then corrected by applying compensating operations. The key assumption: all single-qubit errors are equally likely.</p>
+
+  <h3>2.2 The Ω-Adjacency Structure</h3>
+
+  <p>RDT proposes a different picture. Each physical state corresponds to a configuration σ ∈ Ω. States that seem "close" in Hilbert space may be distant in Ω, and vice versa.</p>
+
+  <div class="diagram">
+HILBERT SPACE VS Ω-SPACE ADJACENCY
+
+Hilbert space view:              Ω-space view (RDT):
+┌─────────────────────┐          ┌─────────────────────┐
+│                     │          │                     │
+│  |000⟩ ───── |001⟩  │          │  σ_000 ─── σ_010    │
+│    │           │    │          │    │   ╲   ╱        │
+│    │           │    │          │    │    ╲╱         │
+│  |010⟩ ───── |011⟩  │          │  σ_001   σ_100     │
+│    │           │    │          │      ╲   ╱│        │
+│    │           │    │          │       ╲╱  │        │
+│  |100⟩ ───── |101⟩  │          │    σ_011──σ_101    │
+│    │           │    │          │        ╲   ╱       │
+│    │           │    │          │         ╲╱        │
+│  |110⟩ ───── |111⟩  │          │      σ_110─σ_111   │
+│                     │          │                     │
+│  (Hamming distance) │          │  (Ω-adjacency)      │
+└─────────────────────┘          └─────────────────────┘
+
+Standard QEC: Treats all single-bit flips as equally likely
+Ω-aware QEC: Weights errors by Ω-adjacency (some errors more probable)</div>
+
+  <h3>2.3 Implications for Error Correction</h3>
+
+  <div class="equation">$$P(\sigma \to \sigma') \propto e^{-d_\Omega(\sigma, \sigma')/\lambda}$$</div>
+
+  <p>If error probability depends on Ω-distance rather than Hamming distance, optimal codes should:</p>
+
+  <ul style="margin-left: 1.5rem; color: #bbb;">
+    <li>Map logical qubits to Ω-distant physical configurations</li>
+    <li>Use syndrome measurements weighted by Ω-adjacency</li>
+    <li>Exploit "natural" low-error pathways for operations</li>
+    <li>Avoid encoding into Ω-adjacent configurations (high error probability)</li>
+  </ul>
+</section>
+
+<section id="engineering">
+  <h2>Engineering Architecture</h2>
+
+  <h3>3.1 System Components</h3>
+
+  <div class="spec-grid">
+    <div class="spec-card">
+      <h5>Ω-Adjacency Mapper</h5>
+      <ul>
+        <li>Runs randomized benchmarking on all qubit pairs</li>
+        <li>Measures which pairs maintain coherence longest</li>
+        <li>Builds empirical Ω-adjacency graph</li>
+        <li>Compares to hardware coupling map</li>
+      </ul>
+    </div>
+    <div class="spec-card">
+      <h5>Topological Encoder</h5>
+      <ul>
+        <li>Maps logical qubits to physical following Ω-structure</li>
+        <li>Maximizes Ω-distance between code words</li>
+        <li>Uses discovered natural adjacencies</li>
+        <li>Custom circuit synthesis per hardware</li>
+      </ul>
+    </div>
+    <div class="spec-card">
+      <h5>Adjacency-Aware Decoder</h5>
+      <ul>
+        <li>Syndrome decoding weighted by Ω-distance</li>
+        <li>Maximum likelihood over Ω-paths, not Hamming</li>
+        <li>Real-time error tracking</li>
+        <li>Adaptive code switching</li>
+      </ul>
+    </div>
+    <div class="spec-card">
+      <h5>Coherence Monitor</h5>
+      <ul>
+        <li>Tracks which adjacency relationships remain stable</li>
+        <li>Detects Ω-topology drift over time</li>
+        <li>Triggers recalibration when needed</li>
+        <li>Logs for analysis</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>3.2 Experimental Protocol</h3>
+
+  <div class="diagram">
+PHASE 1: ADJACENCY DISCOVERY (3 months)
+
+For each qubit pair (i, j) in hardware:
+┌─────────────────────────────────────────────────┐
+│  1. Prepare Bell state: |00⟩ + |11⟩             │
+│  2. Apply identity gates for time t             │
+│  3. Measure fidelity F(t)                       │
+│  4. Extract coherence time T₂(i,j)              │
+│  5. Repeat for all pairs                        │
+└─────────────────────────────────────────────────┘
+
+Build Ω-adjacency matrix:
+┌─────────────────────────────────────────────────┐
+│  A_ij = 1/T₂(i,j)  (higher = more adjacent)     │
+│  Normalize: Ã = A/max(A)                        │
+│  Threshold: Keep edges where Ã > 0.1            │
+│  Result: Empirical Ω-adjacency graph            │
+└─────────────────────────────────────────────────┘
+
+PHASE 2: TOPOLOGY-AWARE ENCODING (6 months)
+
+Using discovered Ω-graph:
+┌─────────────────────────────────────────────────┐
+│  1. Design stabilizer codes following graph     │
+│  2. Logical qubits map to Ω-distant clusters    │
+│  3. Compare error rates vs standard surface code│
+│  4. Measure: Does "natural" encoding help?      │
+└─────────────────────────────────────────────────┘
+
+Expected outcome:
+• If Ω-structure differs from hardware: potential improvement
+• If Ω-structure = hardware coupling: no advantage (null result)
+• Either result is scientifically valuable</div>
+</section>
+
+<section id="predictions">
+  <h2>Testable Predictions</h2>
+
+  <table>
+    <tr><th>Prediction</th><th>Standard QM</th><th>RDT</th><th>Test</th></tr>
+    <tr>
+      <td>Error correlations</td>
+      <td>Follow hardware coupling</td>
+      <td>May differ from hardware</td>
+      <td>Compare empirical vs designed adjacency</td>
+    </tr>
+    <tr>
+      <td>Cross-platform consistency</td>
+      <td>Hardware-specific only</td>
+      <td>Some universal Ω-structure</td>
+      <td>Compare ion trap vs superconducting</td>
+    </tr>
+    <tr>
+      <td>Encoding efficiency</td>
+      <td>Optimal codes known</td>
+      <td>Better codes possible with Ω-info</td>
+      <td>Compare error rates empirically</td>
+    </tr>
+  </table>
+
+  <div class="success">
+    <strong>Success Criterion:</strong> If Ω-aware encoding improves coherence time by >10% over standard surface codes on the same hardware, RDT's Ω-structure has practical value.
+  </div>
+
+  <div class="warning">
+    <strong>Key Unknown:</strong> Whether configuration-space adjacency differs meaningfully from physical qubit coupling. If they're identical, no advantage from RDT perspective.
+  </div>
+</section>
+
+<section id="timeline">
+  <h2>Development Timeline</h2>
+
+  <div class="phase">
+    <h4>Year 1: Adjacency Discovery</h4>
+    <p>Run comprehensive benchmarking on available quantum hardware (IBM, Google, IonQ). Build Ω-adjacency graphs for each platform. Compare across technologies.</p>
+  </div>
+
+  <div class="phase">
+    <h4>Year 2: Code Design</h4>
+    <p>Develop stabilizer codes optimized for discovered Ω-structure. Implement custom encoders/decoders. Run comparison experiments against standard codes.</p>
+  </div>
+
+  <div class="phase">
+    <h4>Year 3: Validation</h4>
+    <p>Publish results. If improvement found, work with hardware vendors to implement. If null result, constrain RDT's Ω-topology claims.</p>
+  </div>
+</section>
+
+<nav class="page-nav">
+  <a href="../index.html#innovations">&larr; Back to Innovations</a>
+  <a href="entropic-propulsion.html">Next: Entropic Propulsion &rarr;</a>
+</nav>
+
+<footer>
+  <p><strong>Relational Drainage Theory — Quantum Error Correction</strong></p>
+  <p><a href="../index.html">Return to Main Site</a></p>
+  <p>January 2026</p>
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false}
+    ]
+  });
+});
+</script>
+
+</body>
+</html>

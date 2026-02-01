@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RDT Foundation Explorer - The David Analogy</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #1a1a2e;
+  --surface: #252542;
+  --border: #3d3d5c;
+  --text: #e8e8e8;
+  --muted: #888;
+  --accent: #6366f1;
+  --accent-hover: #818cf8;
+  --success: #22c55e;
+  --marble: #f5f5dc;
+  --grain: #8b5cf6;
+  --chisel: #06b6d4;
+  --mirror: #ec4899;
+}
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+.container {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  grid-template-rows: 1fr auto;
+  height: 100vh;
+}
+.controls {
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px;
+  overflow-y: auto;
+}
+.preview {
+  padding: 20px;
+  overflow: auto;
+}
+.prompt-section {
+  grid-column: 1 / -1;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 16px 20px;
+}
+h1 { font-size: 18px; margin-bottom: 8px; color: var(--accent); }
+.subtitle { font-size: 12px; color: var(--muted); margin-bottom: 20px; font-style: italic; }
+h2 { font-size: 14px; color: var(--muted); margin: 20px 0 10px; text-transform: uppercase; letter-spacing: 1px; }
+.control-group { margin-bottom: 16px; }
+label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+select, input[type="range"] {
+  width: 100%;
+  padding: 8px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+}
+select:focus { outline: 2px solid var(--accent); }
+input[type="range"] { padding: 0; height: 6px; cursor: pointer; }
+.range-value { font-size: 12px; color: var(--accent); float: right; }
+.checkbox-group { display: flex; align-items: center; gap: 8px; margin: 8px 0; }
+.checkbox-group input { width: 16px; height: 16px; cursor: pointer; }
+.preset-btn {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin: 6px 0;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+.preset-btn:hover { border-color: var(--accent); background: rgba(99, 102, 241, 0.1); }
+.preset-btn.active { border-color: var(--accent); background: rgba(99, 102, 241, 0.2); }
+.preset-btn small { display: block; color: var(--muted); font-size: 11px; margin-top: 4px; }
+
+/* Legend */
+.legend {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 12px;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+}
+.legend-color {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+}
+
+/* Graph Styles */
+.graph-container {
+  width: 100%;
+  height: calc(100vh - 180px);
+  position: relative;
+}
+svg { width: 100%; height: 100%; }
+.node { cursor: pointer; }
+.node rect { rx: 8; ry: 8; stroke-width: 2; transition: stroke-width 0.15s, filter 0.15s; }
+.node.foundation rect { rx: 12; ry: 12; stroke-width: 3; }
+.node:hover rect { stroke-width: 4; filter: brightness(1.15); }
+.node text { font-size: 11px; fill: var(--text); pointer-events: none; }
+.node text.analogy { font-size: 9px; fill: rgba(255,255,255,0.7); }
+.node.selected rect { stroke: #fff !important; stroke-width: 4; }
+.node.dimmed { opacity: 0.2; }
+.link { fill: none; stroke-width: 2; }
+.link.dimmed { opacity: 0.1; }
+.link.foundation-link { stroke-width: 3; }
+
+/* Details panel */
+.details-panel {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 320px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  display: none;
+  z-index: 10;
+}
+.details-panel.visible { display: block; }
+.details-panel h3 { color: var(--accent); margin-bottom: 8px; font-size: 16px; }
+.details-panel .analogy-title { color: var(--muted); font-size: 13px; margin-bottom: 12px; font-style: italic; }
+.details-panel p { font-size: 13px; line-height: 1.6; color: var(--text); margin-bottom: 12px; }
+.details-panel .formal { font-size: 12px; color: var(--muted); font-family: 'SF Mono', monospace; background: var(--bg); padding: 8px; border-radius: 4px; margin-bottom: 12px; }
+.details-panel .meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.details-panel .tag {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+}
+.details-panel .tag.category { background: rgba(99, 102, 241, 0.2); }
+.details-panel .tag.confidence { background: rgba(34, 197, 94, 0.2); }
+.details-panel .close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 18px;
+}
+.details-panel .close-btn:hover { color: var(--text); }
+
+/* Prompt Output */
+.prompt-output {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+#promptText {
+  flex: 1;
+  font-family: 'SF Mono', 'Consolas', monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  min-height: 60px;
+}
+.copy-btn {
+  padding: 10px 20px;
+  background: var(--accent);
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+.copy-btn:hover { background: var(--accent-hover); }
+.copy-btn.copied { background: var(--success); }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="controls">
+    <h1>RDT Foundation Explorer</h1>
+    <div class="subtitle">"The sculpture is already complete within the marble block."</div>
+
+    <h2>The David Analogy</h2>
+    <button class="preset-btn active" onclick="applyPreset('complete')">
+      Complete Structure
+      <small>All 4 foundations + 21 derived results</small>
+    </button>
+    <button class="preset-btn" onclick="applyPreset('foundations')">
+      Four Foundations Only
+      <small>F1-F4: The core axioms</small>
+    </button>
+    <button class="preset-btn" onclick="applyPreset('marble')">
+      The Marble Block Path
+      <small>F1 (Finite Totality) derivations</small>
+    </button>
+    <button class="preset-btn" onclick="applyPreset('grain')">
+      The Grain Path
+      <small>F2 (Metric Structure) derivations</small>
+    </button>
+    <button class="preset-btn" onclick="applyPreset('chisel')">
+      The Sculpting Path
+      <small>F3 (Traversal) derivations</small>
+    </button>
+    <button class="preset-btn" onclick="applyPreset('mirror')">
+      The Mirror Path
+      <small>F4 (CPT Symmetry) derivations</small>
+    </button>
+
+    <h2>View Options</h2>
+    <div class="control-group">
+      <label>Layout Style</label>
+      <select id="layoutStyle" onchange="updateAll()">
+        <option value="hierarchical">Hierarchical (Top-Down)</option>
+        <option value="radial">Radial (Center-Out)</option>
+      </select>
+    </div>
+
+    <div class="control-group">
+      <label>Color By</label>
+      <select id="colorBy" onchange="updateAll()">
+        <option value="category">Category (Foundation/Derived)</option>
+        <option value="confidence">Confidence Level</option>
+        <option value="source">Source Foundation</option>
+      </select>
+    </div>
+
+    <div class="control-group">
+      <label>Node Size <span class="range-value" id="nodeSizeValue">50</span></label>
+      <input type="range" id="nodeSize" min="35" max="80" value="50" onchange="updateAll()">
+    </div>
+
+    <h2>Filter by Category</h2>
+    <div class="checkbox-group">
+      <input type="checkbox" id="showFoundations" checked onchange="updateAll()">
+      <label for="showFoundations">Foundations (F1-F4)</label>
+    </div>
+    <div class="checkbox-group">
+      <input type="checkbox" id="showMath" checked onchange="updateAll()">
+      <label for="showMath">Mathematical Results</label>
+    </div>
+    <div class="checkbox-group">
+      <input type="checkbox" id="showPhysics" checked onchange="updateAll()">
+      <label for="showPhysics">Physical Results</label>
+    </div>
+    <div class="checkbox-group">
+      <input type="checkbox" id="showPredictions" checked onchange="updateAll()">
+      <label for="showPredictions">Novel Predictions</label>
+    </div>
+
+    <h2>Focus Node</h2>
+    <div class="control-group">
+      <select id="focusNode" onchange="updateAll()">
+        <option value="">None - Show All</option>
+        <optgroup label="Foundations">
+          <option value="F1">F1 - The Marble Block</option>
+          <option value="F2">F2 - The Grain</option>
+          <option value="F3">F3 - The Sculpting</option>
+          <option value="F4">F4 - The Mirror</option>
+        </optgroup>
+        <optgroup label="Key Results">
+          <option value="R5">R5 - Gravity as Drainage</option>
+          <option value="R8">R8 - Born Rule (Gleason)</option>
+          <option value="R12">R12 - Cyclic Cosmology</option>
+          <option value="R21">R21 - Entanglement d_max</option>
+        </optgroup>
+      </select>
+    </div>
+
+    <h2>Legend</h2>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-color" style="background: #f5f5dc;"></div> Foundation</div>
+      <div class="legend-item"><div class="legend-color" style="background: #8b5cf6;"></div> Mathematical</div>
+      <div class="legend-item"><div class="legend-color" style="background: #06b6d4;"></div> Physical</div>
+      <div class="legend-item"><div class="legend-color" style="background: #22c55e;"></div> Prediction</div>
+    </div>
+  </div>
+
+  <div class="preview">
+    <div class="graph-container">
+      <svg id="graph"></svg>
+      <div class="details-panel" id="detailsPanel">
+        <button class="close-btn" onclick="closeDetails()">&times;</button>
+        <h3 id="nodeTitle">F1 - Finite Totality</h3>
+        <div class="analogy-title" id="nodeAnalogy">The Marble Block</div>
+        <p id="nodeDesc">All possibilities already exist - like all sculptures exist within the uncarved marble.</p>
+        <div class="formal" id="nodeFormal">|Ω| = N ≈ 10^(10^122)</div>
+        <div class="meta">
+          <span class="tag category" id="nodeCategory">Foundation</span>
+          <span class="tag confidence" id="nodeConfidence">90% confidence</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="prompt-section">
+    <div class="prompt-output">
+      <div id="promptText">Explore the RDT foundation structure to understand how 4 axioms generate 21 derived results...</div>
+      <button class="copy-btn" onclick="copyPrompt()">Copy Prompt</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// RDT 4-Foundation Model with David Analogy
+// ============================================================
+
+const NODES = {
+  // === FOUNDATIONS (Level 0) ===
+  F1: {
+    name: "Finite Totality",
+    analogy: "The Marble Block",
+    category: "Foundation",
+    level: 0,
+    confidence: 90,
+    source: "F1",
+    desc: "All possibilities already exist, like all sculptures exist within the uncarved marble. There is no infinite - only the complete finite set of all that could be.",
+    formal: "|Ω_real| = N ≈ 10^(10^122) (via Bekenstein bound)"
+  },
+  F2: {
+    name: "Metric Structure",
+    analogy: "The Grain",
+    category: "Foundation",
+    level: 0,
+    confidence: 95,
+    source: "F2",
+    desc: "The marble has inherent structure - grain that determines which forms are possible. Configurations have natural adjacency relationships.",
+    formal: "d: Ω × Ω → ℝ≥0 satisfies metric axioms"
+  },
+  F3: {
+    name: "Traversal = Experience",
+    analogy: "The Sculpting",
+    category: "Foundation",
+    level: 0,
+    confidence: 85,
+    source: "F3",
+    desc: "Experience is the chisel revealing what was always there. Consciousness doesn't create - it traverses the pre-existing structure.",
+    formal: "γ: T → Ω (ordered path through configuration space)"
+  },
+  F4: {
+    name: "CPT Symmetry",
+    analogy: "The Mirror",
+    category: "Foundation",
+    level: 0,
+    confidence: 90,
+    source: "F4",
+    desc: "Every form has a mirror image in the uncarved portion. What is carved away in one view is revealed in its reflection.",
+    formal: "CPT: M⁺ ↔ M⁻ (Boyle-Turok)"
+  },
+
+  // === MATHEMATICAL RESULTS (Level 1-2) ===
+  R1: {
+    name: "N Estimation",
+    analogy: "Size of the Block",
+    category: "Math",
+    level: 1,
+    confidence: 90,
+    source: "F1",
+    desc: "The Bekenstein bound tells us how large the marble block is - the maximum information content of our observable universe.",
+    formal: "N ≈ 10^(10^122) configurations"
+  },
+  R2: {
+    name: "π-Emergence",
+    analogy: "Curves in the Grain",
+    category: "Math",
+    level: 1,
+    confidence: 95,
+    source: "F2",
+    desc: "π appears not because it's encoded, but because any metric space with cycles necessarily involves π. Like how curves naturally appear when cutting across wood grain.",
+    formal: "Any metric with periodicity → π emerges geometrically"
+  },
+  R3: {
+    name: "Adjacency Structure",
+    analogy: "What Neighbors What",
+    category: "Math",
+    level: 1,
+    confidence: 90,
+    source: "F2",
+    desc: "The metric defines which configurations are adjacent - which chisel strikes are possible from any given point.",
+    formal: "d(σᵢ, σⱼ) determines transition structure"
+  },
+  R4: {
+    name: "Time Definition",
+    analogy: "The Stroke Count",
+    category: "Math",
+    level: 1,
+    confidence: 85,
+    source: "F3",
+    desc: "Time is not fundamental - it is the counting of chisel strokes, the measure of traversal through configuration space.",
+    formal: "τ = ∫ dγ (proper time as path length)"
+  },
+
+  // === PHYSICAL RESULTS (Level 2-3) ===
+  R5: {
+    name: "Gravity = Drainage",
+    analogy: "Chips Fall Downward",
+    category: "Physics",
+    level: 2,
+    confidence: 80,
+    source: "F3",
+    desc: "Gravity emerges from the flow of traversals through configuration space - like marble chips naturally falling in the direction of least resistance.",
+    formal: "Gμν + Λgμν = (8πG/c⁴)Tμν (Jacobson/Verlinde thermodynamic derivation)"
+  },
+  R6: {
+    name: "Superposition",
+    analogy: "Uncommitted Strokes",
+    category: "Physics",
+    level: 2,
+    confidence: 85,
+    source: "F3",
+    desc: "Before the chisel commits, multiple strokes are possible simultaneously. Superposition is adjacency uncertainty in configuration space.",
+    formal: "|ψ⟩ = Σ cᵢ|σᵢ⟩ (superposition over adjacent configurations)"
+  },
+  R7: {
+    name: "No Collapse",
+    analogy: "No Magic - Just Cutting",
+    category: "Physics",
+    level: 2,
+    confidence: 90,
+    source: "F3",
+    desc: "There is no mysterious collapse - only the chisel selecting a path. The measurement is just the traversal continuing.",
+    formal: "Traversal selects path; no separate collapse postulate"
+  },
+  R8: {
+    name: "Born Rule",
+    analogy: "Natural Proportions",
+    category: "Physics",
+    level: 3,
+    confidence: 90,
+    source: "F3",
+    desc: "Probability amplitudes squared give probabilities - not as a postulate, but as the unique consistent rule (Gleason's theorem, 1957).",
+    formal: "P(σ) = |⟨σ|ψ⟩|² (uniquely determined by Gleason)"
+  },
+  R9: {
+    name: "Dual Manifolds",
+    analogy: "Form and Void",
+    category: "Physics",
+    level: 1,
+    confidence: 85,
+    source: "F4",
+    desc: "Two complementary manifolds emerge - what is carved (M⁺) and what remains (M⁻). Form and the space around it.",
+    formal: "(M⁺, g⁺) ↔ (M⁻, g⁻) sharing boundary Σ"
+  },
+  R10: {
+    name: "Conservation Laws",
+    analogy: "Nothing Lost",
+    category: "Physics",
+    level: 2,
+    confidence: 85,
+    source: "F4",
+    desc: "What is removed from one side appears on the other. Total marble is conserved - entropy in one manifold balances entropy in the other.",
+    formal: "S⁺(τ) + S⁻(τ) = constant"
+  },
+  R11: {
+    name: "Arrow of Time",
+    analogy: "Direction of Carving",
+    category: "Physics",
+    level: 2,
+    confidence: 80,
+    source: "F4",
+    desc: "Time has a direction because carving is irreversible from our perspective - though the mirror image sees it reversed.",
+    formal: "dS⁺/dτ > 0 ⟺ dS⁻/dτ < 0"
+  },
+  R12: {
+    name: "Cyclic Cosmology",
+    analogy: "The Sculpture Complete",
+    category: "Physics",
+    level: 3,
+    confidence: 75,
+    source: "F4",
+    desc: "When the sculpture is complete, a new block begins. The universe cycles - each completion seeds the next beginning.",
+    formal: "|ΔS| → Smax ⟹ inversion (aeon transition)"
+  },
+
+  // === DERIVED QUANTITIES (Level 2-3) ===
+  R13: {
+    name: "ℏ Definition",
+    analogy: "Minimum Chip Size",
+    category: "Math",
+    level: 2,
+    confidence: 70,
+    source: "F1",
+    desc: "Planck's constant is the minimum meaningful action - the smallest chip the chisel can remove. Volume per configuration.",
+    formal: "ℏ = Vol(Ω)/N (action capacity per configuration)"
+  },
+  R14: {
+    name: "Frequency-Energy",
+    analogy: "Vibration of the Chisel",
+    category: "Physics",
+    level: 3,
+    confidence: 80,
+    source: "F2",
+    desc: "Energy relates to frequency through π-encounters along the traversal - how often the chisel resonates with the grain.",
+    formal: "E = hν = ℏω"
+  },
+  R15: {
+    name: "Uncertainty Relations",
+    analogy: "Grain Limits Precision",
+    category: "Physics",
+    level: 3,
+    confidence: 85,
+    source: "F2",
+    desc: "The grain of the marble sets fundamental limits. You cannot specify position and momentum beyond the grain's resolution.",
+    formal: "ΔxΔp ≥ ℏ/2 (from metric structure)"
+  },
+
+  // === NOVEL PREDICTIONS (Level 3-4) ===
+  R16: {
+    name: "Measurement Selection",
+    analogy: "Chisel Choice",
+    category: "Physics",
+    level: 3,
+    confidence: 85,
+    source: "F3",
+    desc: "Measurement doesn't collapse anything - it's the chisel making contact, selecting which adjacent path the traversal continues along.",
+    formal: "Decoherence → effective selection (no ontological collapse)"
+  },
+  R17: {
+    name: "Dark Energy",
+    analogy: "Pressure from the Void",
+    category: "Physics",
+    level: 3,
+    confidence: 70,
+    source: "F4",
+    desc: "The mirror manifold exerts effective pressure - the uncarved portion pushing against what is carved.",
+    formal: "Λ ~ drainage tension between M⁺ and M⁻"
+  },
+  R18: {
+    name: "Big Bang as Boundary",
+    analogy: "Edge of the Block",
+    category: "Physics",
+    level: 3,
+    confidence: 75,
+    source: "F4",
+    desc: "The Big Bang is not a beginning but a boundary - the edge where our manifold meets its mirror.",
+    formal: "Σ = Big Bang hypersurface (Boyle-Turok)"
+  },
+  R19: {
+    name: "Entropy Gradient",
+    analogy: "Fresh vs Worked Marble",
+    category: "Physics",
+    level: 3,
+    confidence: 75,
+    source: "F4",
+    desc: "Low entropy at the Bang because we start at the boundary between manifolds - like starting with a fresh block.",
+    formal: "S(Σ) minimal → entropy increases both directions"
+  },
+
+  // === TESTABLE PREDICTIONS (Level 4) ===
+  R20: {
+    name: "CMB Patterns",
+    analogy: "Grain in the Surface",
+    category: "Prediction",
+    level: 4,
+    confidence: 60,
+    source: "F4",
+    desc: "CPT symmetry predicts specific patterns in the cosmic microwave background - traces of the mirror manifold.",
+    formal: "Specific CMB correlations from CPT at Σ"
+  },
+  R21: {
+    name: "Entanglement d_max",
+    analogy: "Distant Grain Alignment",
+    category: "Prediction",
+    level: 4,
+    confidence: 60,
+    source: "F2",
+    desc: "Novel prediction: there may be a maximum distance for entanglement, set by the finite metric structure of configuration space.",
+    formal: "d_max ≈ √(Vol/N) · c · t_universe (testable bound)"
+  }
+};
+
+// Dependencies showing derivation chains
+const DEPENDENCIES = [
+  // From F1 (Marble Block)
+  ["F1", "R1"],   // N estimation
+  ["F1", "R13"],  // ℏ definition
+
+  // From F2 (Grain)
+  ["F2", "R2"],   // π emergence
+  ["F2", "R3"],   // Adjacency structure
+  ["F2", "R15"],  // Uncertainty
+  ["F2", "R21"],  // Entanglement d_max
+
+  // From F3 (Sculpting)
+  ["F3", "R4"],   // Time definition
+  ["F3", "R5"],   // Gravity as drainage
+  ["F3", "R6"],   // Superposition
+  ["F3", "R7"],   // No collapse
+  ["R6", "R8"],   // Born rule (from superposition)
+  ["R7", "R8"],   // Born rule (from no-collapse)
+  ["R7", "R16"],  // Measurement selection
+
+  // From F4 (Mirror)
+  ["F4", "R9"],   // Dual manifolds
+  ["R9", "R10"],  // Conservation
+  ["R9", "R11"],  // Arrow of time
+  ["R10", "R12"], // Cyclic cosmology
+  ["R11", "R12"], // Cyclic cosmology
+  ["F4", "R17"],  // Dark energy
+  ["F4", "R18"],  // Big Bang as boundary
+  ["R9", "R19"],  // Entropy gradient
+  ["F4", "R20"],  // CMB patterns
+
+  // Cross-foundation derivations
+  ["R3", "R5"],   // Adjacency → Gravity
+  ["R2", "R14"],  // π → Frequency-Energy
+  ["R13", "R14"], // ℏ → Frequency-Energy
+  ["R3", "R6"],   // Adjacency → Superposition
+  ["R1", "R15"],  // N → Uncertainty
+];
+
+const CATEGORY_COLORS = {
+  Foundation: "#f5f5dc",
+  Math: "#8b5cf6",
+  Physics: "#06b6d4",
+  Prediction: "#22c55e"
+};
+
+const SOURCE_COLORS = {
+  F1: "#f5f5dc",  // Marble
+  F2: "#8b5cf6",  // Grain (purple)
+  F3: "#06b6d4",  // Chisel (cyan)
+  F4: "#ec4899"   // Mirror (pink)
+};
+
+const state = {
+  layoutStyle: "hierarchical",
+  colorBy: "category",
+  nodeSize: 50,
+  showCategories: {
+    Foundation: true,
+    Math: true,
+    Physics: true,
+    Prediction: true
+  },
+  focusNode: "",
+  selectedNode: null
+};
+
+function applyPreset(preset) {
+  document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+  event.target.closest('.preset-btn').classList.add('active');
+
+  const all = { Foundation: true, Math: true, Physics: true, Prediction: true };
+
+  switch(preset) {
+    case 'complete':
+      state.showCategories = { ...all };
+      state.focusNode = "";
+      break;
+    case 'foundations':
+      state.showCategories = { Foundation: true, Math: false, Physics: false, Prediction: false };
+      state.focusNode = "";
+      break;
+    case 'marble':
+      state.showCategories = { ...all };
+      state.focusNode = "F1";
+      break;
+    case 'grain':
+      state.showCategories = { ...all };
+      state.focusNode = "F2";
+      break;
+    case 'chisel':
+      state.showCategories = { ...all };
+      state.focusNode = "F3";
+      break;
+    case 'mirror':
+      state.showCategories = { ...all };
+      state.focusNode = "F4";
+      break;
+  }
+
+  syncControls();
+  updateAll();
+}
+
+function syncControls() {
+  document.getElementById('showFoundations').checked = state.showCategories.Foundation;
+  document.getElementById('showMath').checked = state.showCategories.Math;
+  document.getElementById('showPhysics').checked = state.showCategories.Physics;
+  document.getElementById('showPredictions').checked = state.showCategories.Prediction;
+  document.getElementById('focusNode').value = state.focusNode;
+}
+
+function readControls() {
+  state.layoutStyle = document.getElementById('layoutStyle').value;
+  state.colorBy = document.getElementById('colorBy').value;
+  state.nodeSize = parseInt(document.getElementById('nodeSize').value);
+  state.showCategories = {
+    Foundation: document.getElementById('showFoundations').checked,
+    Math: document.getElementById('showMath').checked,
+    Physics: document.getElementById('showPhysics').checked,
+    Prediction: document.getElementById('showPredictions').checked
+  };
+  state.focusNode = document.getElementById('focusNode').value;
+  document.getElementById('nodeSizeValue').textContent = state.nodeSize;
+}
+
+function getNodeColor(nodeId) {
+  const node = NODES[nodeId];
+  if (state.colorBy === 'category') return CATEGORY_COLORS[node.category];
+  if (state.colorBy === 'confidence') {
+    if (node.confidence >= 85) return '#22c55e';
+    if (node.confidence >= 70) return '#eab308';
+    return '#ef4444';
+  }
+  if (state.colorBy === 'source') return SOURCE_COLORS[node.source];
+  return '#6b7280';
+}
+
+function getConnectedNodes(nodeId) {
+  const connected = new Set([nodeId]);
+  // Get all nodes connected to this one (ancestors and descendants)
+  let changed = true;
+  while (changed) {
+    changed = false;
+    DEPENDENCIES.forEach(([from, to]) => {
+      if (connected.has(from) && !connected.has(to)) {
+        connected.add(to);
+        changed = true;
+      }
+      if (connected.has(to) && !connected.has(from)) {
+        connected.add(from);
+        changed = true;
+      }
+    });
+  }
+  return connected;
+}
+
+function renderGraph() {
+  const svg = document.getElementById('graph');
+  const width = svg.clientWidth || 900;
+  const height = svg.clientHeight || 600;
+
+  // Filter visible nodes
+  const visibleNodes = Object.keys(NODES).filter(id => state.showCategories[NODES[id].category]);
+  const visibleDeps = DEPENDENCIES.filter(([from, to]) =>
+    visibleNodes.includes(from) && visibleNodes.includes(to)
+  );
+
+  // Get connected nodes for focus mode
+  const connectedNodes = state.focusNode ? getConnectedNodes(state.focusNode) : null;
+
+  // Calculate positions
+  const positions = {};
+
+  if (state.layoutStyle === 'radial') {
+    // Radial layout with foundations in center
+    const centerX = width / 2;
+    const centerY = height / 2;
+    const levels = {};
+
+    visibleNodes.forEach(id => {
+      const level = NODES[id].level;
+      if (!levels[level]) levels[level] = [];
+      levels[level].push(id);
+    });
+
+    Object.entries(levels).forEach(([level, nodes]) => {
+      const radius = level * 100 + 60;
+      const angleStep = (2 * Math.PI) / nodes.length;
+      nodes.forEach((id, i) => {
+        const angle = angleStep * i - Math.PI / 2;
+        positions[id] = {
+          x: centerX + radius * Math.cos(angle),
+          y: centerY + radius * Math.sin(angle)
+        };
+      });
+    });
+  } else {
+    // Hierarchical layout
+    const levelGroups = {};
+    visibleNodes.forEach(id => {
+      const level = NODES[id].level;
+      if (!levelGroups[level]) levelGroups[level] = [];
+      levelGroups[level].push(id);
+    });
+
+    const levels = Object.keys(levelGroups).sort((a, b) => a - b);
+    const levelHeight = height / (levels.length + 1);
+
+    levels.forEach((level, li) => {
+      const nodes = levelGroups[level];
+      const nodeWidth = width / (nodes.length + 1);
+      nodes.forEach((id, ni) => {
+        positions[id] = {
+          x: nodeWidth * (ni + 1),
+          y: levelHeight * (li + 1)
+        };
+      });
+    });
+  }
+
+  // Build SVG
+  let svgContent = `<defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#6b7280"/>
+    </marker>
+    <marker id="arrowhead-highlight" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#a5b4fc"/>
+    </marker>
+  </defs>`;
+
+  // Draw links
+  visibleDeps.forEach(([from, to]) => {
+    const p1 = positions[from];
+    const p2 = positions[to];
+    if (!p1 || !p2) return;
+
+    const isDimmed = connectedNodes && (!connectedNodes.has(from) || !connectedNodes.has(to));
+    const isFoundationLink = NODES[from].category === 'Foundation';
+    const linkColor = isDimmed ? '#3d3d5c' : (isFoundationLink ? '#a5b4fc' : '#6b7280');
+    const marker = isFoundationLink && !isDimmed ? 'url(#arrowhead-highlight)' : 'url(#arrowhead)';
+
+    svgContent += `<path class="link${isDimmed ? ' dimmed' : ''}${isFoundationLink ? ' foundation-link' : ''}"
+      d="M${p1.x},${p1.y + state.nodeSize/2} C${p1.x},${(p1.y + p2.y)/2} ${p2.x},${(p1.y + p2.y)/2} ${p2.x},${p2.y - state.nodeSize/2}"
+      stroke="${linkColor}" marker-end="${marker}"/>`;
+  });
+
+  // Draw nodes
+  visibleNodes.forEach(id => {
+    const pos = positions[id];
+    if (!pos) return;
+    const node = NODES[id];
+    const color = getNodeColor(id);
+    const isSelected = state.selectedNode === id;
+    const isFocused = state.focusNode === id;
+    const isDimmed = connectedNodes && !connectedNodes.has(id);
+    const isFoundation = node.category === 'Foundation';
+
+    const nodeWidth = isFoundation ? state.nodeSize * 2.5 : state.nodeSize * 2;
+    const nodeHeight = isFoundation ? state.nodeSize * 1.2 : state.nodeSize;
+    const textColor = (color === '#f5f5dc' || color === '#eab308') ? '#1a1a2e' : '#e8e8e8';
+
+    svgContent += `<g class="node${isFoundation ? ' foundation' : ''}${isSelected ? ' selected' : ''}${isDimmed ? ' dimmed' : ''}"
+      data-id="${id}"
+      transform="translate(${pos.x - nodeWidth/2},${pos.y - nodeHeight/2})"
+      onclick="selectNode('${id}')">
+      <rect width="${nodeWidth}" height="${nodeHeight}" fill="${color}" stroke="${isFocused ? '#fff' : color}"/>
+      <text x="${nodeWidth/2}" y="${nodeHeight/2 - 2}" text-anchor="middle" font-weight="600" fill="${textColor}">${id}</text>
+      <text x="${nodeWidth/2}" y="${nodeHeight/2 + 10}" text-anchor="middle" class="analogy" fill="${textColor}" opacity="0.8">${node.analogy}</text>
+    </g>`;
+  });
+
+  svg.innerHTML = svgContent;
+}
+
+function selectNode(id) {
+  state.selectedNode = id;
+  const node = NODES[id];
+
+  document.getElementById('nodeTitle').textContent = `${id} - ${node.name}`;
+  document.getElementById('nodeAnalogy').textContent = node.analogy;
+  document.getElementById('nodeDesc').textContent = node.desc;
+  document.getElementById('nodeFormal').textContent = node.formal;
+  document.getElementById('nodeCategory').textContent = node.category;
+  document.getElementById('nodeCategory').style.background =
+    node.category === 'Foundation' ? 'rgba(245, 245, 220, 0.3)' :
+    node.category === 'Math' ? 'rgba(139, 92, 246, 0.3)' :
+    node.category === 'Physics' ? 'rgba(6, 182, 212, 0.3)' :
+    'rgba(34, 197, 94, 0.3)';
+  document.getElementById('nodeConfidence').textContent = `${node.confidence}% confidence`;
+
+  document.getElementById('detailsPanel').classList.add('visible');
+
+  // Update selection highlighting
+  document.querySelectorAll('.node').forEach(n => n.classList.remove('selected'));
+  document.querySelector(`.node[data-id="${id}"]`)?.classList.add('selected');
+
+  updatePrompt();
+}
+
+function closeDetails() {
+  document.getElementById('detailsPanel').classList.remove('visible');
+  state.selectedNode = null;
+  document.querySelectorAll('.node').forEach(n => n.classList.remove('selected'));
+}
+
+function updatePrompt() {
+  const parts = [];
+
+  if (state.selectedNode) {
+    const node = NODES[state.selectedNode];
+    parts.push(`I'm exploring ${state.selectedNode} (${node.name}, "${node.analogy}"): "${node.desc}"`);
+  }
+
+  if (state.focusNode && state.focusNode !== state.selectedNode) {
+    const focusNode = NODES[state.focusNode];
+    parts.push(`tracing derivations from ${state.focusNode} (${focusNode.analogy})`);
+  }
+
+  const visibleCategories = Object.entries(state.showCategories).filter(([,v]) => v).map(([k]) => k);
+  if (visibleCategories.length < 4) {
+    parts.push(`filtering to show: ${visibleCategories.join(', ')}`);
+  }
+
+  const promptText = parts.length > 0
+    ? `In the RDT 4-foundation framework using the David/marble analogy, ${parts.join('. ')}. Explain the connections and physical implications.`
+    : 'Explore the complete RDT foundation structure: 4 foundations (Finite Totality, Metric Structure, Traversal, CPT Symmetry) derive 21 physical and mathematical results through the David/marble analogy.';
+
+  document.getElementById('promptText').textContent = promptText;
+}
+
+function copyPrompt() {
+  const text = document.getElementById('promptText').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copy Prompt';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+
+function updateAll() {
+  readControls();
+  renderGraph();
+  updatePrompt();
+}
+
+// Initialize
+updateAll();
+</script>
+</body>
+</html>

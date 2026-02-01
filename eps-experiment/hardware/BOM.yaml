@@ -1,0 +1,619 @@
+# EPS Phase 1 Bill of Materials
+# Entropic Propulsion System Experimental Specification
+#
+# Version: 1.0
+# Last Updated: 2026-01-31
+# License: CERN-OHL-S-2.0
+#
+# Total Estimated Cost: $50,000 - $150,000 (configuration dependent)
+
+experiment:
+  name: "EPS Phase 1 - Laboratory Detection"
+  objective: "Detect thrust from asymmetric entropy production"
+  expected_signal: "~1 μN per kW"
+  detection_threshold: "0.1 μN"
+  power_budget: "5 kW nominal, expandable to 10 kW"
+
+# =============================================================================
+# MEASUREMENT SYSTEM
+# =============================================================================
+
+measurement_system:
+
+  torsion_balance:
+    description: "High-sensitivity torsion pendulum for nano-Newton force measurement"
+    required_sensitivity: "< 100 nN"
+    options:
+
+      - id: "TB-CUSTOM-01"
+        name: "Custom Eöt-Wash Style Balance"
+        type: "custom_build"
+        cost_usd_low: 15000
+        cost_usd_high: 30000
+        lead_time_weeks: 12
+        specifications:
+          sensitivity: "10-50 nN"
+          arm_length_cm: 20
+          fiber_material: "Tungsten"
+          fiber_diameter_um: 25
+          fiber_length_cm: 50
+          natural_period_s: 300-600
+          q_factor: "> 1000"
+          test_mass_kg: 0.5-2.0
+        materials:
+          - item: "Tungsten fiber, 25 μm"
+            quantity: "2 m"
+            source: "Goodfellow"
+            part_number: "W005150"
+            cost_usd: 200
+          - item: "Aluminum balance arm"
+            quantity: "1"
+            source: "Custom machining"
+            cost_usd: 500
+          - item: "Mirror (first surface)"
+            quantity: "2"
+            source: "Thorlabs"
+            part_number: "PF10-03-P01"
+            cost_usd: 100
+          - item: "Mounting hardware"
+            quantity: "1 set"
+            source: "McMaster-Carr"
+            cost_usd: 300
+        notes: "Requires precision machining capability. See torsion-balance.md for design."
+
+      - id: "TB-COMM-01"
+        name: "Plasma Controls μN Thrust Stand"
+        type: "commercial"
+        cost_usd_low: 80000
+        cost_usd_high: 120000
+        lead_time_weeks: 16
+        specifications:
+          sensitivity: "0.1 μN"
+          range_uN: "0-1000"
+          resolution: "0.01 μN"
+          bandwidth_hz: 10
+        source: "Plasma Controls LLC"
+        url: "https://plasmacontrols.com"
+        notes: "Turnkey solution. Higher cost but faster path to data."
+
+      - id: "TB-COMM-02"
+        name: "Thrust Stand (Alternative)"
+        type: "commercial"
+        cost_usd_low: 50000
+        cost_usd_high: 80000
+        source: "Custom order from aerospace suppliers"
+        notes: "Contact JPL, NASA Glenn, or ESA ESTEC for surplus equipment."
+
+  optical_readout:
+    description: "Laser-based angular displacement sensor"
+
+    components:
+      - id: "OPT-LASER-01"
+        name: "HeNe Laser"
+        model: "Thorlabs HNL050LB"
+        cost_usd: 1200
+        specifications:
+          wavelength_nm: 632.8
+          power_mW: 5
+          beam_diameter_mm: 0.8
+          polarization: "Linear"
+        source: "https://thorlabs.com"
+        part_number: "HNL050LB"
+
+      - id: "OPT-PD-01"
+        name: "Position Sensitive Detector"
+        model: "Thorlabs PDP90A"
+        cost_usd: 800
+        specifications:
+          active_area_mm: 9
+          resolution_um: 0.5
+          bandwidth_khz: 15
+        source: "https://thorlabs.com"
+        part_number: "PDP90A"
+        alternative: "Quadrant photodiode + op-amp circuit"
+
+      - id: "OPT-MOUNT-01"
+        name: "Optical mounts and posts"
+        cost_usd: 500
+        source: "Thorlabs"
+        items:
+          - "Post holders (×6)"
+          - "Optical posts (×6)"
+          - "Mirror mounts (×2)"
+          - "Beam steering mirrors (×2)"
+
+    total_cost_usd: 2500
+    angular_resolution: "< 1 μrad"
+    notes: "Autocollimator setup. Laser reflects off balance mirror to PSD."
+
+  data_acquisition:
+    description: "High-precision analog-to-digital conversion"
+
+    options:
+      - id: "DAQ-NI-01"
+        name: "NI USB-6289"
+        type: "commercial"
+        cost_usd: 3000
+        specifications:
+          resolution_bits: 18
+          sample_rate_ksps: 625
+          channels: 32
+          input_range_v: "±10"
+          noise_uv_rms: 50
+        source: "https://ni.com"
+        part_number: "USB-6289"
+        software: "NI-DAQmx drivers (free)"
+
+      - id: "DAQ-ALT-01"
+        name: "Measurement Computing USB-1808X"
+        type: "commercial"
+        cost_usd: 1500
+        specifications:
+          resolution_bits: 18
+          sample_rate_ksps: 200
+          channels: 8
+        source: "https://mccdaq.com"
+        notes: "Lower cost alternative. Adequate for this application."
+
+# =============================================================================
+# ENTROPY GENERATOR
+# =============================================================================
+
+entropy_generator:
+  description: "Irreversible computation system for entropy production"
+  target_power_w: 5000
+  target_hash_rate: "> 100 TH/s (SHA-256 equivalent)"
+
+  compute_hardware:
+    options:
+      - id: "GPU-HIGH-01"
+        name: "High-End GPU Cluster"
+        type: "consumer_gpu"
+        cost_usd: 8000
+        specifications:
+          gpus: 4
+          model: "NVIDIA RTX 4090"
+          tdp_per_card_w: 450
+          total_power_w: 1800
+          hash_rate_mhs: 120  # Ethash equivalent
+          memory_gb: 24
+        notes: "Expandable. Add more GPUs for higher power."
+
+      - id: "GPU-MID-01"
+        name: "Mid-Range GPU Cluster"
+        type: "consumer_gpu"
+        cost_usd: 4000
+        specifications:
+          gpus: 4
+          model: "NVIDIA RTX 4070"
+          tdp_per_card_w: 200
+          total_power_w: 800
+        notes: "Lower power, lower cost. May need more units."
+
+      - id: "ASIC-01"
+        name: "Bitcoin ASIC Miner"
+        type: "asic"
+        cost_usd: 3000
+        specifications:
+          model: "Bitmain Antminer S19"
+          power_w: 3250
+          hash_rate_ths: 95
+        notes: "Higher power density. Noisier. Excellent entropy source."
+        source: "Secondary market (eBay, used mining equipment)"
+
+  power_supply:
+    - id: "PSU-01"
+      name: "Server Power Supply"
+      model: "HP 1200W Platinum PSU"
+      quantity: 5
+      cost_usd: 250  # per unit
+      total_cost_usd: 1250
+      specifications:
+        output_w: 1200
+        efficiency: "94% (80+ Platinum)"
+        voltage_v: "12V DC"
+      source: "Server surplus (eBay)"
+      notes: "Common, reliable, efficient. Chain multiple for 5 kW."
+
+    - id: "PSU-02"
+      name: "Alternative: ATX PSUs"
+      model: "EVGA SuperNOVA 1600W"
+      quantity: 4
+      cost_usd: 400  # per unit
+      total_cost_usd: 1600
+      specifications:
+        output_w: 1600
+        efficiency: "80+ Titanium"
+      source: "https://evga.com"
+
+  cooling:
+    description: "Heat extraction from compute units"
+
+    - id: "COOL-01"
+      name: "Liquid Cooling Loop"
+      cost_usd: 1500
+      components:
+        - item: "GPU water blocks (×4)"
+          cost_usd: 600
+          source: "EKWB, Alphacool"
+        - item: "Pump/reservoir combo"
+          cost_usd: 200
+          source: "EKWB"
+        - item: "Tubing, fittings"
+          cost_usd: 200
+        - item: "External radiator (CRITICAL: this is the thrust surface)"
+          cost_usd: 500
+          notes: "See thermal_asymmetry section for radiator design"
+      notes: "Liquid cooling routes ALL heat to the asymmetric radiator."
+
+# =============================================================================
+# THERMAL ASYMMETRY SYSTEM
+# =============================================================================
+
+thermal_asymmetry:
+  description: "Asymmetric heat radiation for directional entropy flow"
+  target_ratio: "100:1 (emissivity thrust-side vs anti-thrust)"
+
+  high_emissivity_radiator:
+    description: "Thrust-side: Maximum thermal radiation"
+
+    options:
+      - id: "RAD-CNT-01"
+        name: "Carbon Nanotube Coating"
+        type: "coating"
+        substrate: "Aluminum plate, 30×30 cm, 3mm thick"
+        coating: "Surrey NanoSystems Vantablack VBx2"
+        cost_usd: 2500
+        specifications:
+          emissivity: 0.99
+          absorption: 0.995
+          surface_area_m2: 0.09
+          max_temp_c: 300
+        source: "Surrey NanoSystems (license required)"
+        url: "https://www.surreynanosystems.com"
+        lead_time_weeks: 8
+
+      - id: "RAD-ALT-01"
+        name: "Acktar Metal Velvet"
+        type: "coating"
+        cost_usd: 800
+        specifications:
+          emissivity: 0.98
+          surface_area_m2: 0.1
+        source: "Acktar Ltd"
+        url: "https://www.acktar.com"
+        notes: "More accessible alternative to Vantablack."
+
+      - id: "RAD-ALT-02"
+        name: "Black Oxide + Texture"
+        type: "surface_treatment"
+        cost_usd: 200
+        specifications:
+          emissivity: 0.90-0.95
+        notes: "DIY option. Anodize aluminum black + bead blast for texture."
+
+  low_emissivity_insulation:
+    description: "Anti-thrust side: Minimize thermal radiation"
+
+    - id: "INS-MLI-01"
+      name: "Multi-Layer Insulation (MLI)"
+      cost_usd: 500
+      specifications:
+        emissivity: "< 0.02"
+        layers: 20
+        material: "Aluminized Mylar"
+        thickness_mm: 25
+      source: "Aerospace surplus, Dunmore, RUAG Space"
+      notes: "Standard spacecraft insulation. Very effective."
+
+    - id: "INS-AERO-01"
+      name: "Aerogel Blanket"
+      cost_usd: 300
+      specifications:
+        thermal_conductivity_wmk: 0.015
+        thickness_mm: 10
+      source: "Aspen Aerogels, Cabot"
+      notes: "Supplement MLI for conductive isolation."
+
+    - id: "INS-GOLD-01"
+      name: "Gold Foil Reflector"
+      cost_usd: 400
+      specifications:
+        emissivity: 0.02
+        thickness_um: 50
+      source: "Goodfellow, aerospace suppliers"
+      notes: "Inner layer for maximum IR reflection."
+
+# =============================================================================
+# VACUUM SYSTEM
+# =============================================================================
+
+vacuum_system:
+  description: "Eliminate convection; enable clean thermal radiation"
+  target_pressure_mbar: 1e-6
+
+  chamber:
+    options:
+      - id: "VAC-USED-01"
+        name: "Used Vacuum Chamber"
+        type: "surplus"
+        cost_usd_low: 3000
+        cost_usd_high: 10000
+        specifications:
+          volume_liters: 200-500
+          material: "Stainless steel"
+          ports: "ISO-K or CF flanges"
+        source: "eBay, surplus dealers, university auctions"
+        notes: "Check for leaks before purchase. Common on surplus market."
+
+      - id: "VAC-NEW-01"
+        name: "New Vacuum Chamber"
+        type: "commercial"
+        cost_usd_low: 15000
+        cost_usd_high: 40000
+        source: "Kurt J. Lesker, MDC Vacuum, Nor-Cal"
+        specifications:
+          volume_liters: 300
+          base_pressure_mbar: 1e-8
+        notes: "Custom sizing available. Include feedthroughs in order."
+
+  pump_system:
+    - id: "PUMP-TURBO-01"
+      name: "Turbomolecular Pump Station"
+      model: "Pfeiffer HiCube 80 Eco"
+      cost_usd: 8000
+      specifications:
+        pumping_speed_ls: 67
+        ultimate_pressure_mbar: 1e-7
+        includes: "Turbo pump + backing pump + controller"
+      source: "https://pfeiffer-vacuum.com"
+      alternative: "Edwards nEXT85 (~$7000)"
+
+    - id: "PUMP-ROUGH-01"
+      name: "Roughing Pump (if not included)"
+      model: "Edwards RV3"
+      cost_usd: 1500
+      specifications:
+        pumping_speed_m3h: 3.3
+        ultimate_pressure_mbar: 0.001
+      source: "Edwards Vacuum"
+
+  gauges:
+    - id: "GAUGE-01"
+      name: "Wide-Range Vacuum Gauge"
+      model: "Pfeiffer PKR 361"
+      cost_usd: 1500
+      specifications:
+        range_mbar: "1000 to 1e-9"
+        type: "Pirani + Cold Cathode"
+      source: "Pfeiffer Vacuum"
+
+  feedthroughs:
+    - id: "FEED-ELEC-01"
+      name: "Electrical Feedthrough"
+      type: "Multi-pin"
+      quantity: 2
+      cost_usd: 400
+      specifications:
+        pins: 25
+        voltage_max_v: 500
+        flange: "CF40"
+      source: "Kurt J. Lesker"
+
+    - id: "FEED-COOL-01"
+      name: "Liquid Cooling Feedthrough"
+      type: "Tube"
+      quantity: 2
+      cost_usd: 300
+      specifications:
+        tube_od_mm: 6
+        flange: "CF40"
+      source: "Kurt J. Lesker"
+      notes: "For water cooling lines to external radiator."
+
+# =============================================================================
+# SHIELDING AND ISOLATION
+# =============================================================================
+
+shielding:
+
+  faraday_cage:
+    description: "Electromagnetic interference shielding"
+    - id: "SHIELD-CAGE-01"
+      name: "Copper Mesh Enclosure"
+      cost_usd: 2000
+      specifications:
+        attenuation_db: "> 60 @ 1 GHz"
+        size_m: "1.5 × 1.5 × 2"
+      materials:
+        - item: "Copper mesh, 100 mesh"
+          quantity: "15 m²"
+          cost_usd: 800
+        - item: "Aluminum frame"
+          cost_usd: 400
+        - item: "EMI gaskets, connectors"
+          cost_usd: 800
+      notes: "Enclose entire experiment. Ground properly."
+
+  vibration_isolation:
+    options:
+      - id: "VIB-TABLE-01"
+        name: "Optical Table with Pneumatic Isolation"
+        model: "Newport RS2000"
+        cost_usd: 12000
+        specifications:
+          size_m: "1.2 × 2.4"
+          natural_freq_hz: 1.5
+          isolation_percent: "> 95% @ 10 Hz"
+        source: "Newport Corporation"
+
+      - id: "VIB-TABLE-02"
+        name: "Budget: Passive Isolation Mounts"
+        cost_usd: 1500
+        specifications:
+          natural_freq_hz: 3
+        notes: "Minus-K or similar. Less effective but adequate."
+        source: "Minus K Technology"
+
+# =============================================================================
+# SOFTWARE
+# =============================================================================
+
+software:
+  operating_system: "Linux (Ubuntu 22.04 LTS recommended)"
+
+  languages:
+    - name: "Python"
+      version: "3.10+"
+      purpose: "DAQ, analysis, visualization"
+    - name: "C++"
+      version: "17+"
+      purpose: "Real-time control (optional)"
+
+  python_packages:
+    - name: "numpy"
+      version: ">=1.24"
+    - name: "scipy"
+      version: ">=1.10"
+    - name: "matplotlib"
+      version: ">=3.7"
+    - name: "h5py"
+      version: ">=3.8"
+      purpose: "HDF5 data storage"
+    - name: "pyvisa"
+      version: ">=1.13"
+      purpose: "Instrument control"
+    - name: "nidaqmx"
+      version: ">=0.9"
+      purpose: "NI DAQ drivers"
+      notes: "Only if using NI hardware"
+    - name: "emcee"
+      version: ">=3.1"
+      purpose: "MCMC for κ extraction"
+    - name: "corner"
+      version: ">=2.2"
+      purpose: "Posterior visualization"
+    - name: "pandas"
+      version: ">=2.0"
+    - name: "jupyter"
+      version: ">=1.0"
+      purpose: "Interactive analysis"
+
+  control_software:
+    - name: "GPU Mining Software"
+      options:
+        - "T-Rex Miner (NVIDIA)"
+        - "lolMiner"
+        - "Custom SHA-256 hasher"
+      purpose: "Controlled entropy generation"
+      notes: "Mining software provides consistent, measurable hash rate."
+
+  data_formats:
+    primary: "HDF5 (.h5)"
+    backup: "CSV (for portability)"
+    metadata: "JSON"
+
+# =============================================================================
+# CALIBRATION EQUIPMENT
+# =============================================================================
+
+calibration:
+
+  - id: "CAL-FORCE-01"
+    name: "Electrostatic Force Calibrator"
+    description: "Known force application for balance calibration"
+    cost_usd: 500
+    components:
+      - item: "Parallel plate capacitor"
+      - item: "High-voltage supply (0-1000V)"
+      - item: "Precision voltmeter"
+    notes: "F = ε₀AV²/2d² gives traceable force standard."
+
+  - id: "CAL-MASS-01"
+    name: "Calibration Masses"
+    cost_usd: 200
+    specifications:
+      range_g: "0.1 to 100"
+      class: "OIML E2"
+    source: "Troemner, Rice Lake"
+
+  - id: "CAL-TEMP-01"
+    name: "Temperature Measurement"
+    cost_usd: 300
+    components:
+      - item: "Thermocouples, Type K (×6)"
+        cost_usd: 100
+      - item: "Thermocouple DAQ module"
+        cost_usd: 200
+    source: "Omega Engineering"
+
+# =============================================================================
+# SAFETY EQUIPMENT
+# =============================================================================
+
+safety:
+
+  - id: "SAFE-VAC-01"
+    name: "Vacuum Safety"
+    items:
+      - "Safety glasses (implosion protection)"
+      - "Vacuum chamber viewport guards"
+      - "Pressure relief valve"
+    cost_usd: 200
+
+  - id: "SAFE-ELEC-01"
+    name: "Electrical Safety"
+    items:
+      - "GFCI outlets"
+      - "Emergency shutoff"
+      - "Proper grounding"
+    cost_usd: 300
+
+  - id: "SAFE-THERM-01"
+    name: "Thermal Safety"
+    items:
+      - "High-temp warning labels"
+      - "Thermal gloves"
+      - "Coolant leak detection"
+    cost_usd: 100
+
+# =============================================================================
+# TOTAL COST SUMMARY
+# =============================================================================
+
+cost_summary:
+
+  minimal_configuration:
+    description: "University lab with existing vacuum/isolation"
+    measurement: 20000  # Custom balance + optics + DAQ
+    entropy_generator: 10000  # GPUs + PSU + cooling
+    thermal_asymmetry: 3000
+    vacuum: 5000  # Used chamber + pump
+    shielding: 3000
+    calibration: 1000
+    software: 0  # Open source
+    total_low: 42000
+    total_high: 55000
+
+  standalone_configuration:
+    description: "Complete new setup"
+    measurement: 35000
+    entropy_generator: 12000
+    thermal_asymmetry: 4000
+    vacuum: 20000
+    shielding: 15000
+    calibration: 1500
+    safety: 600
+    total_low: 88000
+    total_high: 120000
+
+  research_grade:
+    description: "Commercial thrust stand, full instrumentation"
+    measurement: 100000  # Commercial thrust stand
+    entropy_generator: 15000
+    thermal_asymmetry: 5000
+    vacuum: 40000
+    shielding: 20000
+    calibration: 3000
+    total_low: 180000
+    total_high: 250000

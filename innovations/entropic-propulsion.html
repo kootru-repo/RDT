@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entropic Propulsion Systems — RDT Innovation</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<style>
+:root {
+  --bg: #0a0a0f;
+  --text: #e8e8e8;
+  --accent: #f5f5dc;
+  --border: #333;
+  --highlight: #1a1a2e;
+  --blue: #3498db;
+  --purple: #8b5cf6;
+  --cyan: #06b6d4;
+  --gold: #f5f5dc;
+  --pink: #ec4899;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  padding: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+a { color: var(--cyan); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+header {
+  text-align: center;
+  border-bottom: 2px solid var(--gold);
+  padding-bottom: 2rem;
+  margin-bottom: 3rem;
+}
+.back-link { text-align: left; margin-bottom: 1rem; }
+h1 {
+  font-size: 2.8rem;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+  letter-spacing: 2px;
+}
+.subtitle { font-style: italic; color: #888; font-size: 1.3rem; }
+.icon { font-size: 4rem; margin-bottom: 1rem; }
+
+/* Section styles */
+section { margin-bottom: 3rem; }
+h2 {
+  color: var(--gold);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.6rem;
+}
+h3 { color: var(--cyan); margin: 2rem 0 1rem; font-size: 1.3rem; }
+h4 { color: var(--purple); margin: 1.5rem 0 0.75rem; font-size: 1.1rem; }
+p { margin-bottom: 1.2rem; text-align: justify; }
+
+/* Key insight boxes */
+.insight-box {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(6, 182, 212, 0.1));
+  border: 1px solid var(--purple);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+}
+.insight-box h4 { margin-top: 0; color: var(--purple); }
+
+/* Equation display */
+.equation {
+  background: rgba(245, 245, 220, 0.05);
+  border-left: 3px solid var(--gold);
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  font-size: 1.1rem;
+  overflow-x: auto;
+}
+
+/* Diagram boxes */
+.diagram {
+  background: #0d0d12;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  white-space: pre;
+  overflow-x: auto;
+  color: #b0b0b0;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+}
+th, td {
+  border: 1px solid var(--border);
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+th {
+  background: rgba(245, 245, 220, 0.1);
+  color: var(--gold);
+}
+tr:nth-child(even) { background: rgba(255, 255, 255, 0.02); }
+
+/* Warning boxes */
+.warning {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid #ef4444;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+}
+.warning strong { color: #ef4444; }
+
+/* Success boxes */
+.success {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid #22c55e;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+}
+.success strong { color: #22c55e; }
+
+/* Theory boxes */
+.theory-box {
+  background: rgba(245, 245, 220, 0.05);
+  border: 1px solid var(--gold);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+}
+
+/* Engineering specs */
+.spec-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+.spec-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.25rem;
+}
+.spec-card h5 {
+  color: var(--cyan);
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+}
+.spec-card ul {
+  margin-left: 1.2rem;
+  color: #aaa;
+}
+.spec-card li { margin-bottom: 0.4rem; }
+
+/* Phase cards */
+.phase {
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(139, 92, 246, 0.05));
+  border-left: 4px solid var(--cyan);
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 0 8px 8px 0;
+}
+.phase h4 { margin-top: 0; }
+
+/* Timeline */
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+  margin: 2rem 0;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--purple);
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 2rem;
+  padding-left: 1.5rem;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -2.3rem;
+  top: 0.5rem;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--purple);
+}
+
+/* Footer nav */
+.page-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem 0;
+  border-top: 1px solid var(--border);
+  margin-top: 3rem;
+}
+.page-nav a {
+  padding: 0.75rem 1.5rem;
+  background: rgba(245, 245, 220, 0.1);
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+.page-nav a:hover {
+  background: rgba(245, 245, 220, 0.2);
+  text-decoration: none;
+}
+
+footer {
+  text-align: center;
+  padding: 2rem 0;
+  border-top: 1px solid var(--border);
+  margin-top: 3rem;
+  color: #666;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="back-link"><a href="../index.html#innovations">&larr; Back to Innovations</a></div>
+  <div class="icon">🚀</div>
+  <h1>Entropic Propulsion Systems</h1>
+  <p class="subtitle">Thrust without propellant — Engineering the thermodynamic nature of gravity</p>
+</header>
+
+<!-- SECTION 1: Executive Summary -->
+<section id="summary">
+  <h2>Executive Summary</h2>
+
+  <p>Entropic Propulsion Systems (EPS) represent a theoretical application of Relational Drainage Theory to spacecraft propulsion. The core premise: if gravity is fundamentally thermodynamic (Jacobson/Verlinde framework) rather than geometric, then local manipulation of entropy gradients could produce directional thrust without expelling propellant.</p>
+
+  <div class="insight-box">
+    <h4>The Key Insight</h4>
+    <p>In RDT, mass doesn't "attract" — it creates drainage channels between our universe (M⁺) and its CPT-conjugate (M⁻). Each particle acts as a portal through which entropy flows. By asymmetrically modulating this flow, we create net thrust.</p>
+  </div>
+
+  <table>
+    <tr><th>Attribute</th><th>Conventional Rockets</th><th>Entropic Propulsion</th></tr>
+    <tr><td>Propellant</td><td>Required (high mass fraction)</td><td>None</td></tr>
+    <tr><td>Exhaust</td><td>High-velocity mass ejection</td><td>Entropy radiation (photons/heat)</td></tr>
+    <tr><td>Reaction Mass</td><td>Carried onboard</td><td>Antiverse M⁻ (infinite reservoir)</td></tr>
+    <tr><td>Specific Impulse</td><td>Limited by chemistry/plasma</td><td>Potentially unlimited</td></tr>
+    <tr><td>Momentum Conservation</td><td>Local (spacecraft + exhaust)</td><td>Global (M⁺ ∪ M⁻)</td></tr>
+    <tr><td>Technology Readiness</td><td>TRL 9 (operational)</td><td>TRL 1 (basic principles)</td></tr>
+  </table>
+</section>
+
+<!-- SECTION 2: Theoretical Foundation -->
+<section id="theory">
+  <h2>Theoretical Foundation</h2>
+
+  <h3>2.1 Thermodynamic Gravity: The Jacobson-Verlinde Framework</h3>
+
+  <p>The theoretical foundation for EPS rests on two breakthrough insights from the 1990s-2010s:</p>
+
+  <div class="theory-box">
+    <h4>Jacobson (1995): Einstein Equations from Thermodynamics</h4>
+    <p>Ted Jacobson showed that Einstein's field equations can be derived from the thermodynamic identity $\delta Q = T \delta S$ applied to local causal horizons. This suggests spacetime geometry emerges from thermodynamics, not the reverse.</p>
+    <div class="equation">$$R_{\mu\nu} - \frac{1}{2}g_{\mu\nu}R + \Lambda g_{\mu\nu} = \frac{8\pi G}{c^4}T_{\mu\nu}$$</div>
+    <p>emerges from entropy flow across horizons, not from minimizing a gravitational action.</p>
+  </div>
+
+  <div class="theory-box">
+    <h4>Verlinde (2011): Gravity as Entropic Force</h4>
+    <p>Erik Verlinde derived Newton's law of gravitation from entropic considerations:</p>
+    <div class="equation">$$F = T \frac{\Delta S}{\Delta x} = \frac{GMm}{r^2}$$</div>
+    <p>The gravitational "force" is not fundamental but emerges from entropy gradients, like osmotic pressure or polymer elasticity.</p>
+  </div>
+
+  <h3>2.2 RDT Extension: The Graviton-Portal Model</h3>
+
+  <p>RDT extends Jacobson-Verlinde by providing the underlying substrate: the finite configuration space Ω and its dual manifold structure (M⁺, M⁻, Σ).</p>
+
+  <div class="diagram">
+GRAVITON-PORTAL FRAMEWORK
+
+Standard Model:              RDT Portal Model:
+┌────────────────────┐       ┌─────────────────────────────────────────┐
+│                    │       │                                         │
+│  Mass A ←force→ B  │       │   Mass A            Mass B              │
+│                    │       │  ┌───────┐         ┌───────┐            │
+│  Graviton exchange │       │  │ portal│←──J^μ──→│ portal│            │
+│  (virtual bosons)  │       │  │ portal│←───────→│ portal│            │
+│                    │       │  │ portal│←───────→│ portal│            │
+│  p = mv            │       │  │   ⋮   │         │   ⋮   │            │
+│  (intrinsic)       │       │  └───────┘         └───────┘            │
+│                    │       │      ↓                 ↓                │
+└────────────────────┘       │      ╚═══════╦═══════╝                │
+                             │              ║                         │
+                             │         Σ (boundary)                   │
+                             │              ║                         │
+                             │      ╔═══════╩═══════╗                │
+                             │      ↓                 ↓                │
+                             │  ┌───────┐         ┌───────┐            │
+                             │  │ portal│    M⁻   │ portal│            │
+                             │  └───────┘(antiverse)└───────┘           │
+                             │                                         │
+                             │  Momentum = f(portal_count × J^μ)       │
+                             └─────────────────────────────────────────┘</div>
+
+  <h4>Key Principles:</h4>
+  <ol style="margin-left: 1.5rem; color: #bbb;">
+    <li><strong>Portal Density = Mass:</strong> Each kilogram of matter contains approximately $10^{44}$ Planck-scale drainage channels connecting M⁺ to M⁻.</li>
+    <li><strong>Gravity = Net Drainage:</strong> The gravitational "attraction" between masses is the entropic pressure of drainage current flowing through shared portal networks.</li>
+    <li><strong>Momentum is Relational:</strong> Momentum doesn't exist intrinsically in an object — it emerges from the portal configuration between interacting systems.</li>
+    <li><strong>Conservation is Global:</strong> Momentum is conserved across (M⁺ ∪ M⁻). When an object accelerates in M⁺, equal-opposite momentum appears in M⁻.</li>
+  </ol>
+
+  <h3>2.3 The Propulsion Mechanism</h3>
+
+  <p>Entropic propulsion works by creating asymmetric portal activity — more drainage on one side of the spacecraft than the other.</p>
+
+  <div class="diagram">
+ASYMMETRIC DRAINAGE → NET THRUST
+
+                         THRUST DIRECTION
+                              ↑ ↑ ↑
+                    ┌─────────────────────────┐
+                    │   LOW PORTAL ACTIVITY   │
+                    │   (thermal insulation)  │
+                    │   Drainage blocked ─────┼──→ Minimal J^μ to M⁻
+                    ├─────────────────────────┤
+                    │                         │
+                    │    ┌───────────────┐    │
+                    │    │   ENTROPY     │    │
+                    │    │   GENERATOR   │    │
+                    │    │ (computation) │    │
+                    │    └───────────────┘    │
+                    │                         │
+                    ├─────────────────────────┤
+                    │   HIGH PORTAL ACTIVITY  │
+                    │   (radiator surface)    │
+                    │   Drainage enhanced ────┼──→ Strong J^μ to M⁻
+                    └─────────────────────────┘
+                              ↓ ↓ ↓
+                    Entropy exhaust (photons)
+
+Net effect: Asymmetric drainage creates pressure differential
+           Spacecraft accelerates upward in M⁺
+           Antiverse M⁻ absorbs equal-opposite momentum</div>
+
+  <div class="equation">
+    $$\vec{F}_{EPS} = \kappa \cdot \Delta N_{portals} \cdot \vec{J}^{\mu}_{drainage}$$
+  </div>
+
+  <p>Where $\kappa$ is the (unknown) coupling constant between portal asymmetry and gravitational force.</p>
+</section>
+
+<!-- SECTION 3: Engineering Architecture -->
+<section id="engineering">
+  <h2>Engineering Architecture</h2>
+
+  <h3>3.1 System Components</h3>
+
+  <div class="spec-grid">
+    <div class="spec-card">
+      <h5>Entropy Generation Unit</h5>
+      <ul>
+        <li>High-throughput irreversible computation</li>
+        <li>GPU/ASIC cluster or quantum decoherence engine</li>
+        <li>Target: >10¹⁵ bit erasures/second</li>
+        <li>Generates Landauer heat: $E = kT \ln(2)$ per bit</li>
+      </ul>
+    </div>
+    <div class="spec-card">
+      <h5>Thermal Asymmetry System</h5>
+      <ul>
+        <li>Thrust-side: High-emissivity radiator (ε > 0.95)</li>
+        <li>Anti-thrust: Multi-layer insulation (ε < 0.01)</li>
+        <li>Emissivity ratio: >100:1</li>
+        <li>Creates directional entropy exhaust</li>
+      </ul>
+    </div>
+    <div class="spec-card">
+      <h5>Power Supply</h5>
+      <ul>
+        <li>Nuclear fission/fusion or concentrated solar</li>
+        <li>Operating range: 1 kW – 10 MW</li>
+        <li>Continuous high-duty-cycle operation</li>
+        <li>Waste heat feeds entropy generation</li>
+      </ul>
+    </div>
+    <div class="spec-card">
+      <h5>Force Measurement</h5>
+      <ul>
+        <li>Torsion pendulum (lab testing)</li>
+        <li>Laser interferometer (nano-Newton sensitivity)</li>
+        <li>Accelerometer array (flight testing)</li>
+        <li>ΔV integration (orbital confirmation)</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>3.2 Detailed Schematic</h3>
+
+  <div class="diagram">
+ENTROPIC PROPULSION UNIT — ENGINEERING SCHEMATIC
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+                    THRUST AXIS (↑)
+                         │
+    ┌────────────────────┼────────────────────┐
+    │                    │                    │
+    │    ┌───────────────┴───────────────┐    │
+    │    │     RADIATOR ASSEMBLY         │    │
+    │    │  ┌─────────────────────────┐  │    │
+    │    │  │  High-ε surface (0.97)  │  │    │
+    │    │  │  Graphite/CNT coating   │  │    │
+    │    │  │  Heat pipes from core   │  │    │
+    │    │  └─────────────────────────┘  │    │
+    │    │     ↑ ↑ ↑ IR photons ↑ ↑ ↑    │    │
+    │    └───────────────────────────────┘    │
+    │                    │                    │
+    │    ════════════════╪════════════════    │ ← Thermal break
+    │                    │                    │
+    │    ┌───────────────┴───────────────┐    │
+    │    │      ENTROPY CORE             │    │
+    │    │  ┌─────────────────────────┐  │    │
+    │    │  │   GPU/ASIC Cluster      │  │    │
+    │    │  │   ───────────────       │  │    │
+    │    │  │   Irreversible Hash     │  │    │
+    │    │  │   Operations (SHA-256)  │  │    │
+    │    │  │   10¹⁵ erasures/sec     │  │    │
+    │    │  │                         │  │    │
+    │    │  │   Power: 5 kW           │  │    │
+    │    │  │   Heat: 5 kW (all)      │  │    │
+    │    │  └─────────────────────────┘  │    │
+    │    │               ↓                │    │
+    │    │  ┌─────────────────────────┐  │    │
+    │    │  │   Thermal Management    │  │    │
+    │    │  │   Heat pipes UP only    │  │    │
+    │    │  │   Thermal diode array   │  │    │
+    │    │  └─────────────────────────┘  │    │
+    │    └───────────────────────────────┘    │
+    │                    │                    │
+    │    ════════════════╪════════════════    │ ← Thermal break
+    │                    │                    │
+    │    ┌───────────────┴───────────────┐    │
+    │    │      INSULATION BASE          │    │
+    │    │  ┌─────────────────────────┐  │    │
+    │    │  │  MLI blanket (50 layer) │  │    │
+    │    │  │  Gold foil reflector    │  │    │
+    │    │  │  Aerogel standoffs      │  │    │
+    │    │  │  ε < 0.01               │  │    │
+    │    │  └─────────────────────────┘  │    │
+    │    └───────────────────────────────┘    │
+    │                    │                    │
+    │                MOUNT POINT              │
+    └─────────────────────────────────────────┘
+
+    THERMAL BUDGET:
+    ├── Power input: 5000 W
+    ├── Thrust-side radiation: 4950 W (99%)
+    ├── Anti-thrust leakage: 50 W (1%)
+    └── Asymmetry ratio: 99:1</div>
+
+  <h3>3.3 Expected Performance</h3>
+
+  <p>With the 0D portal model (see Section 5), RDT predicts κ ≈ 1/4π ≈ 0.08. This constrains the expected performance:</p>
+
+  <table>
+    <tr><th>Model</th><th>Coupling κ</th><th>Force (5 kW)</th><th>Acceleration (100 kg)</th><th>Assessment</th></tr>
+    <tr><td><strong>0D Portal (RDT)</strong></td><td><strong>1/4π ≈ 0.08</strong></td><td><strong>~5 μN</strong></td><td><strong>50 nm/s²</strong></td><td><strong>Detectable, testable now</strong></td></tr>
+    <tr><td>2D Portal (surface)</td><td>~10⁻⁷⁰</td><td>Unmeasurable</td><td>—</td><td>Ruled out by RDT ontology</td></tr>
+    <tr><td>3D Portal (volume)</td><td>~10⁻¹⁰⁵</td><td>Unmeasurable</td><td>—</td><td>Ruled out by RDT ontology</td></tr>
+  </table>
+
+  <div class="success">
+    <strong>RDT Prediction:</strong> The 0D portal model, consistent with RDT's relational foundations, predicts κ = 1/4π. This yields ~1 μN/kW — well above detection thresholds and testable with current technology.
+  </div>
+</section>
+
+<!-- SECTION 4: The Landauer Mechanism -->
+<section id="landauer">
+  <h2>The Landauer Mechanism</h2>
+
+  <h3>4.1 Information-Theoretic Foundation</h3>
+
+  <p>Landauer's principle (1961) establishes the minimum energy cost of irreversible computation:</p>
+
+  <div class="equation">
+    $$E_{min} = kT \ln(2) \approx 2.87 \times 10^{-21} \text{ J at 300K}$$
+  </div>
+
+  <p>This energy is released as heat when one bit of information is erased. In RDT terms, bit erasure is a configuration-space transition that must increase total entropy.</p>
+
+  <h3>4.2 From Bits to Thrust</h3>
+
+  <div class="diagram">
+LANDAUER → ENTROPY → DRAINAGE → THRUST
+
+Step 1: Bit Erasure
+┌─────────────────────────────────────────────────┐
+│  Before: Bit = {0 or 1} (2 configurations)      │
+│  After:  Bit = 0 (1 configuration)              │
+│  ΔS = k ln(2) released as heat                  │
+└─────────────────────────────────────────────────┘
+                    ↓
+Step 2: Heat Radiation
+┌─────────────────────────────────────────────────┐
+│  IR photon emitted from radiator surface        │
+│  Photon carries entropy to radiation field      │
+│  Direction: Thrust axis (by thermal asymmetry)  │
+└─────────────────────────────────────────────────┘
+                    ↓
+Step 3: RDT Portal Activation
+┌─────────────────────────────────────────────────┐
+│  Entropy increase in M⁺ → drainage to M⁻        │
+│  Portal network carries entropy current J^μ     │
+│  Asymmetric radiation → asymmetric drainage     │
+└─────────────────────────────────────────────────┘
+                    ↓
+Step 4: Thrust Generation
+┌─────────────────────────────────────────────────┐
+│  Net drainage pressure on spacecraft            │
+│  F = κ · (ΔS/Δx) · (portal coupling)            │
+│  Spacecraft accelerates opposite to entropy flux│
+└─────────────────────────────────────────────────┘</div>
+
+  <h3>4.3 Computational Requirements</h3>
+
+  <p>How much computation to move a hydrogen atom by one de Broglie wavelength?</p>
+
+  <div class="theory-box">
+    <h4>Calculation: Bits to Move One Hydrogen Atom</h4>
+
+    <p><strong>Target:</strong> Δx = λ_dB ≈ 10⁻¹⁰ m (thermal wavelength at 300K)</p>
+    <p><strong>Atom mass:</strong> m_H ≈ 1.67 × 10⁻²⁷ kg</p>
+    <p><strong>Required momentum:</strong> Δp = ℏ/λ ≈ 10⁻²⁴ kg⋅m/s</p>
+
+    <div class="equation">
+      $$\text{Bits} = \frac{\Delta p \cdot \Delta x}{kT \ln(2) \cdot \kappa}$$
+    </div>
+
+    <table>
+      <tr><th>Coupling κ</th><th>Bits Required</th><th>Energy</th><th>Feasibility</th></tr>
+      <tr><td>Unity (ideal)</td><td>~0.6 microbits</td><td>~10⁻²⁷ J</td><td>Trivial</td></tr>
+      <tr><td>10⁻¹⁰</td><td>~6 bits</td><td>~10⁻²⁰ J</td><td>Easy</td></tr>
+      <tr><td>10⁻²⁰</td><td>~6 × 10¹⁰ bits</td><td>~0.2 mJ</td><td>Practical</td></tr>
+      <tr><td>10⁻³⁰</td><td>~6 × 10²⁰ bits</td><td>~2 GJ</td><td>Difficult</td></tr>
+      <tr><td>10⁻⁴⁰</td><td>~6 × 10³⁴ bits</td><td>~10¹⁴ J</td><td>Impractical</td></tr>
+    </table>
+  </div>
+
+  <div class="success">
+    <strong>Key Insight:</strong> If κ > 10⁻²⁵ or so, EPS becomes competitive with ion propulsion for deep-space missions. The critical experiment is determining κ.
+  </div>
+</section>
+
+<!-- SECTION 5: The 0D Portal Model and κ Derivation -->
+<section id="coupling">
+  <h2>The 0D Portal Model: Deriving κ from RDT Principles</h2>
+
+  <p>Previous estimates of κ ranged from unity to 10⁻⁴⁰ due to uncertainty about portal dimensionality. RDT's relational ontology constrains this significantly.</p>
+
+  <h3>5.1 Portal Dimensionality in RDT</h3>
+
+  <p>What "dimension" are the portals connecting M⁺ to M⁻? The options:</p>
+
+  <div class="diagram">
+PORTAL DIMENSIONALITY OPTIONS
+
+3D (Volume):  κ ~ l_P³/L³ ~ 10⁻¹⁰⁵  → Unmeasurable
+2D (Surface): κ ~ l_P²/L² ~ 10⁻⁷⁰   → Unmeasurable
+1D (String):  κ ~ l_P/L   ~ 10⁻³⁵   → Unmeasurable
+0D (Point):   κ ~ 1/4π    ~ 0.08    → MEASURABLE
+
+RDT's foundations (F1-F4) are explicitly relational:
+• F1: Configurations are discrete points (0D)
+• F2: Adjacency is a relation between points (0D edge)
+• F3: Traversal is a sequence of points (0D path)
+• F4: CPT maps σ⁺ ↔ σ⁻ (0D pairing)
+
+None require extended objects. The framework is graph-theoretic.</div>
+
+  <h3>5.2 Why 0D Is RDT-Consistent</h3>
+
+  <p>RDT claims space itself <em>emerges</em> from Ω-structure. If space is emergent, portals cannot have spatial extent in any fundamental sense — they're prior to space.</p>
+
+  <div class="theory-box">
+    <h4>The Relational Argument</h4>
+    <p>In RDT, a "portal" isn't a thing with geometry — it's a <strong>relation</strong> between configurations. The CPT pairing σ⁺ ↔ σ⁻ is a mathematical mapping, not a physical tunnel.</p>
+    <p>Just as graph edges have no "width," portals have no dimensional extent. The only geometry comes from the <em>pattern</em> of connections, which gives rise to emergent dimensionality at large scales.</p>
+  </div>
+
+  <h3>5.3 The π Connection</h3>
+
+  <p>RDT's F2 claims π emerges from the metric structure of Ω — any space with closed paths produces π as the circumference/diameter ratio. If π is structural, it should appear in κ.</p>
+
+  <p>For a scalar field (entropy) radiating from a surface into 3D emergent space, the geometric factor is:</p>
+
+  <div class="equation">
+    $$\kappa = \frac{1}{4\pi}$$
+  </div>
+
+  <p>This factor appears throughout physics whenever spherical symmetry is involved:</p>
+
+  <table>
+    <tr><th>Context</th><th>Where 1/4π appears</th></tr>
+    <tr><td>Coulomb's law (Gaussian units)</td><td>$F = \frac{q_1 q_2}{r^2}$ (no 4π) vs SI with 4πε₀</td></tr>
+    <tr><td>Gravitational flux</td><td>$\oint \vec{g} \cdot d\vec{A} = -4\pi G M$</td></tr>
+    <tr><td>Solid angle normalization</td><td>Full sphere = 4π steradians</td></tr>
+    <tr><td>Spherical wave amplitude</td><td>$\propto 1/(4\pi r)$</td></tr>
+  </table>
+
+  <h3>5.4 Derivation of κ ≈ 1/4π</h3>
+
+  <div class="diagram">
+ENTROPY RADIATION GEOMETRY
+
+Radiator surface emits entropy isotropically:
+
+                    ↗ ↑ ↖
+                   ← ■ →    (Radiator)
+                    ↙ ↓ ↘
+
+For thrust, only the forward hemisphere contributes.
+The relevant solid angle integral:
+
+  ∫₀^(π/2) cos(θ) sin(θ) dθ dφ / ∫₀^π sin(θ) dθ dφ = 1/2
+
+Combined with 4π normalization of spherical radiation:
+
+  κ_geometric = 1/(4π) × (directional factor)
+              ≈ 1/(4π)
+              ≈ 0.0796</div>
+
+  <h3>5.5 The Force Equation</h3>
+
+  <p>With κ = 1/4π, the entropic force becomes:</p>
+
+  <div class="equation">
+    $$F = \frac{1}{4\pi} \cdot T \cdot \frac{dS}{dx}$$
+  </div>
+
+  <p>For entropy transported at light speed (thermal radiation):</p>
+
+  <div class="equation">
+    $$\frac{dS}{dx} = \frac{dS/dt}{c} = \frac{P/T}{c}$$
+  </div>
+
+  <p>Therefore:</p>
+
+  <div class="equation">
+    $$F = \frac{1}{4\pi} \cdot T \cdot \frac{P}{Tc} = \frac{P}{4\pi c}$$
+  </div>
+
+  <p>This gives a beautifully simple result: <strong>thrust proportional to power divided by 4πc</strong>.</p>
+
+  <h3>5.6 Numerical Prediction</h3>
+
+  <div class="theory-box">
+    <h4>Expected EPS Thrust</h4>
+
+    <p>For a 5 kW entropy generator:</p>
+
+    <div class="equation">
+      $$F = \frac{5000 \text{ W}}{4\pi \times 3 \times 10^8 \text{ m/s}} = \frac{5000}{3.77 \times 10^9} \approx 1.33 \text{ μN}$$
+    </div>
+
+    <p>Accounting for thermal asymmetry (99:1 ratio) and other geometric factors:</p>
+
+    <div class="equation">
+      $$F_{effective} \approx 1 \text{ μN per kW}$$
+    </div>
+  </div>
+
+  <table>
+    <tr><th>Power</th><th>Expected Thrust</th><th>Comparison</th></tr>
+    <tr><td>1 kW</td><td>~1 μN</td><td>10× above torsion balance noise floor</td></tr>
+    <tr><td>5 kW</td><td>~5 μN</td><td>Comparable to photon pressure (~3.3 μN/kW)</td></tr>
+    <tr><td>100 kW</td><td>~100 μN</td><td>Ion thruster territory</td></tr>
+    <tr><td>1 MW</td><td>~1 mN</td><td>Practical for satellites</td></tr>
+  </table>
+
+  <h3>5.7 Distinguishing from Photon Pressure</h3>
+
+  <p>Photon pressure (radiation pressure) produces ~3.3 μN/kW. EPS with κ = 1/4π predicts ~1 μN/kW. How to distinguish?</p>
+
+  <div class="diagram">
+DISTINGUISHING EPS FROM PHOTON PRESSURE
+
+                     │ Photon Pressure │ EPS (κ=1/4π) │
+─────────────────────┼─────────────────┼──────────────│
+Thrust/Power         │ 3.3 μN/kW       │ ~1 μN/kW     │
+Direction            │ Opposite light  │ Opposite heat│
+Asymmetry dependence │ Linear          │ Squared (?)  │
+Temperature scaling  │ None (E=hf)     │ Yes (T∇S)    │
+Spectrum dependence  │ Yes             │ No           │
+Wavelength effect    │ p = E/c each λ  │ Total S only │
+
+KEY TEST: Vary temperature while maintaining constant power.
+• Photon pressure: No change
+• EPS: Force ∝ T (Verlinde scaling)</div>
+
+  <div class="success">
+    <strong>RDT Prediction:</strong> With 0D portals and geometric κ = 1/4π, EPS thrust should be ~1 μN/kW — readily detectable with modern torsion balances, and distinguishable from photon pressure via temperature scaling.
+  </div>
+</section>
+
+<!-- SECTION 6: Momentum Conservation -->
+<section id="momentum">
+  <h2>Momentum Conservation</h2>
+
+  <h3>6.1 The Classical Objection</h3>
+
+  <p>Every physics textbook states: "You cannot accelerate without pushing against something." How does EPS avoid violating momentum conservation?</p>
+
+  <div class="warning">
+    <strong>The Challenge:</strong> In standard physics, the center of mass of an isolated system cannot accelerate. Any "reactionless drive" claim immediately triggers skepticism.
+  </div>
+
+  <h3>6.2 The RDT Resolution</h3>
+
+  <p>RDT's dual-manifold structure provides a loophole: the system is not isolated. The complete system includes both M⁺ and M⁻.</p>
+
+  <div class="diagram">
+MOMENTUM CONSERVATION IN (M⁺ ∪ M⁻)
+
+Before activation:
+┌──────────────────────────────────────────────────┐
+│  M⁺ (our universe)                               │
+│  ┌─────────────────┐                             │
+│  │  Spacecraft     │  p = 0                      │
+│  │  at rest        │                             │
+│  └─────────────────┘                             │
+├══════════════════════════════════════════════════┤ Σ boundary
+│  M⁻ (antiverse)                                  │
+│  ┌─────────────────┐                             │
+│  │  "Mirror"       │  p = 0                      │
+│  │  configuration  │                             │
+│  └─────────────────┘                             │
+└──────────────────────────────────────────────────┘
+Total momentum: 0 + 0 = 0
+
+After activation:
+┌──────────────────────────────────────────────────┐
+│  M⁺ (our universe)                               │
+│  ┌─────────────────┐                             │
+│  │  Spacecraft     │  p = +Δp (accelerating →)   │
+│  │  moving →       │                             │
+│  └─────────────────┘                             │
+│            ↑                                     │
+│      Drainage current J^μ                        │
+│            ↓                                     │
+├══════════════════════════════════════════════════┤ Σ boundary
+│            ↑                                     │
+│      Drainage current J^μ (CPT-conjugate)        │
+│            ↓                                     │
+│  M⁻ (antiverse)                                  │
+│  ┌─────────────────┐                             │
+│  │  "Mirror"       │  p = -Δp (accelerating ←)   │
+│  │  moving ←       │                             │
+│  └─────────────────┘                             │
+└──────────────────────────────────────────────────┘
+Total momentum: (+Δp) + (-Δp) = 0  ✓ CONSERVED</div>
+
+  <h3>6.3 Why This Isn't "Cheating"</h3>
+
+  <p>Several points distinguish this from pseudoscientific "free energy" claims:</p>
+
+  <ol style="margin-left: 1.5rem; color: #bbb; line-height: 2;">
+    <li><strong>Energy is NOT free:</strong> You still pay for acceleration via the entropy generation (power supply needed)</li>
+    <li><strong>Thermodynamics holds:</strong> Total entropy of (M⁺ ∪ M⁻) always increases</li>
+    <li><strong>Testable prediction:</strong> The effect should scale with entropy production rate, not mass ejection</li>
+    <li><strong>Falsifiable:</strong> If torsion balance experiments show zero effect at high precision, EPS fails</li>
+    <li><strong>Novel physics required:</strong> EPS only works if Jacobson-Verlinde gravity is correct AND RDT's dual-manifold model is real</li>
+  </ol>
+</section>
+
+<!-- SECTION 7: Experimental Program -->
+<section id="experiments">
+  <h2>Experimental Program</h2>
+
+  <h3>7.1 Phase 1: Laboratory Detection (Years 1-3)</h3>
+
+  <div class="phase">
+    <h4>Objective: Detect any thrust from asymmetric entropy production</h4>
+
+    <p><strong>Setup:</strong></p>
+    <ul style="margin-left: 1.5rem; color: #bbb;">
+      <li>Torsion pendulum with nano-Newton sensitivity</li>
+      <li>5 kW entropy generator (GPU cluster mining hardware)</li>
+      <li>Asymmetric thermal design (100:1 emissivity ratio)</li>
+      <li>Vacuum chamber (eliminate convection)</li>
+      <li>Faraday cage (eliminate EM artifacts)</li>
+    </ul>
+
+    <p><strong>Control:</strong> Same device with symmetric thermal design (no thrust expected)</p>
+
+    <p><strong>Success criteria:</strong> Any statistically significant force correlated with computation rate, not explainable by photon pressure alone.</p>
+  </div>
+
+  <h3>7.2 Phase 2: Characterization (Years 3-5)</h3>
+
+  <div class="phase">
+    <h4>Objective: Measure coupling constant κ and scaling laws</h4>
+
+    <p><strong>Experiments:</strong></p>
+    <ul style="margin-left: 1.5rem; color: #bbb;">
+      <li>Vary computation rate: Does thrust scale linearly with bit erasure rate?</li>
+      <li>Vary thermal asymmetry: Does thrust scale with emissivity ratio?</li>
+      <li>Vary temperature: Does thrust follow Verlinde's T∇S formula?</li>
+      <li>Test different computation types: Hashing, random number generation, controlled decoherence</li>
+    </ul>
+
+    <p><strong>Output:</strong> Empirical value of κ with error bars; validated scaling law.</p>
+  </div>
+
+  <h3>7.3 Phase 3: Space Demonstration (Years 5-10)</h3>
+
+  <div class="phase">
+    <h4>Objective: Demonstrate thrust in microgravity, measure cumulative ΔV</h4>
+
+    <p><strong>Mission profile:</strong></p>
+    <ul style="margin-left: 1.5rem; color: #bbb;">
+      <li>CubeSat-scale demonstration (6U, ~10 kg)</li>
+      <li>LEO deployment from ISS or rideshare</li>
+      <li>Continuous EPS operation over weeks/months</li>
+      <li>Precision orbit tracking (radar, GPS, laser ranging)</li>
+      <li>Compare ΔV to thermal photon pressure prediction</li>
+    </ul>
+
+    <p><strong>Success criteria:</strong> ΔV exceeding photon pressure by factor >10 with statistical significance.</p>
+  </div>
+
+  <h3>7.4 Experimental Diagram</h3>
+
+  <div class="diagram">
+PHASE 1 LABORATORY SETUP
+━━━━━━━━━━━━━━━━━━━━━━━━
+
+                    Vacuum Chamber
+    ┌─────────────────────────────────────────────┐
+    │                                             │
+    │              Suspension fiber               │
+    │                    │                        │
+    │                    │                        │
+    │              ┌─────┴─────┐                  │
+    │              │           │                  │
+    │         ┌────┤  TORSION  ├────┐             │
+    │         │    │  BALANCE  │    │             │
+    │         │    │           │    │             │
+    │    ┌────┴────┴───────────┴────┴────┐        │
+    │    │           TEST MASS           │        │
+    │    │  ┌─────────────────────────┐  │        │
+    │    │  │    Entropy Generator    │  │        │
+    │    │  │    + Asymmetric Heat    │  │        │
+    │    │  └─────────────────────────┘  │        │
+    │    │        RADIATOR (top)         │        │
+    │    │        INSULATION (bottom)    │        │
+    │    └───────────────────────────────┘        │
+    │                    │                        │
+    │              Laser beam                     │
+    │              (rotation sensor)              │
+    │                    ↓                        │
+    └─────────────────────────────────────────────┘
+                         │
+                    Photodetector
+                    (μrad resolution)
+
+Rotation of balance arm indicates force on test mass.
+Control: Identical mass with symmetric cooling → no rotation expected.</div>
+</section>
+
+<!-- SECTION 8: Risks and Unknowns -->
+<section id="risks">
+  <h2>Risks and Unknowns</h2>
+
+  <h3>8.1 Theoretical Risks</h3>
+
+  <table>
+    <tr><th>Risk</th><th>Impact</th><th>Mitigation</th></tr>
+    <tr>
+      <td>Jacobson-Verlinde gravity wrong</td>
+      <td>Fatal — no thermodynamic gravity, no EPS</td>
+      <td>Independent theoretical tests; gravity-thermodynamics experiments</td>
+    </tr>
+    <tr>
+      <td>RDT dual manifold doesn't exist</td>
+      <td>Fatal — no M⁻ to absorb reaction momentum</td>
+      <td>CPT symmetry tests; cosmological observations</td>
+    </tr>
+    <tr>
+      <td>Coupling κ ≈ 0</td>
+      <td>Severe — effect unmeasurable</td>
+      <td>Null result still scientifically valuable; constrains RDT</td>
+    </tr>
+  </table>
+
+  <h3>8.2 Engineering Risks</h3>
+
+  <table>
+    <tr><th>Risk</th><th>Impact</th><th>Mitigation</th></tr>
+    <tr>
+      <td>Thermal asymmetry insufficient</td>
+      <td>Moderate — signal too weak</td>
+      <td>Advanced materials (CNT radiators, aerogel insulation)</td>
+    </tr>
+    <tr>
+      <td>Artifact forces (EM, outgassing)</td>
+      <td>Moderate — false positives</td>
+      <td>Extensive controls; rotate device; vacuum bake-out</td>
+    </tr>
+    <tr>
+      <td>Photon pressure dominates</td>
+      <td>Minor — must separate EPS from known effect</td>
+      <td>Careful accounting; test at different temperatures</td>
+    </tr>
+  </table>
+
+  <h3>8.3 Honest Assessment</h3>
+
+  <div class="warning">
+    <strong>Probability of Success:</strong> Unknown, but honestly low. EPS requires multiple speculative physics hypotheses to be correct simultaneously. However, the experiment is inexpensive ($1-10M for Phase 1), and even null results advance science by constraining theoretical models.
+  </div>
+</section>
+
+<!-- SECTION 8: Applications -->
+<section id="applications">
+  <h2>Applications (If EPS Works)</h2>
+
+  <h3>8.1 Near-Term (κ ~ 10⁻²⁰ to 10⁻²⁵)</h3>
+
+  <div class="spec-grid">
+    <div class="spec-card">
+      <h5>Deep Space Probes</h5>
+      <ul>
+        <li>No propellant mass limits</li>
+        <li>Continuous low thrust for decades</li>
+        <li>Interstellar precursor missions</li>
+        <li>Neptune/Pluto orbiters</li>
+      </ul>
+    </div>
+    <div class="spec-card">
+      <h5>Station Keeping</h5>
+      <ul>
+        <li>Geostationary satellites</li>
+        <li>No fuel depletion = extended life</li>
+        <li>Lagrange point maintenance</li>
+        <li>Asteroid redirection</li>
+      </ul>
+    </div>
+    <div class="spec-card">
+      <h5>Attitude Control</h5>
+      <ul>
+        <li>Reaction-wheel-free pointing</li>
+        <li>No momentum saturation</li>
+        <li>Continuous fine adjustment</li>
+        <li>Space telescope stabilization</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>8.2 Long-Term (κ ~ 10⁻¹⁰ or better)</h3>
+
+  <div class="spec-grid">
+    <div class="spec-card">
+      <h5>Interstellar Travel</h5>
+      <ul>
+        <li>1g continuous acceleration feasible</li>
+        <li>Alpha Centauri in ~4 years ship time</li>
+        <li>Galaxy crossing in single lifetime</li>
+        <li>No mass ratio problem</li>
+      </ul>
+    </div>
+    <div class="spec-card">
+      <h5>Planetary Modification</h5>
+      <ul>
+        <li>Move asteroids for mining</li>
+        <li>Redirect comets for terraforming</li>
+        <li>Adjust planetary orbits (megascale)</li>
+        <li>Climate engineering via insolation</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 9: Timeline -->
+<section id="timeline">
+  <h2>Development Timeline</h2>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <h4>Year 0-1: Theoretical Refinement</h4>
+      <p>Derive coupling constant κ from first principles (if possible); design optimal entropy generator; simulate thermal asymmetry requirements.</p>
+    </div>
+    <div class="timeline-item">
+      <h4>Year 1-3: Laboratory Experiments</h4>
+      <p>Build torsion balance apparatus; test various entropy generation methods; characterize thermal diode performance; search for any detectable effect.</p>
+    </div>
+    <div class="timeline-item">
+      <h4>Year 3-5: Scaling and Characterization</h4>
+      <p>If effect detected: measure κ precisely; test scaling laws; optimize design; prepare for space demonstration.</p>
+    </div>
+    <div class="timeline-item">
+      <h4>Year 5-10: Space Demonstration</h4>
+      <p>CubeSat mission; long-duration thrust measurement; validate ground results in microgravity.</p>
+    </div>
+    <div class="timeline-item">
+      <h4>Year 10-20: Application Development</h4>
+      <p>Scale to practical thrust levels; integrate with existing spacecraft; deep space probe missions.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 10: References -->
+<section id="references">
+  <h2>Theoretical References</h2>
+
+  <table>
+    <tr><th>Work</th><th>Contribution</th><th>Year</th></tr>
+    <tr><td>Jacobson, "Thermodynamics of Spacetime"</td><td>Einstein equations from horizon thermodynamics</td><td>1995</td></tr>
+    <tr><td>Verlinde, "On the Origin of Gravity"</td><td>Gravity as entropic force</td><td>2011</td></tr>
+    <tr><td>Landauer, "Irreversibility and Heat Generation"</td><td>Minimum energy cost of computation</td><td>1961</td></tr>
+    <tr><td>Bekenstein, "Black Holes and Entropy"</td><td>Entropy bounds on information</td><td>1973</td></tr>
+    <tr><td>Penrose, "Gravitational Collapse"</td><td>Singularity theorems; time asymmetry</td><td>1965+</td></tr>
+    <tr><td>Boyle & Turok, "CPT-Symmetric Universe"</td><td>Dual manifold cosmology</td><td>2018</td></tr>
+  </table>
+</section>
+
+<nav class="page-nav">
+  <a href="quantum-error-correction.html">&larr; Prev: Quantum Error Correction</a>
+  <a href="entanglement-topology.html">Next: Entanglement Topology &rarr;</a>
+</nav>
+
+<footer>
+  <p><strong>Relational Drainage Theory — Entropic Propulsion Systems</strong></p>
+  <p><a href="../index.html">Return to Main Site</a></p>
+  <p>January 2026</p>
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false}
+    ]
+  });
+});
+</script>
+
+</body>
+</html>

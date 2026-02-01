@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entanglement Topology Mapping — RDT Innovation</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<style>
+:root {
+  --bg: #0a0a0f;
+  --text: #e8e8e8;
+  --accent: #ec4899;
+  --border: #333;
+  --purple: #8b5cf6;
+  --cyan: #06b6d4;
+  --pink: #ec4899;
+  --gold: #f5f5dc;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  padding: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+a { color: var(--cyan); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+header {
+  text-align: center;
+  border-bottom: 2px solid var(--pink);
+  padding-bottom: 2rem;
+  margin-bottom: 3rem;
+}
+.back-link { text-align: left; margin-bottom: 1rem; }
+h1 { font-size: 2.5rem; color: var(--pink); margin-bottom: 0.5rem; letter-spacing: 2px; }
+.subtitle { font-style: italic; color: #888; font-size: 1.3rem; }
+.icon { font-size: 4rem; margin-bottom: 1rem; }
+
+section { margin-bottom: 3rem; }
+h2 { color: var(--pink); border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-bottom: 1.5rem; font-size: 1.6rem; }
+h3 { color: var(--cyan); margin: 2rem 0 1rem; font-size: 1.3rem; }
+h4 { color: var(--gold); margin: 1.5rem 0 0.75rem; font-size: 1.1rem; }
+p { margin-bottom: 1.2rem; text-align: justify; }
+
+.insight-box {
+  background: linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(139, 92, 246, 0.1));
+  border: 1px solid var(--pink);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+}
+.insight-box h4 { margin-top: 0; color: var(--pink); }
+
+.equation {
+  background: rgba(236, 72, 153, 0.1);
+  border-left: 3px solid var(--pink);
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  font-size: 1.1rem;
+  overflow-x: auto;
+}
+
+.diagram {
+  background: #0d0d12;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  white-space: pre;
+  overflow-x: auto;
+  color: #b0b0b0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+}
+th, td {
+  border: 1px solid var(--border);
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+th { background: rgba(236, 72, 153, 0.15); color: var(--pink); }
+tr:nth-child(even) { background: rgba(255, 255, 255, 0.02); }
+
+.warning {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid #ef4444;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+}
+.warning strong { color: #ef4444; }
+
+.success {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid #22c55e;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+}
+.success strong { color: #22c55e; }
+
+.spec-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+.spec-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.25rem;
+}
+.spec-card h5 { color: var(--cyan); margin-bottom: 0.75rem; }
+.spec-card ul { margin-left: 1.2rem; color: #aaa; }
+.spec-card li { margin-bottom: 0.4rem; }
+
+.page-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem 0;
+  border-top: 1px solid var(--border);
+  margin-top: 3rem;
+}
+.page-nav a {
+  padding: 0.75rem 1.5rem;
+  background: rgba(236, 72, 153, 0.15);
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+.page-nav a:hover { background: rgba(236, 72, 153, 0.25); text-decoration: none; }
+
+footer {
+  text-align: center;
+  padding: 2rem 0;
+  border-top: 1px solid var(--border);
+  margin-top: 3rem;
+  color: #666;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="back-link"><a href="../index.html#innovations">&larr; Back to Innovations</a></div>
+  <div class="icon">🔗</div>
+  <h1>Entanglement Topology Mapping</h1>
+  <p class="subtitle">Finding the hidden highways in configuration space</p>
+</header>
+
+<section id="summary">
+  <h2>Executive Summary</h2>
+
+  <p>Quantum entanglement correlates distant systems instantaneously. Standard QM treats this as abstract state-vector correlation. RDT proposes entanglement is physical adjacency in configuration space (Ω) — systems are "close" in Ω despite spatial separation. This suggests an exploitable topology: some system pairs may be naturally more entangleable than others.</p>
+
+  <div class="insight-box">
+    <h4>The RDT Insight</h4>
+    <p>Ω-distance and spatial distance are independent: $d_\Omega(\sigma_A, \sigma_B) \ll d_{space}(A, B)$ is possible. If we can map the Ω-topology, we find "highways" — pairs of systems that entangle more robustly than random selection would predict.</p>
+  </div>
+</section>
+
+<section id="theory">
+  <h2>Theoretical Foundation</h2>
+
+  <h3>2.1 Entanglement in Standard QM</h3>
+
+  <p>In standard quantum mechanics, any two quantum systems can be entangled in principle:</p>
+
+  <div class="equation">$$|\Psi_{AB}\rangle = \frac{1}{\sqrt{2}}(|0_A 0_B\rangle + |1_A 1_B\rangle)$$</div>
+
+  <p>The formalism is symmetric: photon-photon, ion-ion, photon-superconducting qubit — all should entangle with equal ease given sufficient isolation.</p>
+
+  <h3>2.2 RDT: Entanglement as Ω-Adjacency</h3>
+
+  <p>RDT proposes that entanglement quality depends on Ω-distance. Systems that are "close" in configuration space entangle more robustly; systems that are "far" in Ω may exhibit lower fidelity or be impossible to entangle at all.</p>
+
+  <div class="diagram">
+SPATIAL DISTANCE vs Ω-DISTANCE
+
+┌─────────────────────────────────────────────────────────────┐
+│                                                             │
+│  Spatial view:                                              │
+│  ┌────────────────────────────────────────────────────────┐ │
+│  │                                                        │ │
+│  │    🔵                                           🔴    │ │
+│  │  System A                                    System B  │ │
+│  │    (Earth)           d_space = 4 ly         (Alpha C)  │ │
+│  │                                                        │ │
+│  └────────────────────────────────────────────────────────┘ │
+│                                                             │
+│  Ω view:                                                    │
+│  ┌────────────────────────────────────────────────────────┐ │
+│  │        ● ─ ● ─ ● ─ ● ─ ●                               │ │
+│  │       /                   \                             │ │
+│  │      🔵─────●──────●──────🔴    d_Ω = 3 (adjacent!)     │ │
+│  │       \    /        \    /                              │ │
+│  │        ● ─ ● ─ ● ─ ● ─ ●                               │ │
+│  │                                                        │ │
+│  │  Some spatially distant systems are Ω-neighbors        │ │
+│  └────────────────────────────────────────────────────────┘ │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘</div>
+
+  <h3>2.3 The d_max Hypothesis</h3>
+
+  <p>RDT predicts a maximum Ω-distance beyond which entanglement is impossible:</p>
+
+  <div class="equation">$$d_\Omega(\sigma_A, \sigma_B) > d_{max} \implies \text{No entanglement possible}$$</div>
+
+  <p>If $d_{max}$ exists, some physical systems are fundamentally unable to entangle — not due to decoherence, but due to Ω-topology.</p>
+</section>
+
+<section id="engineering">
+  <h2>Engineering Architecture</h2>
+
+  <h3>3.1 Experimental Components</h3>
+
+  <div class="spec-grid">
+    <div class="spec-card">
+      <h5>Multi-System Entanglement Testbed</h5>
+      <ul>
+        <li>Photon sources (SPDC, quantum dots)</li>
+        <li>Trapped ion qubits (Ca⁺, Ba⁺)</li>
+        <li>Superconducting transmons</li>
+        <li>NV centers in diamond</li>
+        <li>Optomechanical oscillators</li>
+      </ul>
+    </div>
+    <div class="spec-card">
+      <h5>Fidelity Measurement Suite</h5>
+      <ul>
+        <li>Bell inequality testing (CHSH)</li>
+        <li>State tomography</li>
+        <li>Entanglement witnesses</li>
+        <li>Concurrence measurement</li>
+      </ul>
+    </div>
+    <div class="spec-card">
+      <h5>Ω-Distance Estimator</h5>
+      <ul>
+        <li>Statistical inference from fidelity data</li>
+        <li>Graph embedding algorithms</li>
+        <li>Clustering analysis</li>
+        <li>Persistent homology (topology)</li>
+      </ul>
+    </div>
+    <div class="spec-card">
+      <h5>Topology Visualization</h5>
+      <ul>
+        <li>Graph database for relationships</li>
+        <li>3D visualization of Ω-topology</li>
+        <li>Highway identification</li>
+        <li>Prediction validation</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>3.2 Cross-System Entanglement Matrix</h3>
+
+  <div class="diagram">
+ENTANGLEMENT FIDELITY BY SYSTEM PAIR (Hypothetical Results)
+
+            │ Photon  │ Ion(Ca⁺)│ Ion(Ba⁺)│   SC   │   NV   │ Mech  │
+────────────┼─────────┼─────────┼─────────┼────────┼────────┼───────┤
+Photon      │  ref    │  0.92   │  0.91   │  0.78  │  0.85  │  0.62 │
+Ion (Ca⁺)   │  0.92   │  ref    │  0.98   │  0.71  │  0.77  │  0.55 │
+Ion (Ba⁺)   │  0.91   │  0.98   │  ref    │  0.73  │  0.79  │  0.58 │
+SC Qubit    │  0.78   │  0.71   │  0.73   │  ref   │  0.69  │  0.51 │
+NV Center   │  0.85   │  0.77   │  0.79   │  0.69  │  ref   │  0.48 │
+Mechanical  │  0.62   │  0.55   │  0.58   │  0.51  │  0.48  │  ref  │
+
+Standard QM prediction: All values ~ equal (given same isolation)
+RDT prediction: Systematic structure (some pairs harder to entangle)
+
+If we observe:
+• Ion-Ion >> Ion-SC → Ions are Ω-closer to each other
+• Mechanical lowest → Macro systems are Ω-distant from micro
+• Patterns persist across labs → Ω-structure is real</div>
+</section>
+
+<section id="predictions">
+  <h2>Testable Predictions</h2>
+
+  <table>
+    <tr><th>Prediction</th><th>Standard QM</th><th>RDT</th><th>Test</th></tr>
+    <tr>
+      <td>Cross-type fidelity</td>
+      <td>All pairs equal (given isolation)</td>
+      <td>Systematic differences</td>
+      <td>Measure Bell violation across types</td>
+    </tr>
+    <tr>
+      <td>Macro-micro entanglement</td>
+      <td>Possible but hard</td>
+      <td>May be impossible (d > d_max)</td>
+      <td>Push optomechanical entanglement</td>
+    </tr>
+    <tr>
+      <td>Lab independence</td>
+      <td>Results depend on apparatus</td>
+      <td>Ω-patterns universal</td>
+      <td>Compare across different labs</td>
+    </tr>
+    <tr>
+      <td>Temperature dependence</td>
+      <td>Decoherence only</td>
+      <td>May shift Ω-topology</td>
+      <td>Map topology at different T</td>
+    </tr>
+  </table>
+
+  <div class="success">
+    <strong>Success Criterion:</strong> If systematic, reproducible fidelity differences appear between system types that cannot be explained by decoherence/isolation, Ω-topology is experimentally confirmed.
+  </div>
+
+  <div class="warning">
+    <strong>Key Unknown:</strong> Whether Ω-topology differs from physical similarity. If photons only entangle well with photons because they're "the same thing," that's unsurprising. RDT claims more: the topology has exploitable structure.
+  </div>
+</section>
+
+<section id="applications">
+  <h2>Applications (If Confirmed)</h2>
+
+  <div class="spec-grid">
+    <div class="spec-card">
+      <h5>Quantum Communication Highways</h5>
+      <ul>
+        <li>Find naturally Ω-adjacent relay systems</li>
+        <li>Build repeaters using topology</li>
+        <li>Lower error rates for QKD</li>
+        <li>Longer-distance entanglement</li>
+      </ul>
+    </div>
+    <div class="spec-card">
+      <h5>Hybrid Quantum Computing</h5>
+      <ul>
+        <li>Match qubit types by Ω-adjacency</li>
+        <li>Optimize inter-module communication</li>
+        <li>Reduce transduction losses</li>
+        <li>Design modular architectures</li>
+      </ul>
+    </div>
+    <div class="spec-card">
+      <h5>Quantum Sensing</h5>
+      <ul>
+        <li>Use Ω-highways for distributed sensing</li>
+        <li>Entangle optimal sensor pairs</li>
+        <li>Improved LIGO-style detectors</li>
+        <li>Dark matter searches</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<nav class="page-nav">
+  <a href="entropic-propulsion.html">&larr; Prev: Entropic Propulsion</a>
+  <a href="finite-path-computation.html">Next: Finite Path Computation &rarr;</a>
+</nav>
+
+<footer>
+  <p><strong>Relational Drainage Theory — Entanglement Topology</strong></p>
+  <p><a href="../index.html">Return to Main Site</a></p>
+  <p>January 2026</p>
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false}
+    ]
+  });
+});
+</script>
+
+</body>
+</html>
