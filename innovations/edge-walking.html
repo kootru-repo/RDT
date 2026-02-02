@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edge Walking — RDT Cognitive Innovation</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<style>
+:root {
+  --bg: #0a0a0f;
+  --bg-secondary: #0d0d14;
+  --text: #e8e8e8;
+  --text-muted: #888;
+  --accent: #f5f5dc;
+  --border: #333;
+  --highlight: #1a1a2e;
+  --blue: #3498db;
+  --purple: #8b5cf6;
+  --cyan: #06b6d4;
+  --gold: #f5f5dc;
+  --pink: #ec4899;
+  --green: #22c55e;
+  --orange: #f97316;
+  --red: #ef4444;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+}
+a { color: var(--cyan); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* Hero Section */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+  background: radial-gradient(ellipse at center, #1a1a2e 0%, #0a0a0f 70%);
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(2px 2px at 20% 30%, rgba(139,92,246,0.3), transparent),
+    radial-gradient(2px 2px at 40% 70%, rgba(6,182,212,0.2), transparent),
+    radial-gradient(2px 2px at 60% 40%, rgba(245,245,220,0.2), transparent),
+    radial-gradient(2px 2px at 80% 60%, rgba(236,72,153,0.2), transparent);
+  background-size: 250px 250px;
+  animation: starsMove 60s linear infinite;
+}
+@keyframes starsMove {
+  from { transform: translateY(0); }
+  to { transform: translateY(-250px); }
+}
+.hero-content {
+  position: relative;
+  z-index: 1;
+  padding: 2rem;
+  max-width: 900px;
+}
+.hero h1 {
+  font-size: 3.5rem;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+  letter-spacing: 3px;
+  text-shadow: 0 0 40px rgba(245, 245, 220, 0.3);
+}
+.hero .subtitle {
+  font-size: 1.5rem;
+  color: var(--cyan);
+  font-style: italic;
+  margin-bottom: 2rem;
+}
+.hero .tagline {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  max-width: 700px;
+  margin: 0 auto 2rem;
+}
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+.hero-stat {
+  text-align: center;
+}
+.hero-stat .value {
+  font-size: 2rem;
+  color: var(--gold);
+  font-weight: bold;
+}
+.hero-stat .label {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.scroll-indicator {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: bounce 2s infinite;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+  40% { transform: translateX(-50%) translateY(-10px); }
+  60% { transform: translateX(-50%) translateY(-5px); }
+}
+
+/* Main Content */
+.main-content {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}
+.back-link {
+  margin-bottom: 2rem;
+  font-size: 0.95rem;
+}
+
+/* Section styles */
+section {
+  margin-bottom: 5rem;
+  scroll-margin-top: 2rem;
+}
+h2 {
+  color: var(--gold);
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 0.75rem;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+h2 .section-number {
+  background: linear-gradient(135deg, var(--purple), var(--cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 1.2rem;
+}
+h3 { color: var(--cyan); margin: 2.5rem 0 1.25rem; font-size: 1.4rem; }
+h4 { color: var(--purple); margin: 2rem 0 1rem; font-size: 1.15rem; }
+p { margin-bottom: 1.25rem; text-align: justify; }
+
+/* Key insight boxes */
+.insight-box {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(6, 182, 212, 0.1));
+  border: 1px solid var(--purple);
+  border-radius: 16px;
+  padding: 2rem;
+  margin: 2.5rem 0;
+  position: relative;
+  overflow: hidden;
+}
+.insight-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--purple), var(--cyan));
+}
+.insight-box h4 { margin-top: 0; color: var(--purple); }
+
+/* Core technique box */
+.core-technique {
+  background: linear-gradient(135deg, rgba(245, 245, 220, 0.1), rgba(139, 92, 246, 0.05));
+  border: 2px solid var(--gold);
+  border-radius: 20px;
+  padding: 3rem;
+  margin: 3rem 0;
+  text-align: center;
+}
+.core-technique .technique-label {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 1rem;
+}
+.core-technique .technique-text {
+  font-size: 2.5rem;
+  color: var(--gold);
+  font-style: italic;
+  margin-bottom: 1.5rem;
+  line-height: 1.3;
+}
+.core-technique .technique-subtext {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+}
+
+/* Equation display */
+.equation {
+  background: rgba(245, 245, 220, 0.05);
+  border-left: 4px solid var(--gold);
+  padding: 1.25rem 1.75rem;
+  margin: 2rem 0;
+  font-size: 1.15rem;
+  overflow-x: auto;
+  border-radius: 0 8px 8px 0;
+}
+
+/* Diagram boxes */
+.diagram {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 2rem 0;
+  font-family: 'JetBrains Mono', 'Consolas', 'Monaco', monospace;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  white-space: pre;
+  overflow-x: auto;
+  color: #b0b0b0;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  font-size: 0.95rem;
+}
+th, td {
+  border: 1px solid var(--border);
+  padding: 1rem 1.25rem;
+  text-align: left;
+}
+th {
+  background: linear-gradient(135deg, rgba(245, 245, 220, 0.1), rgba(139, 92, 246, 0.05));
+  color: var(--gold);
+  font-weight: 600;
+}
+tr:nth-child(even) { background: rgba(255, 255, 255, 0.02); }
+tr:hover { background: rgba(139, 92, 246, 0.05); }
+
+/* Status boxes */
+.warning {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid var(--red);
+  border-radius: 12px;
+  padding: 1.25rem 1.75rem;
+  margin: 2rem 0;
+}
+.warning strong { color: var(--red); }
+
+.success {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid var(--green);
+  border-radius: 12px;
+  padding: 1.25rem 1.75rem;
+  margin: 2rem 0;
+}
+.success strong { color: var(--green); }
+
+.info {
+  background: rgba(6, 182, 212, 0.1);
+  border: 1px solid var(--cyan);
+  border-radius: 12px;
+  padding: 1.25rem 1.75rem;
+  margin: 2rem 0;
+}
+.info strong { color: var(--cyan); }
+
+/* Phase cards */
+.phase {
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(139, 92, 246, 0.05));
+  border-left: 4px solid var(--cyan);
+  padding: 2rem;
+  margin: 2rem 0;
+  border-radius: 0 12px 12px 0;
+}
+.phase h4 { margin-top: 0; }
+
+/* Zone diagram */
+.zone-diagram {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  margin: 3rem 0;
+  gap: 0;
+  height: 200px;
+}
+.zone {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+.zone-known {
+  background: linear-gradient(180deg, rgba(34, 197, 94, 0.2), rgba(34, 197, 94, 0.05));
+  border: 1px solid var(--green);
+  border-radius: 12px 0 0 12px;
+}
+.zone-edge {
+  background: linear-gradient(180deg, rgba(245, 245, 220, 0.3), rgba(139, 92, 246, 0.2));
+  border: 2px solid var(--gold);
+  flex: 1.5;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 0 30px rgba(245, 245, 220, 0.2);
+}
+.zone-unknown {
+  background: linear-gradient(180deg, rgba(239, 68, 68, 0.2), rgba(239, 68, 68, 0.05));
+  border: 1px solid var(--red);
+  border-radius: 0 12px 12px 0;
+}
+.zone h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+}
+.zone-known h4 { color: var(--green); }
+.zone-edge h4 { color: var(--gold); font-size: 1.3rem; }
+.zone-unknown h4 { color: var(--red); }
+.zone p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+.zone-edge p { color: var(--text); }
+
+/* Practice steps */
+.practice-step {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  margin: 1.5rem 0;
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+.step-number {
+  background: linear-gradient(135deg, var(--purple), var(--cyan));
+  color: var(--bg);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+.step-content h4 {
+  margin: 0 0 0.5rem 0;
+  color: var(--cyan);
+}
+.step-content p {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+/* Benefits grid */
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+.benefit-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(139, 92, 246, 0.02));
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+.benefit-card:hover {
+  border-color: var(--purple);
+  transform: translateY(-2px);
+}
+.benefit-card h5 {
+  color: var(--cyan);
+  margin: 0 0 0.75rem 0;
+  font-size: 1.1rem;
+}
+.benefit-card .multiplier {
+  font-size: 1.8rem;
+  color: var(--gold);
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+.benefit-card p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* TOC */
+.toc {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 3rem 0;
+}
+.toc h4 {
+  margin: 0 0 1.25rem 0;
+  color: var(--gold);
+  font-size: 1.1rem;
+}
+.toc-list {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
+}
+.toc-list li {
+  padding: 0.5rem 0;
+  border-left: 2px solid transparent;
+  padding-left: 1rem;
+  transition: all 0.2s;
+}
+.toc-list li:hover {
+  border-left-color: var(--cyan);
+}
+.toc-list a {
+  color: var(--text-muted);
+  transition: color 0.2s;
+}
+.toc-list a:hover {
+  color: var(--cyan);
+  text-decoration: none;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+}
+footer a { color: var(--cyan); }
+</style>
+</head>
+<body>
+
+<!-- HERO SECTION -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>EDGE WALKING</h1>
+    <p class="subtitle">Optimizing Traversal Through Configuration Space</p>
+    <p class="tagline">
+      If neural computation is traversal through &Omega;, then the optimal learning state exists at the
+      boundary between known and unknown — where carved paths extend into unexplored territory.
+    </p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="value">&gamma;: T &rarr; &Omega;</div>
+        <div class="label">D1 Definition</div>
+      </div>
+      <div class="hero-stat">
+        <div class="value">~70%</div>
+        <div class="label">Comprehension Target</div>
+      </div>
+      <div class="hero-stat">
+        <div class="value">2-3&times;</div>
+        <div class="label">Potential Learning Rate</div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-indicator">Scroll to explore &darr;</div>
+</section>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+  <div class="back-link"><a href="../index.html#innovations">&larr; Back to Innovations</a></div>
+
+  <!-- TABLE OF CONTENTS -->
+  <nav class="toc">
+    <h4>Contents</h4>
+    <ol class="toc-list">
+      <li><a href="#summary">1. Executive Summary</a></li>
+      <li><a href="#derivation">2. Derivation from RDT Foundations</a></li>
+      <li><a href="#technique">3. The Core Technique</a></li>
+      <li><a href="#zones">4. The Three Zones</a></li>
+      <li><a href="#practice">5. Practice Protocol</a></li>
+      <li><a href="#effects">6. Predicted Effects</a></li>
+      <li><a href="#validation">7. Experimental Validation</a></li>
+      <li><a href="#status">8. Verification Status</a></li>
+    </ol>
+  </nav>
+
+<!-- SECTION 1: Executive Summary -->
+<section id="summary">
+  <h2><span class="section-number">01</span> Executive Summary</h2>
+
+  <p>Edge Walking is a cognitive optimization technique derived from RDT's definitional identity (D1: Traversal ≡ Experience). If neural computation represents traversal through configuration space (&Omega;), then learning efficiency depends on <em>where</em> in &Omega; this traversal occurs.</p>
+
+  <div class="insight-box">
+    <h4>The Core Insight</h4>
+    <p>Optimal cognitive development occurs at the <strong>boundary</strong> between known territory (carved paths) and unknown territory (unexplored &Omega;). Too far into either zone reduces efficiency:</p>
+    <p><strong>Too known:</strong> Minimal new traversal, no learning, time passes unnoticed</p>
+    <p><strong>Too unknown:</strong> No connection to existing paths, no consolidation, overwhelm</p>
+    <p>The edge is the only location that simultaneously extends carved paths, explores new territory, and maintains consolidation anchor points.</p>
+  </div>
+
+  <div class="core-technique">
+    <div class="technique-label">The Single Instruction</div>
+    <div class="technique-text">"Stay slightly lost on purpose."</div>
+    <div class="technique-subtext">Maintain continuous slight disorientation at the boundary of comprehension.</div>
+  </div>
+
+  <table>
+    <tr><th>Aspect</th><th>Typical Learning</th><th>Edge Walking</th></tr>
+    <tr><td>Comfort level</td><td>Seek clarity, avoid confusion</td><td>Seek productive confusion</td></tr>
+    <tr><td>Material selection</td><td>Match current level</td><td>Target ~70% comprehension</td></tr>
+    <tr><td>Response to overwhelm</td><td>Give up or simplify</td><td>Retreat to anchor, then re-approach</td></tr>
+    <tr><td>Response to boredom</td><td>Continue or abandon</td><td>Push into unknown</td></tr>
+    <tr><td>&Omega;-traversal</td><td>Local, repetitive</td><td>Boundary-extending</td></tr>
+  </table>
+</section>
+
+<!-- SECTION 2: Derivation -->
+<section id="derivation">
+  <h2><span class="section-number">02</span> Derivation from RDT Foundations</h2>
+
+  <h3>Definition D1: Traversal ≡ Experience</h3>
+
+  <p>RDT's definitional identity states that experience <em>is</em> traversal through configuration space:</p>
+
+  <div class="equation">
+    &gamma;: T &rarr; &Omega;
+  </div>
+
+  <p>Where &gamma; is the path of experience through configuration space &Omega;, parameterized by internal time T. This isn't a metaphor — in RDT, the movement through configurations <em>constitutes</em> the experience of time and change.</p>
+
+  <h3>Neural States as &Omega; Configurations</h3>
+
+  <p>A brain microstate — the complete pattern of ~10<sup>11</sup> neurons with ~10<sup>4</sup> synaptic weights each — specifies a point &sigma; &isin; &Omega;:</p>
+
+  <div class="equation">
+    &sigma;<sub>brain</sub> &isin; &Omega;, &nbsp;&nbsp; |&Omega;<sub>brain</sub>| &asymp; 2<sup>10<sup>15</sup></sup> (synaptic configurations)
+  </div>
+
+  <h3>The Metric Structure (F2)</h3>
+
+  <p>Foundation F2 establishes that &Omega; has natural metric structure:</p>
+
+  <div class="equation">
+    d: &Omega; &times; &Omega; &rarr; &Reals;<sup>&ge;0</sup>
+  </div>
+
+  <p>This metric determines which configurations are "adjacent" (low transition cost) and which require traversing many intermediate states (high cost). Neural learning <em>reshapes</em> this local topology, carving efficient paths through frequently-traversed regions.</p>
+
+  <h3>The Edge Walking Derivation</h3>
+
+  <div class="diagram">
+CONFIGURATION SPACE TOPOLOGY
+
+    CARVED PATHS              THE EDGE               UNEXPLORED
+    (Known &Omega;)                                    (Unknown &Omega;)
+
+    &bull;&mdash;&bull;&mdash;&bull;                 &bull; &middot; &middot;             &middot;   &middot;
+    |   |                   /|\                    &middot;     &middot;
+    &bull;&mdash;&bull;               &bull;&mdash;&bull;&mdash;&bull;                 &middot;  &middot;   &middot;
+        |               /   |   \                     &middot;
+        &bull;           &bull;     &bull;     &bull;               &middot;   &middot;
+
+    Low traversal cost    Extends paths         High traversal cost
+    High efficiency       Builds flexibility    No anchor points
+    No new learning       OPTIMAL ZONE          Risk of overwhelm</div>
+
+  <p>Edge Walking emerges naturally from the &Omega;-topology:</p>
+
+  <div class="insight-box">
+    <h4>Why the Edge is Optimal</h4>
+    <p><strong>Depth:</strong> Traversal into unknown regions creates new, irreversible path segments</p>
+    <p><strong>Efficiency:</strong> Connection to carved paths provides consolidation anchors</p>
+    <p><strong>Flexibility:</strong> Edge has multiple entry points from known territory</p>
+    <p><strong>Subjective richness:</strong> Novel + structured = optimal traversal rate (flow state)</p>
+  </div>
+</section>
+
+<!-- SECTION 3: The Core Technique -->
+<section id="technique">
+  <h2><span class="section-number">03</span> The Core Technique</h2>
+
+  <h3>Operationalized Instruction</h3>
+
+  <p>The technique reduces to a single, continuously-applied calibration:</p>
+
+  <div class="practice-step">
+    <div class="step-number">1</div>
+    <div class="step-content">
+      <h4>NOTICE your current state</h4>
+      <p>Am I confused? &rarr; Good, stay here<br>
+      Am I comfortable? &rarr; Push into unknown<br>
+      Am I overwhelmed? &rarr; Retreat toward known</p>
+    </div>
+  </div>
+
+  <div class="practice-step">
+    <div class="step-number">2</div>
+    <div class="step-content">
+      <h4>CALIBRATE to ~70% comprehension</h4>
+      <p>You understand most of it, but something doesn't quite fit. That gap IS the edge.</p>
+    </div>
+  </div>
+
+  <div class="practice-step">
+    <div class="step-number">3</div>
+    <div class="step-content">
+      <h4>HOLD the edge</h4>
+      <p>Don't resolve the confusion prematurely. Don't retreat to comfort. Let the unknown become known gradually through continued traversal.</p>
+    </div>
+  </div>
+
+  <div class="practice-step">
+    <div class="step-number">4</div>
+    <div class="step-content">
+      <h4>REPEAT</h4>
+      <p>When confusion resolves, find the new edge. The boundary moves as you learn — follow it.</p>
+    </div>
+  </div>
+
+  <h3>The Target Sensation</h3>
+
+  <p>The subjective experience of correct edge location:</p>
+
+  <div class="core-technique" style="padding: 2rem;">
+    <div class="technique-text" style="font-size: 1.8rem;">"I can almost see it, but not quite."</div>
+  </div>
+
+  <p>This feeling indicates you're at the boundary — connected enough to carved paths that the problem is tractable, but far enough into unknown territory that genuine traversal is occurring.</p>
+</section>
+
+<!-- SECTION 4: The Three Zones -->
+<section id="zones">
+  <h2><span class="section-number">04</span> The Three Zones</h2>
+
+  <div class="zone-diagram">
+    <div class="zone zone-known">
+      <h4>KNOWN</h4>
+      <p>Boredom<br>Automaticity<br>"Going through motions"</p>
+    </div>
+    <div class="zone zone-edge">
+      <h4>THE EDGE</h4>
+      <p>Engaged confusion<br>Productive struggle<br>"Almost getting it"</p>
+    </div>
+    <div class="zone zone-unknown">
+      <h4>UNKNOWN</h4>
+      <p>Anxiety<br>Overwhelm<br>"No idea where to start"</p>
+    </div>
+  </div>
+
+  <table>
+    <tr><th>Zone</th><th>Subjective Feel</th><th>&Omega;-Traversal</th><th>Learning Rate</th><th>Action</th></tr>
+    <tr><td style="color: var(--green);">Known</td><td>Comfortable, automatic</td><td>Minimal (carved paths)</td><td>Near zero</td><td>Push into unknown</td></tr>
+    <tr><td style="color: var(--gold);"><strong>Edge</strong></td><td>Productive confusion</td><td>Optimal (extending paths)</td><td><strong>Maximum</strong></td><td>Hold position</td></tr>
+    <tr><td style="color: var(--red);">Unknown</td><td>Overwhelmed, frozen</td><td>Chaotic (no anchors)</td><td>Near zero</td><td>Retreat to anchor</td></tr>
+  </table>
+
+  <h3>Zone Detection Signals</h3>
+
+  <div class="insight-box">
+    <h4>You're Too Far Into KNOWN Territory If:</h4>
+    <p>&bull; You can predict what comes next<br>
+    &bull; Time passes without you noticing<br>
+    &bull; You're multitasking while doing it<br>
+    &bull; There's no sense of effort or engagement</p>
+  </div>
+
+  <div class="insight-box" style="border-color: var(--gold);">
+    <h4>You're AT THE EDGE If:</h4>
+    <p>&bull; You need to concentrate to follow<br>
+    &bull; You have to re-read or re-think occasionally<br>
+    &bull; You can form partial predictions that sometimes surprise you<br>
+    &bull; Time feels present — not dragging, not flying</p>
+  </div>
+
+  <div class="insight-box" style="border-color: var(--red);">
+    <h4>You're Too Far Into UNKNOWN Territory If:</h4>
+    <p>&bull; You can't form any predictions<br>
+    &bull; You don't know what questions to ask<br>
+    &bull; You feel anxiety or frustration rising<br>
+    &bull; You want to quit or switch tasks</p>
+  </div>
+</section>
+
+<!-- SECTION 5: Practice Protocol -->
+<section id="practice">
+  <h2><span class="section-number">05</span> Practice Protocol</h2>
+
+  <p>Edge Walking is a skill that develops through deliberate practice. The following four-week protocol establishes the foundational capacity:</p>
+
+  <div class="phase">
+    <h4>Week 1: Edge Recognition</h4>
+    <p><strong>Practice:</strong> During any learning or thinking task, pause every 5 minutes.</p>
+    <p>Ask: "Am I confused right now?"</p>
+    <ul>
+      <li>If no &rarr; you've drifted to known territory</li>
+      <li>If yes but functional &rarr; you're at the edge</li>
+      <li>If yes and frozen &rarr; you've gone too far</li>
+    </ul>
+    <p><strong>Goal:</strong> Develop awareness of your current zone location.</p>
+  </div>
+
+  <div class="phase">
+    <h4>Week 2: Edge Calibration</h4>
+    <p><strong>Practice:</strong> Deliberately oscillate between zones.</p>
+    <ul>
+      <li>Push into unknown until overwhelmed</li>
+      <li>Retreat to known until bored</li>
+      <li>Find the middle point</li>
+      <li>Notice what ~70% comprehension feels like</li>
+    </ul>
+    <p><strong>Goal:</strong> Learn your personal edge-detection signals.</p>
+  </div>
+
+  <div class="phase">
+    <h4>Week 3: Edge Holding</h4>
+    <p><strong>Practice:</strong> When you feel confusion, resist immediate resolution.</p>
+    <ul>
+      <li>Don't immediately Google the answer</li>
+      <li>Don't ask someone</li>
+      <li>Don't simplify the problem</li>
+      <li>Hold the confusion for 2-5 minutes</li>
+    </ul>
+    <p><strong>Goal:</strong> Build tolerance for edge-state discomfort.</p>
+  </div>
+
+  <div class="phase">
+    <h4>Week 4: Edge Following</h4>
+    <p><strong>Practice:</strong> When confusion resolves, immediately seek the new edge.</p>
+    <ul>
+      <li>Ask: "What's the next thing I don't quite understand?"</li>
+      <li>Follow the boundary as it moves</li>
+      <li>Maintain continuous slight disorientation</li>
+    </ul>
+    <p><strong>Goal:</strong> Establish edge-walking as default mode.</p>
+  </div>
+
+  <h3>Application Domains</h3>
+
+  <table>
+    <tr><th>Domain</th><th>Edge Walking Application</th></tr>
+    <tr><td>Reading</td><td>Choose texts where you understand ~70%, not 100% or 30%</td></tr>
+    <tr><td>Conversation</td><td>Discuss topics at the boundary of your knowledge</td></tr>
+    <tr><td>Problem-solving</td><td>Work on problems you can almost but not quite solve</td></tr>
+    <tr><td>Skill practice</td><td>Practice at the level where you fail ~30% of the time</td></tr>
+    <tr><td>Creative work</td><td>Combine familiar elements in unfamiliar ways</td></tr>
+  </table>
+</section>
+
+<!-- SECTION 6: Predicted Effects -->
+<section id="effects">
+  <h2><span class="section-number">06</span> Predicted Effects</h2>
+
+  <p>If NED v2.0's &Omega;-traversal model is correct, consistent Edge Walking practice should produce the following effects:</p>
+
+  <div class="benefits-grid">
+    <div class="benefit-card">
+      <h5>Learning Rate</h5>
+      <div class="multiplier">2-3&times;</div>
+      <p>New material connects efficiently to existing carved paths, reducing redundant traversal.</p>
+    </div>
+    <div class="benefit-card">
+      <h5>Retention</h5>
+      <div class="multiplier">60-80%</div>
+      <p>At 1 year. Deep traversal creates irreversible &Omega;-restructuring vs. typical ~20%.</p>
+    </div>
+    <div class="benefit-card">
+      <h5>Flexibility</h5>
+      <div class="multiplier">4-6&times;</div>
+      <p>More solution paths per problem due to denser topology with multiple entry points.</p>
+    </div>
+    <div class="benefit-card">
+      <h5>Subjective Richness</h5>
+      <div class="multiplier">2-4&times;</div>
+      <p>More &Omega;-distance traversed per clock time = more experienced life.</p>
+    </div>
+  </div>
+
+  <h3>The Ultimate Effect</h3>
+
+  <p>All benefits converge to a single outcome:</p>
+
+  <div class="insight-box" style="text-align: center;">
+    <h4>Maximum Cognitive Return on Time Invested</h4>
+    <p style="font-size: 1.2rem; text-align: center;">Same hours lived &rarr; more learned, more retained, more options, more <em>experienced</em>.</p>
+  </div>
+
+  <h3>Cumulative Projection (Speculative)</h3>
+
+  <table>
+    <tr><th>Timeframe</th><th>Typical Trajectory</th><th>Edge Walker Trajectory</th></tr>
+    <tr><td>1 year</td><td>Baseline learning, ~20% retention</td><td>2-3&times; learning, ~70% retention</td></tr>
+    <tr><td>5 years</td><td>Gradual skill development</td><td>Equivalent to ~12-15 typical years</td></tr>
+    <tr><td>10 years</td><td>10 years of experience</td><td>Equivalent to ~25-35 typical years</td></tr>
+  </table>
+
+  <div class="warning">
+    <strong>Important:</strong> These projections are theoretical, based on NED v2.0's &Omega;-traversal model. The model itself is unverified. Actual effects may differ or not exist.
+  </div>
+</section>
+
+<!-- SECTION 7: Validation -->
+<section id="validation">
+  <h2><span class="section-number">07</span> Experimental Validation</h2>
+
+  <h3>Testable Predictions</h3>
+
+  <p>Edge Walking's effectiveness can be tested independently of its RDT derivation:</p>
+
+  <table>
+    <tr><th>Prediction</th><th>Test Method</th><th>Expected Result</th></tr>
+    <tr><td>Learning rate improvement</td><td>Controlled skill acquisition study</td><td>Edge walkers acquire skills faster</td></tr>
+    <tr><td>Retention enhancement</td><td>Long-term memory testing</td><td>Higher recall at 6-12 months</td></tr>
+    <tr><td>Flexibility increase</td><td>Problem-solving with multiple solutions</td><td>More solutions generated</td></tr>
+    <tr><td>Subjective time effects</td><td>Duration estimation tasks</td><td>Richer time experience reported</td></tr>
+  </table>
+
+  <h3>Convergent Validity</h3>
+
+  <p>Edge Walking's predictions align with established frameworks:</p>
+
+  <table>
+    <tr><th>Framework</th><th>Relationship to Edge Walking</th></tr>
+    <tr><td>Zone of Proximal Development (Vygotsky)</td><td>The "edge" = ZPD boundary</td></tr>
+    <tr><td>Deliberate Practice (Ericsson)</td><td>Edge walking + repetition = deliberate practice</td></tr>
+    <tr><td>Flow State (Csikszentmihalyi)</td><td>Edge = challenge/skill balance point</td></tr>
+    <tr><td>Desirable Difficulties (Bjork)</td><td>Edge = optimal difficulty level</td></tr>
+  </table>
+
+  <div class="success">
+    <strong>Convergent validity:</strong> Multiple independent frameworks identify the same optimal zone. This suggests the technique is valid regardless of whether the RDT/&Omega;-traversal explanation is correct.
+  </div>
+
+  <h3>RDT-Specific Tests</h3>
+
+  <p>To validate the &Omega;-traversal mechanism specifically:</p>
+
+  <table>
+    <tr><th>Test</th><th>Method</th><th>RDT Prediction</th></tr>
+    <tr><td>Trajectory length correlation</td><td>Measure neural state-space trajectory during learning</td><td>Trajectory length predicts learning better than metabolic cost</td></tr>
+    <tr><td>Topology restructuring</td><td>Pre/post learning dimensionality analysis</td><td>Learning reduces effective dimensionality</td></tr>
+    <tr><td>Subjective time scaling</td><td>Duration estimates vs. traversal depth</td><td>Traversal depth predicts subjective duration</td></tr>
+  </table>
+</section>
+
+<!-- SECTION 8: Status -->
+<section id="status">
+  <h2><span class="section-number">08</span> Verification Status</h2>
+
+  <table>
+    <tr><th>Claim</th><th>Status</th><th>Confidence</th></tr>
+    <tr><td>Edge Walking improves learning</td><td>Supported by convergent frameworks</td><td style="color: var(--green);">High</td></tr>
+    <tr><td>~70% comprehension is optimal zone</td><td>Consistent with ZPD, deliberate practice research</td><td style="color: var(--green);">High</td></tr>
+    <tr><td>Mechanism is &Omega;-traversal</td><td>Unverified (NED v2.0 theoretical)</td><td style="color: var(--orange);">Low</td></tr>
+    <tr><td>2-3&times; learning rate achievable</td><td>Within range of deliberate practice research</td><td style="color: var(--cyan);">Medium</td></tr>
+    <tr><td>Subjective time expansion is real</td><td>Unverified</td><td style="color: var(--orange);">Low</td></tr>
+  </table>
+
+  <div class="info">
+    <strong>Key distinction:</strong> The <em>technique</em> (stay at the edge of comprehension) is well-supported by existing learning science. The <em>explanation</em> (this works because of &Omega;-traversal dynamics) is theoretical and unverified.
+  </div>
+
+  <h3>What This Innovation Claims</h3>
+
+  <ul>
+    <li><strong>Does claim:</strong> Operating at ~70% comprehension optimizes learning</li>
+    <li><strong>Does claim:</strong> This can be practiced as a deliberate skill</li>
+    <li><strong>Does claim:</strong> RDT provides a potential mechanism (D1 traversal)</li>
+    <li><strong>Does NOT claim:</strong> The RDT mechanism is proven</li>
+    <li><strong>Does NOT claim:</strong> Specific multipliers are guaranteed</li>
+  </ul>
+
+  <h3>Relationship to Failed NED v1</h3>
+
+  <p>The original Neural Entropic Drive (NED) proposed that synaptic entropy generation creates mechanical forces on neural structures. This was <a href="../innovations/neural-entropic-drive.md">rigorously analyzed</a> and found to be 10<sup>6</sup> to 10<sup>13</sup>&times; too weak.</p>
+
+  <p>Edge Walking derives from NED v2.0, which abandons mechanical effects entirely and instead interprets neural computation as D1 traversal through configuration space. This reformulation:</p>
+
+  <ul>
+    <li>Requires no force or thrust</li>
+    <li>Makes no claims about overcoming thermal noise</li>
+    <li>Follows directly from RDT foundations without extension</li>
+    <li>Generates testable predictions</li>
+  </ul>
+
+  <div class="success">
+    <strong>The technique works regardless of mechanism.</strong> Even if NED v2.0's &Omega;-traversal explanation is wrong, the practice of maintaining productive confusion aligns with multiple validated learning frameworks.
+  </div>
+</section>
+
+</div>
+
+<nav style="display:flex;justify-content:space-between;padding:2rem;border-top:1px solid var(--border);margin-top:3rem;max-width:900px;margin-left:auto;margin-right:auto;">
+  <a href="pi-structure-compression.html" style="padding:0.75rem 1.5rem;background:rgba(249,115,22,0.15);border-radius:8px;">&larr; π-Structure Compression</a>
+  <a href="quantum-metric-tensor.html" style="padding:0.75rem 1.5rem;background:rgba(249,115,22,0.15);border-radius:8px;">Quantum Metric Tensor &rarr;</a>
+</nav>
+
+<footer>
+  <p>Edge Walking &mdash; An RDT Cognitive Innovation</p>
+  <p>Derived from <a href="../index.html">Relational Drainage Theory</a> Definition D1</p>
+  <p>Status: Technique validated by convergent frameworks; RDT mechanism unverified</p>
+</footer>
+
+<script>
+// Render LaTeX
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false}
+    ]
+  });
+});
+</script>
+
+</body>
+</html>

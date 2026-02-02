@@ -1,0 +1,580 @@
+{
+  "metadata": {
+    "title": "Relational Drainage Theory",
+    "subtitle": "A Synthesis and Extension of Established Physics Frameworks",
+    "author": "Andrew Craton",
+    "version": "2.5",
+    "date": "January 2026",
+    "website": "https://relationaldrainage.org",
+    "purpose": "Master document for LLM analysis - all RDT content in structured JSON format",
+    "last_sync": "2026-02-02",
+    "classification": "Thermodynamic Emergent Spacetime with Finite Relational Substrate"
+  },
+
+  "elevator_pitch": "RDT proposes that spacetime, gravity, and quantum mechanics emerge from a finite configuration space (the 'possibilities block') equipped with a natural metric. The universe explores this space through thermodynamic drainage - paths of steepest entropy increase - which manifests as the arrow of time, gravitational attraction, and quantum uncertainty. A CPT-symmetric dual manifold ensures global conservation while permitting local irreversibility.",
+
+  "epistemological_status": {
+    "classification": "Synthesis/interpretation framework",
+    "honest_assessment": "RDT is not yet a predictive theory with independent derivational machinery. It synthesizes established results (Jacobson, Boyle-Turok, Verlinde, Zurek) under a unified conceptual umbrella. The 'derivation chains' are compatibility arguments showing how existing physics fits within RDT's framing, not logical entailments from RDT axioms alone.",
+    "novel_untested_content": ["κ = 1/(4π) coupling constant", "d_max maximum entanglement distance", "EPS thrust scaling"],
+    "what_rdt_actually_does": "Provides conceptual motivation for WHY certain physics results hold, reframes them within a finite relational substrate, and suggests novel predictions that could distinguish it from alternative frameworks."
+  },
+
+  "foundations": {
+    "count": 4,
+    "note": "RDT rests on exactly 3 axioms (F1, F2, F4) plus 1 definition (D1). Results claimed as 'derived' are better understood as 'compatible with' or 'motivated by' these foundations.",
+    "items": {
+      "F1": {
+        "name": "Finite Totality",
+        "formal": "|Ω_real| = N ≈ 10^(10^122)",
+        "analogy": "The Marble Block",
+        "description": "There exists a finite set Ω_real containing all possible configurations. All possibilities already exist, like all sculptures exist within uncarved marble.",
+        "sources": ["Ultrafinitism (Zeilberger, Wildberger)", "Bekenstein bound", "Holographic principle"],
+        "type": "axiom",
+        "justification": [
+          "Bekenstein bound proves maximum entropy (hence configurations) in any finite region",
+          "Holographic principle: 3D physics encoded on 2D boundary with finite bits",
+          "No infinite quantity has ever been observed or measured",
+          "All computation, measurement, and physics is finite"
+        ],
+        "what_follows": [
+          "No actual infinities (∞ → N)",
+          "Every configuration already exists",
+          "Reality has a 'grain size'",
+          "Hilbert space is N-dimensional"
+        ]
+      },
+      "F2": {
+        "name": "Metric Structure",
+        "formal": "d: Ω_real × Ω_real → ℝ≥0",
+        "analogy": "The Grain",
+        "description": "Ω_real has an adjacency metric where d(σ, σ') defines the 'distance' between configurations. The marble has inherent structure determining which forms are possible.",
+        "sources": ["Standard mathematics", "Physical necessity for transition"],
+        "type": "axiom",
+        "justification": [
+          "Physical transitions require a notion of 'nearby'",
+          "All physical laws express local relationships",
+          "Metric structure is the minimal requirement for dynamics"
+        ],
+        "what_follows": [
+          "π emerges in any metric with cycles (geometric necessity)",
+          "c_max exists and is finite",
+          "Adjacency defines valid transitions",
+          "Tensor product structure for composites"
+        ]
+      },
+      "D1": {
+        "name": "Traversal ≡ Experience",
+        "formal": "γ: τ → Ω_real",
+        "analogy": "The Sculpting",
+        "description": "Conscious experience IS ordered traversal through Ω_real. Time isn't a separate container - the sequence of traversal IS time from inside. This is a DEFINITIONAL IDENTITY, not a causal claim.",
+        "sources": ["Process philosophy (Whitehead)", "Block universe synthesis"],
+        "type": "definition",
+        "note": "Unlike F1, F2, F4 (which could be wrong), D1 is labeled a definition. However, this label is strategic: D1 does substantive metaphysical work (dissolving the hard problem of time, grounding the arrow of time in traversal direction). Genuine stipulative definitions lack explanatory power; D1 has it. The 'definition' framing is defensible (you can't empirically falsify an identity claim) but philosophically loaded.",
+        "philosophical_honesty": "Calling D1 a 'definition' sidesteps falsifiability while doing metaphysical heavy lifting. Critics may reasonably argue this is an axiom in disguise.",
+        "justification": [
+          "Experience has temporal order",
+          "Each moment corresponds to a configuration",
+          "Sequence of moments IS traversal - no external 'time' needed",
+          "Dissolves (not solves) the hard problem of time"
+        ],
+        "what_follows": [
+          "Time IS traversal (definitional identity)",
+          "'Now' = current position γ(τ)",
+          "No collapse needed - you simply take one path",
+          "Frequency = rate of hitting cyclic structure"
+        ]
+      },
+      "F4": {
+        "name": "CPT Symmetry",
+        "formal": "CPT: Ω⁺ ↔ Ω⁻",
+        "analogy": "The Mirror",
+        "description": "The totality respects CPT symmetry: for every configuration σ⁺, there exists a CPT-conjugate σ⁻. Creates dual manifolds M⁺ and M⁻ sharing boundary Σ.",
+        "sources": ["Boyle & Turok, 'CPT-Symmetric Universe' (2018)"],
+        "type": "axiom",
+        "justification": [
+          "CPT is the most fundamental symmetry in physics",
+          "Boyle-Turok show CPT naturally explains matter-antimatter asymmetry",
+          "Predicts dark matter as right-handed neutrinos (testable)",
+          "Creates dual-manifold structure without additional assumptions"
+        ],
+        "what_follows": [
+          "Two universes sharing boundary at Big Bang",
+          "Total entropy conserved across both halves",
+          "Our arrow of time ↔ their reversed arrow",
+          "Gravity emerges as drainage between manifolds",
+          "Dark energy from entropy differential"
+        ]
+      }
+    }
+  },
+
+  "derivation_categories": {
+    "description": "RDT results fall into three categories. IMPORTANT: 'Physically connected' results are NOT derived from RDT axioms alone - they are established results from other researchers that RDT claims compatibility with.",
+    "categories": {
+      "mathematically_derived": {
+        "symbol": "★",
+        "description": "Follows from RDT foundations via pure mathematics",
+        "confidence": "high",
+        "examples": [
+          "N estimation via Bekenstein bound",
+          "π emergence from cyclic structure",
+          "Finite path sums"
+        ]
+      },
+      "physically_connected": {
+        "symbol": "◆",
+        "description": "External results (with their own independent assumptions) that RDT reframes or claims to motivate. These are COMPATIBILITY claims, not derivations. Jacobson's entanglement equilibrium, Zurek's envariance, and Boyle-Turok's CPT cosmology each have assumptions independent of RDT's axioms.",
+        "confidence": "medium",
+        "honest_note": "RDT does not produce these results; it interprets them within its framework",
+        "examples": [
+          "Einstein equations (Jacobson 2016 - his assumptions, RDT interpretation)",
+          "Born rule (Zurek envariance - his derivation, RDT framing)",
+          "Arrow of time (Boyle-Turok - their cosmology, RDT adopts)"
+        ]
+      },
+      "empirically_constrained": {
+        "symbol": "○",
+        "description": "Ansätze whose forms/values require experiment",
+        "confidence": "low_to_medium",
+        "examples": [
+          "κ = 1/(4π) coupling constant",
+          "d_max entanglement distance",
+          "Dark energy equation of state w(z)"
+        ]
+      }
+    }
+  },
+
+  "key_derivations": {
+    "born_rule": {
+      "claim": "The Born rule |ψ|² for quantum probabilities is derived, not assumed",
+      "derivation_chain": [
+        "F1 + F2: Tensor product structure for composite systems",
+        "Tensor structure → envariance (environment-assisted invariance)",
+        "Envariance → |ψ|² is UNIQUE consistent probability rule"
+      ],
+      "source": "Zurek, 'Probabilities from Entanglement' (2005)",
+      "category": "physically_connected",
+      "note": "Gleason's theorem (1957) proves uniqueness; envariance provides physical mechanism"
+    },
+    "einstein_equations": {
+      "claim": "Einstein field equations Gμν + Λgμν = (8πG/c⁴)Tμν are COMPATIBLE with RDT via entanglement equilibrium",
+      "derivation_chain": [
+        "F1 + F2 + D1: RDT motivates information-preserving traversal → suggests maximal vacuum entanglement",
+        "Entanglement equilibrium: vacuum entropy maximized at fixed volume",
+        "Jacobson (2016): Entanglement equilibrium ⟺ Einstein equations"
+      ],
+      "source": "Jacobson, Phys. Rev. Lett. 116, 201101 (2016)",
+      "category": "physically_connected",
+      "honesty_note": "Jacobson's derivation has its own assumptions (local Lorentz invariance, Clausius relation, Rindler horizons) independent of RDT axioms. RDT claims compatibility and provides one conceptual motivation for entanglement equilibrium, but does NOT produce Einstein's equations from F1+F2+D1 alone.",
+      "note": "RDT provides conceptual motivation; Jacobson provides rigorous proof with his own assumptions"
+    },
+    "arrow_of_time": {
+      "claim": "Arrow of time follows from F4 (CPT symmetry) alone",
+      "derivation_chain": [
+        "F4: Global CPT symmetry with M⁺, M⁻ sharing boundary Σ",
+        "Boyle-Turok: Analytic structure → reflecting boundary condition at Σ",
+        "Boundary condition: Minimum entropy at Σ",
+        "Result: dS/dτ > 0 away from Σ in both directions"
+      ],
+      "source": "Boyle & Turok, Ann. Phys. (2022)",
+      "category": "physically_connected",
+      "note": "Arrow of time is FORCED by CPT symmetry, not assumed"
+    },
+    "quantum_metric_tensor": {
+      "claim": "Quantum metric tensor gμν emerges from the Ω-metric structure",
+      "derivation_chain": [
+        "F2: Ω has metric d(σ,σ')",
+        "Symmetry (P1) → L = f(v²)",
+        "Stability (P2, Ostrogradsky) → no v⁴, v⁶ (unstable)",
+        "Smoothness (P3) → no |v|, |v|³ (cusps)",
+        "UNIQUE: L = (m/2)|γ̇|²_d (quadratic action)",
+        "Quadratic action → Gaussian propagator (Varadhan)",
+        "Gaussian propagator → Gaussian coherent states",
+        "Fubini-Study metric → g_μν^(QM) = (m/2ℏτ)·g_μν^(Ω)"
+      ],
+      "category": "mathematically_derived",
+      "experimental_support": "Kim et al. (2025) measured quantum metric tensor in black phosphorus"
+    },
+    "dark_energy_evolution": {
+      "claim": "Dark energy equation of state w(z) evolves, not constant w = -1",
+      "derivation_chain": [
+        "F4: Entropy differential ΔS(τ) = S⁺(τ) - S⁻(τ)",
+        "Early universe: ΔS small → w ≈ -1 (cosmological constant-like)",
+        "Late universe: ΔS grows → w > -1 (deviates from constant)"
+      ],
+      "prediction": "w₀ ≈ -0.9 to -1.0 with wa ≠ 0",
+      "category": "empirically_constrained",
+      "experimental_support": "DESI 2024: w ≠ -1 at 2-3σ confidence"
+    },
+    "gravity_as_drainage": {
+      "claim": "Gravity is entropy flow (drainage) between dual manifolds",
+      "formal": "F = T∇S (Verlinde entropic force)",
+      "drainage_current": "Jμ = (c³/4πG)∇μln(S/S₀)",
+      "drainage_rate": "Γ(r) = GM/(r²c) · Ψ(r/L_Λ)",
+      "source": "Verlinde (2011), Jacobson (1995)",
+      "category": "physically_connected"
+    }
+  },
+
+  "glossary": {
+    "greek_letters": {
+      "Ω": {
+        "name": "Omega (uppercase)",
+        "rdt_meaning": "Configuration space - the set of all possible configurations. Ω_real is the complete 'marble block'.",
+        "general": "Sample space in probability, or domain in analysis"
+      },
+      "γ": {
+        "name": "Gamma (lowercase)",
+        "rdt_meaning": "Traversal path - function γ: τ → Ω mapping internal time to configurations",
+        "general": "Paths/curves in differential geometry, or Euler-Mascheroni constant"
+      },
+      "σ": {
+        "name": "Sigma (lowercase)",
+        "rdt_meaning": "Configuration - a single point in Ω. σ⁺ and σ⁻ are CPT-conjugate configurations",
+        "general": "Standard deviation, or surface/area"
+      },
+      "τ": {
+        "name": "Tau",
+        "rdt_meaning": "Internal time parameter - ordering parameter for traversal, not external clock time",
+        "general": "Proper time in relativity, or time constant"
+      },
+      "κ": {
+        "name": "Kappa",
+        "rdt_meaning": "Coupling constant κ = 1/(4π) relating entropy gradients to forces",
+        "general": "Curvature, or various coupling constants"
+      },
+      "π": {
+        "name": "Pi",
+        "rdt_meaning": "Structural constant emerging from any metric space with cyclic structure",
+        "general": "Ratio of circumference to diameter ≈ 3.14159"
+      },
+      "ψ": {
+        "name": "Psi",
+        "rdt_meaning": "Wavefunction - quantum state vector. |ψ|² gives probability via Born rule",
+        "general": "Quantum mechanical wavefunction"
+      },
+      "Σ": {
+        "name": "Sigma (uppercase)",
+        "rdt_meaning": "Boundary surface - 3D hypersurface shared by M⁺ and M⁻ at Big Bang",
+        "general": "Summation, or surface in differential geometry"
+      },
+      "Γ": {
+        "name": "Gamma (uppercase)",
+        "rdt_meaning": "Drainage rate - Γ(r) = GM/(r²c)·Ψ(r/L_Λ)",
+        "general": "Gamma function Γ(n) = (n-1)!, or Christoffel symbols"
+      }
+    },
+    "operators": {
+      "∇": {
+        "name": "Nabla / Del",
+        "rdt_meaning": "Gradient operator - ∇S is entropy gradient driving drainage",
+        "general": "Vector differential operator"
+      },
+      "ℏ": {
+        "name": "h-bar",
+        "rdt_meaning": "Reduced Planck constant ≈ 1.055 × 10⁻³⁴ J·s",
+        "general": "Quantum of action"
+      },
+      "≡": {
+        "name": "Identical to",
+        "rdt_meaning": "Definitional identity - as in D1: Time ≡ Traversal",
+        "general": "Defined as"
+      }
+    },
+    "physical_constants": {
+      "c": {
+        "name": "Speed of light",
+        "rdt_meaning": "Maximum propagation speed - derived from F1+F2 (finite Ω has finite diameter)",
+        "value": "299,792,458 m/s"
+      },
+      "G": {
+        "name": "Gravitational constant",
+        "rdt_meaning": "Coupling in Einstein equations",
+        "value": "6.674 × 10⁻¹¹ m³/(kg·s²)"
+      },
+      "k_B": {
+        "name": "Boltzmann constant",
+        "rdt_meaning": "Entropy-temperature relation S = k_B ln(W)",
+        "value": "1.381 × 10⁻²³ J/K"
+      },
+      "a_0": {
+        "name": "Characteristic acceleration",
+        "rdt_meaning": "Verlinde scale a₀ = cH₀, MOND-like transition",
+        "value": "~1.2 × 10⁻¹⁰ m/s²"
+      }
+    },
+    "tensors": {
+      "g_μν": {
+        "name": "Metric tensor",
+        "rdt_meaning": "Spacetime metric emerging from Ω-metric structure",
+        "general": "Defines distances and angles in curved spacetime"
+      },
+      "G_μν": {
+        "name": "Einstein tensor",
+        "rdt_meaning": "Curvature measure, derived via Jacobson",
+        "general": "Encodes spacetime curvature"
+      },
+      "T_μν": {
+        "name": "Stress-energy tensor",
+        "rdt_meaning": "Matter/energy content sourcing curvature",
+        "general": "Density and flux of energy-momentum"
+      },
+      "J^μ": {
+        "name": "Current 4-vector",
+        "rdt_meaning": "Drainage current - entropy flux between M⁺ and M⁻",
+        "general": "Conserved current in field theory"
+      }
+    },
+    "rdt_specific": {
+      "N": "Configuration count ≈ 10^(10^122)",
+      "d(σ,σ')": "Metric distance on Ω",
+      "M⁺, M⁻": "Dual CPT-conjugate manifolds",
+      "S": "Entropy, S⁺ + S⁻ conserved",
+      "d_max": "Maximum entanglement distance (novel prediction)",
+      "w(z)": "Dark energy equation of state"
+    }
+  },
+
+  "innovations": {
+    "quantum_metric_tensor": {
+      "title": "Quantum Metric Tensor Compatibility",
+      "summary": "The quantum metric tensor emerges from the Ω-metric structure via standard derivations (Landau-Lifshitz, Ostrogradsky, Varadhan, Provost-Vallee)",
+      "key_result": "g_μν^(quantum) = (m/2ℏτ)·g_μν^(Ω)",
+      "experimental_support": "Kim et al. (2025) measured QMT in black phosphorus",
+      "category": "mathematically_derived"
+    },
+    "entropic_propulsion": {
+      "title": "Entropic Propulsion Systems (EPS)",
+      "summary": "If gravity emerges from thermodynamics, asymmetric entropy generation creates directional thrust without propellant",
+      "key_equation": "F = P/(4πc) ≈ 0.27 μN/kW",
+      "coupling_constant": "κ = 1/(4π)",
+      "thermodynamics_clarification": {
+        "does_it_violate_thermodynamics": "No - but the mechanism needs scrutiny",
+        "how_it_works": "EPS does not create energy from nothing. It converts thermal/electrical energy into directed momentum via entropy gradients, analogous to how a heat engine converts thermal gradients into work. The entropy of the universe still increases.",
+        "the_real_question": "Whether entropy gradients couple to spacetime geometry in the way Verlinde/Jacobson suggest. If entropic gravity is wrong, EPS is wrong. If entropic gravity is right, EPS is the engineering consequence.",
+        "honest_status": "The κ = 1/(4π) coupling is extrapolated from geometric arguments (spherical symmetry), not derived from first principles. This is the novel, untested RDT content."
+      },
+      "two_models": {
+        "model_a_force": "a = F/M (mass-dependent, like electrostatics)",
+        "model_b_geometry": "a = geodesic curvature (mass-independent, like gravity)"
+      },
+      "rdt_prediction": "Model B - geometry-based, mass-independent",
+      "distinguishing_test": "Vary temperature at constant power: photon pressure unchanged, EPS scales with T",
+      "category": "empirically_constrained",
+      "status": "TRL 1 - basic principles, untested"
+    },
+    "edge_walking": {
+      "title": "Edge Walking Cognitive Optimization",
+      "summary": "If neural computation is traversal through Ω (D1), optimal learning occurs at the boundary between known and unknown territory",
+      "core_instruction": "Stay slightly lost on purpose - maintain ~70% comprehension",
+      "three_zones": {
+        "known": "Boredom, automaticity, minimal learning",
+        "edge": "Productive confusion, optimal learning (target)",
+        "unknown": "Anxiety, overwhelm, no consolidation"
+      },
+      "predicted_effects": {
+        "learning_rate": "2-3× improvement",
+        "retention": "60-80% at 1 year vs typical 20%",
+        "flexibility": "4-6× solution paths per problem"
+      },
+      "convergent_validity": ["Zone of Proximal Development (Vygotsky)", "Deliberate Practice (Ericsson)", "Flow State (Csikszentmihalyi)", "Desirable Difficulties (Bjork)"],
+      "category": "physically_connected",
+      "note": "Technique validated by convergent frameworks; RDT mechanism (Ω-traversal) unverified"
+    }
+  },
+
+  "testable_predictions": {
+    "dark_energy_evolution": {
+      "prediction": "w(z) ≠ -1 constant; evolves with redshift",
+      "current_evidence": "DESI 2024: w ≠ -1 at 2-3σ",
+      "status": "partially_supported"
+    },
+    "cmb_anomalies": {
+      "prediction": "Hawking points in CMB from previous aeon (Penrose CCC)",
+      "current_evidence": "Contested; requires more analysis",
+      "status": "inconclusive"
+    },
+    "entropic_thrust": {
+      "prediction": "~1 μN/kW thrust from asymmetric entropy generation",
+      "distinguishing_test": "Temperature scaling: F ∝ T (EPS) vs F independent of T (photon)",
+      "status": "untested"
+    },
+    "maximum_entanglement_distance": {
+      "prediction": "d_max exists - maximum Ω-distance for entanglement",
+      "note": "Novel RDT prediction with no standard QM equivalent",
+      "status": "untested"
+    },
+    "born_rule_deviations": {
+      "prediction": "Possible deviations from |ψ|² at Planck-scale statistics",
+      "status": "untested"
+    }
+  },
+
+  "theoretical_origins": {
+    "note": "RDT is NOT an original theory - it synthesizes established research programs",
+    "primary_sources": {
+      "boyle_turok": {
+        "contribution": "CPT-Symmetric Universe (2018-2024)",
+        "what_rdt_adopts": "Dual manifold structure M⁺/M⁻, dark matter as right-handed neutrinos",
+        "what_rdt_extends": "Total entropy conservation, drainage current formalism"
+      },
+      "jacobson": {
+        "contribution": "Thermodynamic Gravity (1995, 2016)",
+        "what_rdt_adopts": "Einstein equations from entanglement equilibrium",
+        "what_rdt_extends": "Connection via RDT foundations"
+      },
+      "verlinde": {
+        "contribution": "Entropic/Emergent Gravity (2010, 2016)",
+        "what_rdt_adopts": "Gravity as entropic force F = T∇S",
+        "what_rdt_extends": "Drainage rate formalization, dual manifold connection"
+      },
+      "penrose": {
+        "contribution": "Conformal Cyclic Cosmology (2010)",
+        "what_rdt_adopts": "Cyclic structure, CMB predictions",
+        "what_rdt_extends": "Entropy inversion mechanism"
+      },
+      "ultrafinitism": {
+        "contributors": ["Esenin-Volpin", "Zeilberger", "Wildberger"],
+        "what_rdt_adopts": "Finite totality (F1), no actual infinity",
+        "what_rdt_extends": "Application to physics, π-encoding"
+      },
+      "feynman": {
+        "contribution": "Path Integral Formalism (1948)",
+        "what_rdt_adopts": "Sum over histories",
+        "what_rdt_extends": "Finite path sums (F1 makes convergent)"
+      }
+    },
+    "novel_rdt_extensions": [
+      "Unified synthesis of all above frameworks",
+      "D1: Traversal ≡ Experience as formal identity",
+      "κ = 1/(4π) coupling constant derivation",
+      "d_max maximum entanglement distance prediction"
+    ]
+  },
+
+  "faq": {
+    "string_theorists": {
+      "question": "Where's the UV completion?",
+      "answer": "RDT sidesteps UV divergences by construction: Ω is finite. There's no continuum to regularize. The 'Planck scale' emerges as minimum Ω-distance, not a cutoff imposed on underlying continuum."
+    },
+    "loop_quantum_gravity": {
+      "question": "How does Lorentz invariance emerge?",
+      "answer": "Like LQG's spin networks, RDT is background-independent. Lorentz symmetry emerges statistically from the metric d(σ,σ') on Ω at scales >> l_P."
+    },
+    "entropic_gravity_fans": {
+      "question": "Finally someone building on Verlinde properly!",
+      "answer": "RDT takes Jacobson (1995) and Verlinde (2010) seriously: gravity IS entropy gradient. We add the substrate (Ω with metric), dual manifold (M⁺/M⁻), and testable predictions (κ ≈ 1/4π)."
+    },
+    "phenomenologists": {
+      "question": "Give me the κ experiment.",
+      "answer": "See Entropic Propulsion innovation. Prediction: asymmetric entropy produces thrust at ~1 μN/kW. Distinguishing test: vary temperature at constant power. EPS force scales with T; photon pressure doesn't."
+    },
+    "philosophers": {
+      "question": "Is this ontic structural realism made physical?",
+      "answer": "Yes. RDT is explicitly relational: configurations σ have no intrinsic properties beyond relations (adjacency in Ω). Space, time, matter emerge from structure. This is Ladyman-style OSR with mathematical specificity."
+    },
+    "time_reversal": {
+      "question": "Can RDT reverse time or entropy locally?",
+      "answer": "No. What RDT claims: Time ≡ traversal direction; entropy conserved across M⁺ + M⁻; M⁻ has reversed arrow from our perspective. What RDT does NOT claim: local time reversal via entropy manipulation; access to M⁻ through local experiments."
+    },
+    "mirror_self": {
+      "question": "Is there a 'me' in M⁻ doing things backwards?",
+      "answer": "RDT inherits Boyle-Turok cosmology about physical law symmetry and entropy conservation, not event-by-event correspondence. Whether there's a 'you' in M⁻ is philosophical extrapolation beyond what RDT specifies."
+    }
+  },
+
+  "david_analogy": {
+    "summary": "Michelangelo said David was already in the marble - he simply removed what wasn't David. This captures RDT's essence.",
+    "foundation_mappings": {
+      "F1_marble_block": "All possibilities exist - the block contains every possible sculpture (configurations)",
+      "F2_grain": "The marble has internal structure determining which cuts are possible (metric/adjacency)",
+      "D1_sculpting": "Sculpting doesn't happen 'in' time - sculpting IS time (traversal = experience)",
+      "F4_mirror": "The block has two mirrored halves sharing a central plane (CPT symmetry)"
+    },
+    "tesla_connection": {
+      "quote": "If you want to find the secrets of the universe, think in terms of energy, frequency and vibration.",
+      "interpretation": {
+        "energy": "Capacity for traversal - ability to move between configurations",
+        "frequency": "Rate of encountering π-structure during traversal",
+        "vibration": "Cyclic traversal pattern through configuration space"
+      }
+    }
+  },
+
+  "key_equations": {
+    "foundations": {
+      "F1": "|Ω_real| = N ≈ 10^(10^122)",
+      "F2": "d: Ω_real × Ω_real → ℝ≥0",
+      "D1": "γ: τ → Ω_real",
+      "F4": "CPT: Ω⁺ ↔ Ω⁻"
+    },
+    "derived": {
+      "einstein": "G_μν + Λg_μν = (8πG/c⁴)T_μν",
+      "drainage_current": "J^μ = (c³/4πG)∇^μ ln(S/S₀)",
+      "drainage_rate": "Γ(r) = GM/(r²c)·Ψ(r/L_Λ)",
+      "entropic_force": "F = T∇S",
+      "eps_thrust": "F = P/(4πc)",
+      "qmt": "g_μν^(QM) = (m/2ℏτ)·g_μν^(Ω)",
+      "born_rule": "P(outcome) = |ψ|²"
+    }
+  },
+
+  "references": {
+    "primary": [
+      {
+        "authors": "Boyle, L., Finn, K., Turok, N.",
+        "title": "CPT-Symmetric Universe",
+        "journal": "Phys. Rev. Lett.",
+        "year": 2018,
+        "volume": "121",
+        "pages": "251301"
+      },
+      {
+        "authors": "Jacobson, T.",
+        "title": "Thermodynamics of Spacetime: The Einstein Equation of State",
+        "journal": "Phys. Rev. Lett.",
+        "year": 1995,
+        "volume": "75",
+        "pages": "1260"
+      },
+      {
+        "authors": "Jacobson, T.",
+        "title": "Entanglement Equilibrium and the Einstein Equation",
+        "journal": "Phys. Rev. Lett.",
+        "year": 2016,
+        "volume": "116",
+        "pages": "201101"
+      },
+      {
+        "authors": "Verlinde, E.",
+        "title": "On the Origin of Gravity and the Laws of Newton",
+        "journal": "JHEP",
+        "year": 2011,
+        "volume": "1104",
+        "pages": "029"
+      },
+      {
+        "authors": "Penrose, R.",
+        "title": "Cycles of Time: An Extraordinary New View of the Universe",
+        "publisher": "Bodley Head",
+        "year": 2010
+      },
+      {
+        "authors": "Zurek, W.H.",
+        "title": "Probabilities from Entanglement, Born's Rule from Envariance",
+        "journal": "Phys. Rev. A",
+        "year": 2005,
+        "volume": "71",
+        "pages": "052105"
+      },
+      {
+        "authors": "DESI Collaboration",
+        "title": "DESI 2024 VI: Cosmological Constraints from BAO",
+        "journal": "arXiv",
+        "year": 2024
+      }
+    ]
+  }
+}
