@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vortex Lattice Animation | RDT</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+:root {
+  --bg: #0a0a0f;
+  --gold: #f59e0b;
+  --cyan: #06b6d4;
+  --pink: #ec4899;
+  --green: #10b981;
+  --red: #ef4444;
+  --purple: #8b5cf6;
+  --text: #e2e8f0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  overflow: hidden;
+  min-height: 100vh;
+}
+
+#canvas-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.title-box {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: rgba(10, 10, 15, 0.85);
+  border: 1px solid var(--gold);
+  border-radius: 12px;
+  padding: 20px 25px;
+  max-width: 400px;
+  backdrop-filter: blur(10px);
+}
+
+.title-box h1 {
+  font-size: 1.5rem;
+  color: var(--gold);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.title-box p {
+  font-size: 0.9rem;
+  color: var(--text);
+  opacity: 0.9;
+  line-height: 1.5;
+}
+
+.legend {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: rgba(10, 10, 15, 0.85);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 12px;
+  padding: 15px 20px;
+  backdrop-filter: blur(10px);
+}
+
+.legend h3 {
+  font-size: 0.85rem;
+  color: var(--cyan);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin: 6px 0;
+  font-size: 0.8rem;
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  margin-right: 10px;
+  box-shadow: 0 0 8px currentColor;
+}
+
+.legend-color.vortex { background: #3b82f6; color: #3b82f6; }
+.legend-color.drain-hot { background: linear-gradient(135deg, #ef4444, #f59e0b); }
+.legend-color.drain-cool { background: linear-gradient(135deg, #10b981, #06b6d4); }
+.legend-color.oplane { background: #8b5cf6; color: #8b5cf6; }
+
+.controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(10, 10, 15, 0.85);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 12px;
+  padding: 15px 20px;
+  backdrop-filter: blur(10px);
+  pointer-events: all;
+}
+
+.controls h3 {
+  font-size: 0.85rem;
+  color: var(--pink);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.control-row {
+  display: flex;
+  align-items: center;
+  margin: 8px 0;
+  font-size: 0.8rem;
+}
+
+.control-row label {
+  width: 80px;
+  color: var(--text);
+}
+
+.control-row input[type="range"] {
+  flex: 1;
+  margin: 0 10px;
+  accent-color: var(--cyan);
+}
+
+.control-row span {
+  width: 40px;
+  text-align: right;
+  color: var(--cyan);
+  font-family: monospace;
+}
+
+button {
+  background: linear-gradient(135deg, var(--purple), var(--pink));
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  margin-top: 10px;
+  width: 100%;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+}
+
+button.secondary {
+  background: linear-gradient(135deg, var(--cyan), var(--green));
+}
+
+.reference-panel {
+  position: absolute;
+  bottom: 180px;
+  right: 20px;
+  background: rgba(10, 10, 15, 0.9);
+  border: 1px solid var(--gold);
+  border-radius: 12px;
+  padding: 15px;
+  backdrop-filter: blur(10px);
+  pointer-events: all;
+  max-width: 220px;
+  display: none;
+}
+
+.reference-panel.visible {
+  display: block;
+}
+
+.reference-panel h4 {
+  font-size: 0.8rem;
+  color: var(--gold);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.reference-panel img {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.reference-panel p {
+  font-size: 0.7rem;
+  margin-top: 8px;
+  opacity: 0.8;
+  line-height: 1.4;
+}
+
+.info-box {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(10, 10, 15, 0.85);
+  border: 1px solid var(--cyan);
+  border-radius: 12px;
+  padding: 15px 20px;
+  max-width: 280px;
+  backdrop-filter: blur(10px);
+}
+
+.info-box h3 {
+  font-size: 0.9rem;
+  color: var(--cyan);
+  margin-bottom: 8px;
+}
+
+.info-box p {
+  font-size: 0.75rem;
+  line-height: 1.5;
+  opacity: 0.85;
+}
+
+.equation {
+  background: rgba(0,0,0,0.3);
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin: 10px 0;
+  font-family: 'Times New Roman', serif;
+  font-style: italic;
+  text-align: center;
+  color: var(--gold);
+}
+
+.back-link {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.85rem;
+  padding: 8px 20px;
+  background: rgba(10, 10, 15, 0.7);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 20px;
+  transition: all 0.3s;
+  pointer-events: all;
+}
+
+.back-link:hover {
+  background: rgba(10, 10, 15, 0.9);
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+@media (max-width: 768px) {
+  .title-box, .info-box, .legend, .controls {
+    max-width: calc(100% - 40px);
+  }
+  .info-box {
+    display: none;
+  }
+}
+</style>
+</head>
+<body>
+
+<div id="canvas-container"></div>
+
+<div class="overlay">
+  <a href="klein-bottle-universe.html" class="back-link">← Back to Klein Bottle Universe</a>
+
+  <div class="title-box">
+    <h1>Hyperbolic Vortex Lattice</h1>
+    <p>Gravity flows through vortex tunnels at the O-plane Σ. The hyperbolic geometry (negative curvature from O-plane tension) creates self-similar drainage channels at all scales.</p>
+  </div>
+
+  <div class="info-box">
+    <h3>Drainage Current</h3>
+    <div class="equation">J<sup>μ</sup> = (c³/4πG) ∇<sup>μ</sup> ln(S/S₀)</div>
+    <p>The 4π factor is the <strong>flat-space projection</strong> of hyperbolic vortex lattice geometry (Gauss-Bonnet theorem).</p>
+    <p style="margin-top: 8px; color: var(--gold);">δ(τ) parametrizes position: center (early universe) → boundary (late universe)</p>
+  </div>
+
+  <div class="legend">
+    <h3>Vortex Structure</h3>
+    <div class="legend-item">
+      <div class="legend-color vortex"></div>
+      <span>Vortex cores (fractional branes)</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-color drain-hot"></div>
+      <span>Hot drainage channels (M⁺)</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-color drain-cool"></div>
+      <span>Cool drainage channels (M⁻)</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-color oplane"></div>
+      <span>O-plane core (max drainage)</span>
+    </div>
+  </div>
+
+  <div class="controls">
+    <h3>Animation Controls</h3>
+    <div class="control-row">
+      <label>Flow Speed</label>
+      <input type="range" id="flowSpeed" min="0.1" max="3" step="0.1" value="1">
+      <span id="flowSpeedVal">1.0</span>
+    </div>
+    <div class="control-row">
+      <label>Rotation</label>
+      <input type="range" id="rotation" min="0" max="2" step="0.1" value="0.5">
+      <span id="rotationVal">0.5</span>
+    </div>
+    <div class="control-row">
+      <label>Depth</label>
+      <input type="range" id="depth" min="0.1" max="2" step="0.1" value="0.8">
+      <span id="depthVal">0.8</span>
+    </div>
+    <button id="resetView">Reset View</button>
+    <button id="toggleRef" class="secondary">Show Reference Image</button>
+  </div>
+
+  <div class="reference-panel" id="refPanel">
+    <h4>Source Image</h4>
+    <img src="../assets/animations/orientifold.png" alt="Orientifold hyperbolic vortex lattice">
+    <p>The ℂ³/ℤ₃ orbifold moduli space — this IS the vortex lattice geometry at Σ through which gravity drains.</p>
+  </div>
+</div>
+
+<script>
+// ============================================
+// VORTEX LATTICE 3D ANIMATION
+// ============================================
+
+(function() {
+  'use strict';
+
+  // Configuration
+  const CONFIG = {
+    flowSpeed: 1.0,
+    rotationSpeed: 0.5,
+    depthScale: 0.8,
+    vortexCount: 19,  // Main vortex cores (ℤ₃ symmetric)
+    particleCount: 2000,
+    channelSegments: 64
+  };
+
+  // Scene setup
+  const container = document.getElementById('canvas-container');
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.set(0, 0, 4);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setClearColor(0x0a0a0f, 1);
+  container.appendChild(renderer.domElement);
+
+  // Time uniform for animations
+  const timeUniform = { value: 0 };
+
+  // ============================================
+  // HYPERBOLIC DISK SURFACE
+  // ============================================
+  function createHyperbolicDisk() {
+    const geometry = new THREE.BufferGeometry();
+    const segments = 128;
+    const rings = 64;
+    const positions = [];
+    const colors = [];
+    const uvs = [];
+    const indices = [];
+
+    // Create vertices for hyperbolic disk with Poincaré metric
+    for (let r = 0; r <= rings; r++) {
+      const radius = r / rings;
+      const poincare = radius * 0.98; // Stay inside disk
+
+      for (let s = 0; s <= segments; s++) {
+        const theta = (s / segments) * Math.PI * 2;
+
+        // Hyperbolic height (bowl shape from negative curvature)
+        const z = -CONFIG.depthScale * Math.pow(radius, 2) * (1 + 0.3 * Math.sin(theta * 3));
+
+        positions.push(
+          poincare * Math.cos(theta),
+          poincare * Math.sin(theta),
+          z
+        );
+
+        uvs.push(s / segments, r / rings);
+
+        // Color based on ℤ₃ symmetry regions
+        const angle = ((theta + Math.PI * 2) % (Math.PI * 2)) / (Math.PI * 2);
+        const region = Math.floor(angle * 3) % 3;
+
+        // Base colors for three regions (cycling hot/cool)
+        let baseColor;
+        if (region === 0) {
+          baseColor = new THREE.Color(0.9, 0.2, 0.1); // Red
+        } else if (region === 1) {
+          baseColor = new THREE.Color(0.1, 0.8, 0.5); // Green
+        } else {
+          baseColor = new THREE.Color(0.1, 0.5, 0.9); // Blue
+        }
+
+        // Fade toward yellow/cyan at boundaries and center
+        const boundaryFactor = Math.abs(Math.sin(theta * 3)) * 0.5;
+        const centerFactor = 1 - radius;
+
+        baseColor.lerp(new THREE.Color(0.95, 0.8, 0.2), boundaryFactor * 0.6);
+        baseColor.lerp(new THREE.Color(0.55, 0.3, 0.9), centerFactor * 0.8);
+
+        colors.push(baseColor.r, baseColor.g, baseColor.b);
+      }
+    }
+
+    // Create indices for triangles
+    for (let r = 0; r < rings; r++) {
+      for (let s = 0; s < segments; s++) {
+        const a = r * (segments + 1) + s;
+        const b = a + 1;
+        const c = a + segments + 1;
+        const d = c + 1;
+
+        indices.push(a, b, c);
+        indices.push(b, d, c);
+      }
+    }
+
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+    geometry.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
+    geometry.setIndex(indices);
+    geometry.computeVertexNormals();
+
+    const material = new THREE.ShaderMaterial({
+      uniforms: {
+        time: timeUniform,
+        flowSpeed: { value: CONFIG.flowSpeed }
+      },
+      vertexShader: `
+        attribute vec3 color;
+        varying vec3 vColor;
+        varying vec2 vUv;
+        varying float vRadius;
+        uniform float time;
+        uniform float flowSpeed;
+
+        void main() {
+          vColor = color;
+          vUv = uv;
+          vRadius = length(position.xy);
+
+          // Breathing animation
+          vec3 pos = position;
+          float breathe = 1.0 + 0.02 * sin(time * 0.5);
+          pos.z *= breathe;
+
+          // Ripple effect from center
+          float ripple = sin(vRadius * 20.0 - time * flowSpeed * 2.0) * 0.02 * (1.0 - vRadius);
+          pos.z += ripple;
+
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+        }
+      `,
+      fragmentShader: `
+        varying vec3 vColor;
+        varying vec2 vUv;
+        varying float vRadius;
+        uniform float time;
+        uniform float flowSpeed;
+
+        void main() {
+          // Color cycling animation
+          vec3 color = vColor;
+
+          // Hue shift based on time and position
+          float hueShift = sin(time * flowSpeed * 0.3 + vRadius * 3.0) * 0.15;
+          color.r += hueShift;
+          color.g += hueShift * 0.5;
+          color.b -= hueShift * 0.3;
+
+          // Radial glow toward center (O-plane)
+          float centerGlow = (1.0 - vRadius) * 0.4;
+          color += vec3(0.4, 0.2, 0.6) * centerGlow;
+
+          // Pulsing brightness
+          float pulse = 0.9 + 0.1 * sin(time * flowSpeed + vRadius * 5.0);
+          color *= pulse;
+
+          // Edge darkening (hyperbolic boundary)
+          float edge = smoothstep(0.95, 1.0, vRadius);
+          color *= (1.0 - edge * 0.8);
+
+          gl_FragColor = vec4(color, 1.0 - edge * 0.5);
+        }
+      `,
+      transparent: true,
+      side: THREE.DoubleSide
+    });
+
+    return new THREE.Mesh(geometry, material);
+  }
+
+  // ============================================
+  // VORTEX CORES (Blue dots / Fractional branes)
+  // ============================================
+  function createVortexCores() {
+    const positions = [];
+    const sizes = [];
+
+    // Central O-plane core
+    positions.push(0, 0, -0.1);
+    sizes.push(0.15);
+
+    // ℤ₃ symmetric arrangement of vortex cores
+    const rings = [
+      { count: 3, radius: 0.35, offset: 0 },
+      { count: 6, radius: 0.55, offset: Math.PI / 6 },
+      { count: 6, radius: 0.75, offset: 0 },
+      { count: 3, radius: 0.88, offset: Math.PI / 3 }
+    ];
+
+    rings.forEach(ring => {
+      for (let i = 0; i < ring.count; i++) {
+        const theta = ring.offset + (i / ring.count) * Math.PI * 2;
+        const r = ring.radius;
+        const z = -CONFIG.depthScale * r * r * (1 + 0.3 * Math.sin(theta * 3));
+
+        positions.push(
+          r * Math.cos(theta),
+          r * Math.sin(theta),
+          z - 0.05
+        );
+        sizes.push(0.08 * (1 - r * 0.3));
+      }
+    });
+
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    geometry.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1));
+
+    const material = new THREE.ShaderMaterial({
+      uniforms: {
+        time: timeUniform
+      },
+      vertexShader: `
+        attribute float size;
+        varying float vSize;
+        uniform float time;
+
+        void main() {
+          vSize = size;
+          vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+
+          // Pulsing size
+          float pulse = 1.0 + 0.3 * sin(time * 2.0 + position.x * 5.0);
+          gl_PointSize = size * pulse * 400.0 / -mvPosition.z;
+          gl_Position = projectionMatrix * mvPosition;
+        }
+      `,
+      fragmentShader: `
+        varying float vSize;
+        uniform float time;
+
+        void main() {
+          vec2 center = gl_PointCoord - vec2(0.5);
+          float dist = length(center);
+
+          // Core glow
+          float glow = 1.0 - smoothstep(0.0, 0.5, dist);
+          glow = pow(glow, 1.5);
+
+          // Pulsing core color (blue with cyan highlights)
+          float pulse = 0.5 + 0.5 * sin(time * 3.0);
+          vec3 color = mix(
+            vec3(0.2, 0.4, 0.95),  // Blue
+            vec3(0.3, 0.9, 0.95),  // Cyan
+            pulse * 0.4
+          );
+
+          // Inner bright core
+          float core = 1.0 - smoothstep(0.0, 0.15, dist);
+          color += vec3(0.5, 0.7, 1.0) * core;
+
+          gl_FragColor = vec4(color, glow);
+        }
+      `,
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending
+    });
+
+    return new THREE.Points(geometry, material);
+  }
+
+  // ============================================
+  // DRAINAGE PARTICLES (Entropy flow)
+  // ============================================
+  function createDrainageParticles() {
+    const count = CONFIG.particleCount;
+    const positions = new Float32Array(count * 3);
+    const velocities = new Float32Array(count * 3);
+    const colors = new Float32Array(count * 3);
+    const phases = new Float32Array(count);
+
+    for (let i = 0; i < count; i++) {
+      // Start from random positions in disk
+      const theta = Math.random() * Math.PI * 2;
+      const r = Math.sqrt(Math.random()) * 0.95;
+      const z = -CONFIG.depthScale * r * r * (1 + 0.3 * Math.sin(theta * 3));
+
+      positions[i * 3] = r * Math.cos(theta);
+      positions[i * 3 + 1] = r * Math.sin(theta);
+      positions[i * 3 + 2] = z + (Math.random() - 0.5) * 0.1;
+
+      // Velocity toward center (drainage)
+      velocities[i * 3] = -positions[i * 3] * 0.02;
+      velocities[i * 3 + 1] = -positions[i * 3 + 1] * 0.02;
+      velocities[i * 3 + 2] = 0.01;
+
+      // Color based on region
+      const region = Math.floor(((theta + Math.PI * 2) % (Math.PI * 2)) / (Math.PI * 2) * 3);
+      if (region === 0) {
+        colors[i * 3] = 1.0; colors[i * 3 + 1] = 0.3; colors[i * 3 + 2] = 0.2;
+      } else if (region === 1) {
+        colors[i * 3] = 0.2; colors[i * 3 + 1] = 0.9; colors[i * 3 + 2] = 0.5;
+      } else {
+        colors[i * 3] = 0.3; colors[i * 3 + 1] = 0.6; colors[i * 3 + 2] = 1.0;
+      }
+
+      phases[i] = Math.random() * Math.PI * 2;
+    }
+
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    geometry.setAttribute('velocity', new THREE.Float32BufferAttribute(velocities, 3));
+    geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+    geometry.setAttribute('phase', new THREE.Float32BufferAttribute(phases, 1));
+
+    const material = new THREE.ShaderMaterial({
+      uniforms: {
+        time: timeUniform,
+        flowSpeed: { value: CONFIG.flowSpeed }
+      },
+      vertexShader: `
+        attribute vec3 velocity;
+        attribute vec3 color;
+        attribute float phase;
+        varying vec3 vColor;
+        varying float vAlpha;
+        uniform float time;
+        uniform float flowSpeed;
+
+        void main() {
+          vColor = color;
+
+          // Animate position along spiral toward center
+          vec3 pos = position;
+          float t = mod(time * flowSpeed * 0.5 + phase, 6.28);
+
+          // Spiral inward
+          float r = length(pos.xy);
+          float theta = atan(pos.y, pos.x);
+          float newR = max(0.05, r - t * 0.08);
+          float spiralTheta = theta + t * 0.5;
+
+          pos.x = newR * cos(spiralTheta);
+          pos.y = newR * sin(spiralTheta);
+          pos.z = -0.8 * newR * newR + 0.1 * sin(t * 3.0);
+
+          // Fade as approaching center
+          vAlpha = 0.3 + 0.5 * newR;
+
+          vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+          gl_PointSize = (2.0 + 3.0 * (1.0 - newR)) * (300.0 / -mvPosition.z);
+          gl_Position = projectionMatrix * mvPosition;
+        }
+      `,
+      fragmentShader: `
+        varying vec3 vColor;
+        varying float vAlpha;
+        uniform float time;
+
+        void main() {
+          vec2 center = gl_PointCoord - vec2(0.5);
+          float dist = length(center);
+          float glow = 1.0 - smoothstep(0.0, 0.5, dist);
+
+          // Color shift over time
+          vec3 color = vColor;
+          float shift = sin(time * 0.5) * 0.2;
+          color.r += shift;
+          color.b -= shift * 0.5;
+
+          gl_FragColor = vec4(color, glow * vAlpha);
+        }
+      `,
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending
+    });
+
+    return new THREE.Points(geometry, material);
+  }
+
+  // ============================================
+  // O-PLANE GLOW (Central region)
+  // ============================================
+  function createOPlaneGlow() {
+    const geometry = new THREE.CircleGeometry(0.25, 64);
+
+    const material = new THREE.ShaderMaterial({
+      uniforms: {
+        time: timeUniform
+      },
+      vertexShader: `
+        varying vec2 vUv;
+        void main() {
+          vUv = uv;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        varying vec2 vUv;
+        uniform float time;
+
+        void main() {
+          vec2 center = vUv - vec2(0.5);
+          float dist = length(center) * 2.0;
+
+          // Pulsing glow
+          float pulse = 0.7 + 0.3 * sin(time * 2.0);
+          float glow = (1.0 - dist) * pulse;
+          glow = pow(glow, 2.0);
+
+          // Purple/pink core color
+          vec3 color = mix(
+            vec3(0.55, 0.2, 0.8),
+            vec3(0.9, 0.3, 0.6),
+            sin(time + dist * 5.0) * 0.5 + 0.5
+          );
+
+          gl_FragColor = vec4(color, glow * 0.8);
+        }
+      `,
+      transparent: true,
+      side: THREE.DoubleSide,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false
+    });
+
+    const mesh = new THREE.Mesh(geometry, material);
+    mesh.position.z = -0.08;
+    return mesh;
+  }
+
+  // ============================================
+  // FRACTAL BOUNDARY RING
+  // ============================================
+  function createBoundaryRing() {
+    const geometry = new THREE.RingGeometry(0.92, 1.0, 128, 1);
+
+    const material = new THREE.ShaderMaterial({
+      uniforms: {
+        time: timeUniform
+      },
+      vertexShader: `
+        varying vec2 vUv;
+        varying float vAngle;
+        void main() {
+          vUv = uv;
+          vAngle = atan(position.y, position.x);
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        varying vec2 vUv;
+        varying float vAngle;
+        uniform float time;
+
+        void main() {
+          // Fractal-like pattern at boundary
+          float pattern = 0.0;
+          for (float i = 1.0; i <= 5.0; i++) {
+            pattern += sin(vAngle * i * 12.0 + time * i * 0.3) / i;
+          }
+          pattern = pattern * 0.5 + 0.5;
+
+          // Color cycling
+          vec3 color = vec3(
+            0.5 + 0.5 * sin(time * 0.5 + pattern * 3.0),
+            0.5 + 0.5 * sin(time * 0.5 + pattern * 3.0 + 2.094),
+            0.5 + 0.5 * sin(time * 0.5 + pattern * 3.0 + 4.188)
+          );
+
+          // Radial fade
+          float alpha = pattern * 0.6;
+
+          gl_FragColor = vec4(color, alpha);
+        }
+      `,
+      transparent: true,
+      side: THREE.DoubleSide,
+      blending: THREE.AdditiveBlending
+    });
+
+    const mesh = new THREE.Mesh(geometry, material);
+    mesh.position.z = -0.85;
+    return mesh;
+  }
+
+  // ============================================
+  // BUILD SCENE
+  // ============================================
+  const disk = createHyperbolicDisk();
+  scene.add(disk);
+
+  const vortexCores = createVortexCores();
+  scene.add(vortexCores);
+
+  const particles = createDrainageParticles();
+  scene.add(particles);
+
+  const oPlaneGlow = createOPlaneGlow();
+  scene.add(oPlaneGlow);
+
+  const boundaryRing = createBoundaryRing();
+  scene.add(boundaryRing);
+
+  // Group for rotation
+  const sceneGroup = new THREE.Group();
+  sceneGroup.add(disk);
+  sceneGroup.add(vortexCores);
+  sceneGroup.add(particles);
+  sceneGroup.add(oPlaneGlow);
+  sceneGroup.add(boundaryRing);
+  scene.add(sceneGroup);
+
+  // Initial tilt for 3D effect
+  sceneGroup.rotation.x = -0.4;
+
+  // ============================================
+  // MOUSE INTERACTION
+  // ============================================
+  let mouseX = 0, mouseY = 0;
+  let targetRotationX = -0.4, targetRotationY = 0;
+
+  document.addEventListener('mousemove', (e) => {
+    mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+    mouseY = (e.clientY / window.innerHeight) * 2 - 1;
+
+    targetRotationX = -0.4 + mouseY * 0.3;
+    targetRotationY = mouseX * 0.5;
+  });
+
+  // ============================================
+  // CONTROLS
+  // ============================================
+  const flowSpeedSlider = document.getElementById('flowSpeed');
+  const flowSpeedVal = document.getElementById('flowSpeedVal');
+  const rotationSlider = document.getElementById('rotation');
+  const rotationVal = document.getElementById('rotationVal');
+  const depthSlider = document.getElementById('depth');
+  const depthVal = document.getElementById('depthVal');
+  const resetBtn = document.getElementById('resetView');
+
+  flowSpeedSlider.addEventListener('input', (e) => {
+    CONFIG.flowSpeed = parseFloat(e.target.value);
+    flowSpeedVal.textContent = CONFIG.flowSpeed.toFixed(1);
+    disk.material.uniforms.flowSpeed.value = CONFIG.flowSpeed;
+    particles.material.uniforms.flowSpeed.value = CONFIG.flowSpeed;
+  });
+
+  rotationSlider.addEventListener('input', (e) => {
+    CONFIG.rotationSpeed = parseFloat(e.target.value);
+    rotationVal.textContent = CONFIG.rotationSpeed.toFixed(1);
+  });
+
+  depthSlider.addEventListener('input', (e) => {
+    CONFIG.depthScale = parseFloat(e.target.value);
+    depthVal.textContent = CONFIG.depthScale.toFixed(1);
+    // Rebuild disk with new depth
+    scene.remove(sceneGroup);
+    sceneGroup.remove(disk);
+    const newDisk = createHyperbolicDisk();
+    sceneGroup.add(newDisk);
+    scene.add(sceneGroup);
+  });
+
+  resetBtn.addEventListener('click', () => {
+    camera.position.set(0, 0, 4);
+    targetRotationX = -0.4;
+    targetRotationY = 0;
+    gsap.to(sceneGroup.rotation, {
+      x: -0.4,
+      y: 0,
+      duration: 1,
+      ease: 'power2.out'
+    });
+  });
+
+  // Reference panel toggle
+  const toggleRefBtn = document.getElementById('toggleRef');
+  const refPanel = document.getElementById('refPanel');
+
+  toggleRefBtn.addEventListener('click', () => {
+    refPanel.classList.toggle('visible');
+    toggleRefBtn.textContent = refPanel.classList.contains('visible')
+      ? 'Hide Reference Image'
+      : 'Show Reference Image';
+  });
+
+  // ============================================
+  // ANIMATION LOOP
+  // ============================================
+  function animate() {
+    requestAnimationFrame(animate);
+
+    const time = performance.now() * 0.001;
+    timeUniform.value = time;
+
+    // Smooth rotation following mouse
+    sceneGroup.rotation.x += (targetRotationX - sceneGroup.rotation.x) * 0.05;
+    sceneGroup.rotation.y += (targetRotationY - sceneGroup.rotation.y) * 0.05;
+
+    // Auto-rotation
+    sceneGroup.rotation.z += CONFIG.rotationSpeed * 0.002;
+
+    renderer.render(scene, camera);
+  }
+
+  // ============================================
+  // RESIZE HANDLER
+  // ============================================
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+
+  // Start animation
+  animate();
+
+  console.log('Vortex Lattice Animation initialized');
+})();
+</script>
+
+</body>
+</html>

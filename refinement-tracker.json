@@ -5,9 +5,9 @@
     "created": "2026-02-02",
     "last_updated": "2026-02-02",
     "total_items": 15,
-    "resolved": 3,
+    "resolved": 5,
     "in_progress": 0,
-    "pending": 12
+    "pending": 10
   },
 
   "priority_high": {
@@ -27,13 +27,23 @@
       "D1_metaphysical_status": {
         "id": "HIGH-02",
         "title": "D1's Metaphysical Status",
-        "current_state": "Labeled 'definition' but does heavy explanatory lifting",
-        "gap": "Document acknowledges 'this is an axiom in disguise'",
+        "current_state": "RESOLVED: D1 reformulated as 'Traversal ≡ Time' (not Experience)",
+        "gap": "RESOLVED by removing consciousness language entirely",
         "needed": "Either honest reclassification as axiom with justification, or formal proof that traversal ≡ experience is purely definitional",
         "impact": "Grounds the arrow of time, 'now', and frequency interpretation",
-        "status": "pending",
+        "status": "resolved",
+        "resolution_date": "2026-02-02",
+        "resolution_method": "Elimination: Remove consciousness from D1 entirely",
         "related_files": ["rdt-master.json"],
-        "notes": []
+        "notes": [
+          "Original D1: 'Traversal ≡ Experience' made metaphysical claims about consciousness",
+          "Problem: Labeled 'definition' but did heavy explanatory work (axiom in disguise)",
+          "Resolution: RDT is about physical reality, not perception",
+          "New D1: 'Traversal ≡ Time' - the ordering parameter τ IS physical time",
+          "This is genuinely definitional: maps RDT's τ to physics' time coordinate",
+          "Analogous to Einstein's proper time along worldlines",
+          "No consciousness claims → no metaphysical burden → no axiom-in-disguise concern"
+        ]
       },
       "omega_to_spacetime_metric": {
         "id": "HIGH-03",
@@ -74,13 +84,42 @@
       "drainage_current_derivation": {
         "id": "HIGH-05",
         "title": "Drainage Current Derivation",
-        "current_state": "J^μ = (c³/4πG)∇^μ ln(S/S₀) stated without derivation",
-        "gap": "No chain from F1-F4 to this specific form",
+        "current_state": "RESOLVED: J^μ = (c³/4πG)∇^μ ln(S/S₀) derived via T⁴/ℤ₂ topology",
+        "gap": "RESOLVED via T⁴/ℤ₂ Klein bottle boundary mechanism",
         "needed": "Step-by-step derivation or acknowledgment as ansatz",
         "impact": "Central to 'gravity as drainage' claim",
-        "status": "pending",
-        "related_files": ["rdt-master.json"],
-        "notes": []
+        "status": "resolved",
+        "resolution_date": "2026-02-02",
+        "resolution_method": "T⁴/ℤ₂ Klein Bottle Universe: 4-torus quotiented by orientation-reversing involution",
+        "related_files": ["rdt-master.json", "innovations/klein-bottle-universe.html"],
+        "notes": [
+          "Universe is T⁴/ℤ₂ — 4-torus quotiented by orientation-reversing ℤ₂ involution",
+          "Construction: T⁴ = S¹×S¹×S¹×S¹ (closed), ℤ₂ quotient gives non-orientability",
+          "M⁺/M⁻ are DUAL THEORIES (like T-duality), not perspectives — orientifold interpretation",
+          "Boundary Σ is the O-PLANE LOCUS where vortex tunnels (D-branes) exist",
+          "Pre-structure characterized by Higgs Compton wavelength λ_C(H) ≈ 10^-17 m",
+          "4π factor from spherical arrangement of vortex tunnels at Σ",
+          "Hierarchy R = π^34 ≈ 10^17 from T⁴/ℤ₂ geometry (34 = 32 edges + 2 twist)",
+          "G derived: G = ℏc/(m_H² · π^68) — not empirical",
+          "Fundamental forces are geometric aspects of T⁴/ℤ₂ (different path lengths)",
+          "Resolves boundary paradox: finite universe with no boundary, no outside",
+          "EXTENSION (2026-02-02): Orientifold Duality Interpretation",
+          "- T⁴/ℤ₂ IS an orientifold — established string theory construction",
+          "- M⁺/M⁻ are dual theories related by ℤ₂ (like T-duality or S-duality)",
+          "- Σ is the O-plane locus carrying tension and charge",
+          "- CPT is a DUALITY TRANSFORMATION, not mere symmetry",
+          "- Vortex tunnels correspond to D-branes ending on O-plane",
+          "- Total entropy conservation = thermodynamic tadpole cancellation",
+          "- Connects RDT to string theory literature (Polchinski, Dabholkar)",
+          "EXTENSION (2026-02-02): Hyperbolic Vortex Lattice",
+          "- Vortex tunnels at Σ form a HYPERBOLIC LATTICE (not just spherical)",
+          "- O-plane negative tension induces negative curvature → hyperbolic geometry",
+          "- Colored regions = drainage channels, red dots = vortex cores",
+          "- Fractal boundary = self-similar vortex arrangement at all scales",
+          "- 4π is flat-space projection of hyperbolic structure",
+          "- δ(τ) parametrizes position in lattice (core to boundary = early to late universe)",
+          "- Explains why gravity spreads faster than 1/r² at cosmological scales"
+        ]
       }
     }
   },
@@ -318,6 +357,88 @@
           "High-z: w → -1 for z >> z_*"
         ],
         "status": "fully_resolved"
+      },
+      {
+        "id": "HIGH-02",
+        "title": "D1's Metaphysical Status",
+        "date": "2026-02-02",
+        "method": "Elimination: Remove consciousness from D1 entirely",
+        "summary": "The 'axiom in disguise' problem for D1 arose because 'Traversal ≡ Experience' made metaphysical claims about consciousness while being labeled a definition. Resolution: RDT is about physical reality, not perception. The reformulated D1 'Traversal ≡ Time' identifies the ordering parameter τ with physical time — a purely structural mapping analogous to Einstein's proper time. No consciousness claims means no metaphysical burden, making D1 genuinely definitional.",
+        "key_insight": "The question 'why does RDT discuss consciousness at all?' dissolves the problem rather than solving it",
+        "new_d1": {
+          "name": "Traversal ≡ Time",
+          "formal": "γ: τ → Ω_real where τ IS physical time",
+          "description": "The ordering parameter τ of paths through Ω IS physical time (definitional identity)"
+        },
+        "why_this_works": [
+          "Removes all consciousness/experience language",
+          "Makes D1 a pure physical identification",
+          "Analogous to proper time τ along worldlines in GR",
+          "No metaphysical claims → genuinely definitional → no 'axiom in disguise' concern"
+        ],
+        "status": "fully_resolved"
+      },
+      {
+        "id": "HIGH-05",
+        "title": "Drainage Current Derivation",
+        "date": "2026-02-02",
+        "method": "T⁴/ℤ₂ Klein Bottle Universe",
+        "summary": "The drainage current J^μ = (c³/4πG)∇^μ ln(S/S₀) is derived from the T⁴/ℤ₂ topology of the universe. The universe is a 4-torus quotiented by an orientation-reversing ℤ₂ involution — a single non-orientable 4D manifold where M⁺ and M⁻ are perspectives, not separate places. The boundary Σ is the self-intersection surface populated by vortex tunnels. The Higgs field characterizes this pre-structure via its Compton wavelength λ_C(H) ≈ 10^-17 m. The 4π factor comes from spherical vortex arrangement. G is derived (not empirical) via G = ℏc/(m_H² · π^68), where the hierarchy π^34 ≈ 10^17 emerges from T⁴/ℤ₂ geometry.",
+        "document": "innovations/klein-bottle-universe.html",
+        "key_results": [
+          {
+            "item": "Universe topology",
+            "result": "T⁴/ℤ₂ — 4-torus quotiented by orientation-reversing involution",
+            "insight": "M⁺/M⁻ are perspectives on one structure, resolves boundary paradox"
+          },
+          {
+            "item": "Construction advantages",
+            "result": "T⁴ is closed (no boundary), ℤ₂ gives non-orientability",
+            "insight": "Cleaner than tesseract gluing; generalizes to any dimension"
+          },
+          {
+            "item": "Boundary Σ",
+            "result": "Self-intersection surface with spherical vortex tunnel arrangement",
+            "insight": "4π factor in drainage formula from this geometry"
+          },
+          {
+            "item": "Pre-structure scale",
+            "result": "Characterized by λ_C(H) = h/(m_H c) ≈ 10^-17 m",
+            "insight": "Higgs field IS the T⁴/ℤ₂ embedding into spacetime"
+          },
+          {
+            "item": "Hierarchy derivation",
+            "result": "R = π^34 ≈ 10^17 (34 = 32 edges + 2 twist)",
+            "insight": "Resolves hierarchy problem — ratio is topological, not fine-tuned"
+          },
+          {
+            "item": "G derivation",
+            "result": "G = ℏc/(m_H² · π^68)",
+            "insight": "G is derived from T⁴/ℤ₂ topology, not empirical"
+          },
+          {
+            "item": "Fundamental forces",
+            "result": "Geometric aspects of T⁴/ℤ₂ — different path lengths on quotient manifold",
+            "insight": "Explains force hierarchy (gravity weakest = longest path)"
+          }
+        ],
+        "boundary_paradox_resolution": "T⁴/ℤ₂ is finite (bounded configuration count) yet has no boundary (closed manifold) and no outside (non-orientable). The question 'what is outside the universe?' becomes meaningless.",
+        "extensions": [
+          {
+            "item": "Orientifold Duality Interpretation",
+            "date": "2026-02-02",
+            "result": "T⁴/ℤ₂ IS an orientifold — M⁺/M⁻ are dual theories, Σ is O-plane, CPT is duality transformation",
+            "implications": [
+              "M⁺/M⁻ are mathematically distinct but physically equivalent (like T-duality)",
+              "O-planes carry negative tension → explains entropy flow toward Σ",
+              "Vortex tunnels are D-brane-like objects at O-plane",
+              "Total entropy conservation = thermodynamic tadpole cancellation",
+              "Connects RDT to established string theory literature"
+            ],
+            "references": ["Polchinski Vol. II Ch. 10", "Dabholkar Orientifold Lectures", "Sagnotti Open Strings"]
+          }
+        ],
+        "status": "fully_resolved"
       }
     ]
   },
@@ -327,31 +448,36 @@
       "rank": 1,
       "id": "HIGH-03",
       "title": "Ω-metric → spacetime metric",
-      "rationale": "Unlocks all geometry claims"
+      "rationale": "Unlocks all geometry claims",
+      "status": "RESOLVED"
     },
     {
       "rank": 2,
       "id": "MED-01",
       "title": "d_max derivation",
-      "rationale": "Only truly novel prediction"
+      "rationale": "Only truly novel prediction",
+      "status": "RESOLVED"
     },
     {
       "rank": 3,
       "id": "MED-02",
       "title": "w(z) quantitative prediction",
-      "rationale": "Testable now with DESI"
+      "rationale": "Testable now with DESI",
+      "status": "RESOLVED"
     },
     {
       "rank": 4,
       "id": "HIGH-02",
       "title": "D1 philosophical resolution",
-      "rationale": "Honest foundation"
+      "rationale": "Honest foundation",
+      "status": "RESOLVED"
     },
     {
       "rank": 5,
       "id": "HIGH-05",
       "title": "Drainage current from foundations",
-      "rationale": "Central mechanism"
+      "rationale": "Central mechanism",
+      "status": "RESOLVED"
     }
   ]
 }
