@@ -53,7 +53,11 @@
           "Entropy gradient ∇S foliates Ω: time = ∇S direction, space = perpendicular",
           "ADM-style construction gives g_μν from (α, β^i, h_ij)",
           "π enters through Gaussian normalization (4π)^{n/2} — mathematical necessity",
-          "Remaining work: derive lapse α, explain n=3 dimensions, connect to Jacobson"
+          "EXTENSIONS COMPLETED (2026-02-02):",
+          "- Lapse α = ℏ/(k_BT) derived from uncertainty + Clausius",
+          "- n=3 dimensions from F1 + Bekenstein bound + stability",
+          "- Jacobson connection: diffusion equilibrium = entanglement equilibrium",
+          "- 8π origin: 4π (sphere) × 2 (surface gravity factor)"
         ]
       },
       "entanglement_equilibrium_motivation": {
@@ -213,7 +217,25 @@
         "method": "Entropic Diffusion Emergence (B+C Synthesis)",
         "summary": "Spacetime metric g_μν emerges from Ω-metric d(σ,σ') via two mechanisms: (1) Varadhan's theorem shows the Ω-metric is encoded in diffusion kernel decay, (2) Entropy gradient ∇S from F4 separates time (drift direction) from space (perpendicular). The ADM formalism constructs g_μν from lapse, shift, and induced spatial metric. Pi enters through Gaussian normalization — the same (4π)^{n/2} that appears in κ = 1/(4π).",
         "document": "innovations/spacetime-emergence.html",
-        "remaining_work": ["Derive lapse function α from RDT principles", "Explain why n=3 spatial dimensions", "Explicit connection to Jacobson entanglement equilibrium"]
+        "extensions_completed": "2026-02-02",
+        "extensions": [
+          {
+            "item": "Lapse function α",
+            "result": "α = ℏ/(k_B T) — thermal time scale from uncertainty + Clausius",
+            "pi_connection": "2π appears via Unruh temperature T_U = ℏa/(2πck_B)"
+          },
+          {
+            "item": "n=3 spatial dimensions",
+            "result": "F1 + Bekenstein bound (S ∝ Area) + stability constraints → n=3",
+            "pi_connection": "In 3D, solid angle = 4π, explaining 4π in all spherical flux laws"
+          },
+          {
+            "item": "Jacobson connection",
+            "result": "Diffusion equilibrium (ρ ∝ e^S) = entanglement equilibrium → Einstein equations",
+            "pi_connection": "8π = 4π (sphere) × 2 (surface gravity factor)"
+          }
+        ],
+        "status": "fully_resolved"
       }
     ]
   },
