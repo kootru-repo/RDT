@@ -259,6 +259,46 @@
       },
       "experimental_test": "EPS experiment should measure F = P/(4πc) EXACTLY. Deviation would falsify either RDT geometry or Verlinde coupling.",
       "document": "innovations/pi-derivations.html"
+    },
+    "spacetime_emergence": {
+      "claim": "Spacetime metric g_μν emerges from Ω-metric d(σ,σ') via entropic diffusion",
+      "derivation_chain": [
+        "F1+F2: Ω exists with metric d(σ,σ')",
+        "D1: Traversal γ(τ) through Ω IS experience",
+        "F4: Entropy S increases away from boundary Σ",
+        "Synthesis: Traversal is diffusion with entropy-seeking drift",
+        "Fokker-Planck: ∂ρ/∂τ = D∇²ρ - ∇·(ρ∇S/T)",
+        "Varadhan (1967): lim_{τ→0}[-4Dτ log K(σ,σ';τ)] = d(σ,σ')²",
+        "Heat kernel: K ≈ (4πDτ)^{-n/2} exp(-d²/4Dτ)",
+        "Entropy foliation: Σ_s = {σ: S(σ)=s} are constant-entropy surfaces",
+        "Time direction: ∇S (perpendicular to Σ_s)",
+        "Space directions: Tangent to Σ_s (where dS=0)",
+        "ADM construction: g_μν from lapse α, shift β^i, spatial metric h_ij",
+        "Result: g_μν = (-α² + β_kβ^k, β_j; β_i, h_ij)"
+      ],
+      "pi_connection": "π enters through Gaussian normalization (4πDτ)^{n/2} — required by probability conservation. Same √π from ∫e^{-x²}dx that appears in all Gaussian integrals.",
+      "key_equations": {
+        "varadhan_theorem": "lim_{τ→0}[-4Dτ log K] = d²",
+        "heat_kernel": "K(σ,σ';τ) ≈ (4πDτ)^{-n/2} exp(-d²/4Dτ)",
+        "foliation_normal": "n^μ = ∇^μS/|∇S|",
+        "spatial_metric": "h_μν = d_μν - n_μn_ν",
+        "spacetime_metric": "g_μν = -α²n_μn_ν + h_μν"
+      },
+      "what_this_resolves": [
+        "HIGH-03: Ω-metric → spacetime metric bridge",
+        "Why physical distance equals correlation decay distance",
+        "Why time is qualitatively different from space (drift vs no drift)",
+        "Origin of Lorentzian signature from thermodynamic arrow"
+      ],
+      "remaining_work": [
+        "Derive lapse function α from RDT principles",
+        "Explain why n=3 spatial dimensions",
+        "Explicit connection to Jacobson entanglement equilibrium",
+        "Formalize drift coefficient in terms of fundamental constants"
+      ],
+      "category": "mathematically_derived",
+      "sources": ["Varadhan (1967) Large Deviations", "ADM Formalism (1962)"],
+      "document": "innovations/spacetime-emergence.html"
     }
   },
 

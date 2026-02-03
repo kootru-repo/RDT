@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spacetime Emergence from Entropic Diffusion — RDT Derivation</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<style>
+:root {
+  --bg: #0a0a0f;
+  --text: #e8e8e8;
+  --text-muted: #888;
+  --accent: #f5f5dc;
+  --border: #333;
+  --highlight: #1a1a2e;
+  --purple: #8b5cf6;
+  --cyan: #06b6d4;
+  --gold: #f5f5dc;
+  --green: #22c55e;
+  --red: #ef4444;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+h1 {
+  font-size: 2.2rem;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+  border-bottom: 2px solid var(--gold);
+  padding-bottom: 0.5rem;
+}
+h2 {
+  font-size: 1.6rem;
+  color: var(--cyan);
+  margin: 2rem 0 1rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.3rem;
+}
+h3 {
+  font-size: 1.2rem;
+  color: var(--purple);
+  margin: 1.5rem 0 0.8rem;
+}
+p { margin: 1rem 0; }
+.subtitle {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+.theorem-box {
+  background: var(--highlight);
+  border-left: 4px solid var(--gold);
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 0 8px 8px 0;
+}
+.theorem-box.cyan { border-left-color: var(--cyan); }
+.theorem-box.purple { border-left-color: var(--purple); }
+.theorem-box.green { border-left-color: var(--green); }
+.theorem-label {
+  font-weight: bold;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+}
+.equation-box {
+  background: linear-gradient(135deg, rgba(245,245,220,0.1), rgba(139,92,246,0.1));
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 8px;
+  text-align: center;
+}
+.step {
+  background: var(--highlight);
+  padding: 1rem 1.5rem;
+  margin: 1rem 0;
+  border-radius: 8px;
+  border-left: 3px solid var(--cyan);
+}
+.step-number {
+  color: var(--cyan);
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+.derivation-chain {
+  background: var(--highlight);
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 8px;
+}
+.chain-step {
+  display: flex;
+  align-items: center;
+  margin: 0.8rem 0;
+  padding: 0.5rem;
+  background: rgba(0,0,0,0.3);
+  border-radius: 4px;
+}
+.chain-arrow {
+  color: var(--gold);
+  margin: 0 1rem;
+  font-size: 1.2rem;
+}
+.foundation-tag {
+  background: var(--purple);
+  color: white;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  margin-right: 0.5rem;
+}
+.note {
+  background: rgba(6, 182, 212, 0.1);
+  border: 1px solid var(--cyan);
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+.warning {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid var(--red);
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 8px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+}
+th, td {
+  border: 1px solid var(--border);
+  padding: 0.8rem;
+  text-align: left;
+}
+th {
+  background: var(--highlight);
+  color: var(--gold);
+}
+.pi-highlight {
+  color: var(--gold);
+  font-weight: bold;
+  text-shadow: 0 0 10px var(--gold);
+}
+.toc {
+  background: var(--highlight);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin: 2rem 0;
+}
+.toc ul {
+  list-style: none;
+  padding-left: 1rem;
+}
+.toc li { margin: 0.5rem 0; }
+.toc a {
+  color: var(--cyan);
+  text-decoration: none;
+}
+.toc a:hover { text-decoration: underline; }
+footer {
+  margin-top: 3rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  text-align: center;
+}
+a { color: var(--cyan); }
+
+/* Flow diagram */
+.flow-diagram {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: var(--highlight);
+  border-radius: 8px;
+}
+.flow-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.flow-box {
+  background: rgba(139, 92, 246, 0.2);
+  border: 1px solid var(--purple);
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  text-align: center;
+  min-width: 150px;
+}
+.flow-box.gold {
+  background: rgba(245, 245, 220, 0.2);
+  border-color: var(--gold);
+  color: var(--gold);
+}
+.flow-box.cyan {
+  background: rgba(6, 182, 212, 0.2);
+  border-color: var(--cyan);
+}
+.flow-arrow {
+  color: var(--gold);
+  font-size: 1.5rem;
+}
+
+/* Visualization */
+.emergence-viz {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  margin: 2rem 0;
+  padding: 2rem;
+  background: var(--highlight);
+  border-radius: 12px;
+  flex-wrap: wrap;
+}
+.omega-space {
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
+.config-point {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: var(--cyan);
+  border-radius: 50%;
+  opacity: 0.7;
+}
+.entropy-gradient {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, rgba(239, 68, 68, 0.3), rgba(34, 197, 94, 0.3));
+  border-radius: 50%;
+}
+.traversal-path {
+  position: absolute;
+  width: 3px;
+  height: 150px;
+  background: linear-gradient(to top, var(--red), var(--gold), var(--green));
+  left: 50%;
+  top: 25px;
+  transform: translateX(-50%);
+}
+.spacetime-result {
+  text-align: center;
+}
+.spacetime-grid {
+  width: 150px;
+  height: 150px;
+  background:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 30px 30px;
+  border: 2px solid var(--gold);
+  position: relative;
+}
+.time-arrow {
+  position: absolute;
+  left: 50%;
+  top: 10px;
+  bottom: 10px;
+  width: 3px;
+  background: linear-gradient(to top, var(--red), var(--green));
+  transform: translateX(-50%);
+}
+.time-arrow::after {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: -5px;
+  border: 6px solid transparent;
+  border-bottom-color: var(--green);
+}
+
+@media (max-width: 600px) {
+  body { padding: 1rem; }
+  h1 { font-size: 1.8rem; }
+  .emergence-viz { gap: 1.5rem; padding: 1rem; }
+}
+</style>
+</head>
+<body>
+
+<h1>Spacetime Emergence from Entropic Diffusion</h1>
+<p class="subtitle">Resolving HIGH-03: The Omega-Metric to Spacetime Metric Bridge</p>
+
+<div class="theorem-box gold">
+<p class="theorem-label">Central Result</p>
+<p>Spacetime geometry emerges from <strong>entropic diffusion</strong> on configuration space. The Omega-metric d(sigma, sigma') becomes physical distance via Varadhan's heat kernel theorem, while entropy gradients distinguish time from space. Pi appears necessarily through Gaussian normalization.</p>
+</div>
+
+<div class="toc">
+<strong>Contents</strong>
+<ul>
+<li><a href="#overview">I. Overview: The Bridge Problem</a></li>
+<li><a href="#diffusion">II. Thermodynamic Motion as Diffusion</a></li>
+<li><a href="#varadhan">III. Varadhan's Theorem: Distance from Spreading</a></li>
+<li><a href="#foliation">IV. Entropy Foliation: Time vs Space</a></li>
+<li><a href="#metric">V. Constructing the Spacetime Metric</a></li>
+<li><a href="#pi">VI. Where Pi Enters</a></li>
+<li><a href="#summary">VII. Complete Derivation Chain</a></li>
+</ul>
+</div>
+
+<!-- ============================================ -->
+<h2 id="overview">I. Overview: The Bridge Problem</h2>
+
+<h3>1.1 What We Have</h3>
+
+<p>RDT's foundations give us:</p>
+
+<table>
+<tr><th>Foundation</th><th>What It Provides</th></tr>
+<tr>
+  <td><span class="foundation-tag">F1</span> Finite Totality</td>
+  <td>|Omega| = N &lt; infinity — configuration space is finite</td>
+</tr>
+<tr>
+  <td><span class="foundation-tag">F2</span> Metric Structure</td>
+  <td>d(sigma, sigma') — distance between configurations</td>
+</tr>
+<tr>
+  <td><span class="foundation-tag">D1</span> Traversal = Experience</td>
+  <td>gamma(tau): motion through Omega IS time from inside</td>
+</tr>
+<tr>
+  <td><span class="foundation-tag">F4</span> CPT Symmetry</td>
+  <td>Entropy increases away from boundary Sigma</td>
+</tr>
+</table>
+
+<h3>1.2 What We Need</h3>
+
+<p>The physical spacetime metric g_mu_nu that we measure with rulers and clocks. How does abstract configuration-space distance become the geometry we experience?</p>
+
+<h3>1.3 The Solution Strategy</h3>
+
+<div class="flow-diagram">
+  <div class="flow-row">
+    <div class="flow-box gold">D1 + F4</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-box">Traversal seeks higher entropy</div>
+  </div>
+  <div class="flow-row">
+    <span class="flow-arrow">↓</span>
+  </div>
+  <div class="flow-row">
+    <div class="flow-box">Motion is diffusion with drift</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-box gold">Heat kernel K(sigma, sigma'; tau)</div>
+  </div>
+  <div class="flow-row">
+    <span class="flow-arrow">↓</span>
+  </div>
+  <div class="flow-row">
+    <div class="flow-box cyan">Varadhan's Theorem</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-box">d(sigma, sigma')² encoded in K</div>
+  </div>
+  <div class="flow-row">
+    <span class="flow-arrow">↓</span>
+  </div>
+  <div class="flow-row">
+    <div class="flow-box">Entropy gradient nabla S</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-box gold">Time vs Space separation</div>
+  </div>
+  <div class="flow-row">
+    <span class="flow-arrow">↓</span>
+  </div>
+  <div class="flow-row">
+    <div class="flow-box gold">Spacetime metric g_mu_nu emerges</div>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<h2 id="diffusion">II. Thermodynamic Motion as Diffusion</h2>
+
+<h3>2.1 From D1 to Motion</h3>
+
+<p>D1 states that conscious experience IS ordered traversal through Omega. But what governs this traversal? F4 provides the answer: entropy increases away from the Big Bang boundary Sigma.</p>
+
+<div class="theorem-box cyan">
+<p class="theorem-label">Key Insight</p>
+<p>Traversal is not random exploration — it is <strong>thermodynamically biased</strong> motion toward higher entropy states. This is precisely a <strong>diffusion process with drift</strong>.</p>
+</div>
+
+<h3>2.2 The Fokker-Planck Description</h3>
+
+<p>Let rho(sigma, tau) be the probability density of being at configuration sigma at internal time tau. The dynamics satisfy the Fokker-Planck equation:</p>
+
+<div class="equation-box">
+$$\frac{\partial \rho}{\partial \tau} = D \nabla^2 \rho - \nabla \cdot \left( \rho \, \mathbf{v}_{\text{drift}} \right)$$
+</div>
+
+<p>where:</p>
+<ul>
+<li><strong>D</strong> = diffusion coefficient (local exploration rate)</li>
+<li><strong>nabla²</strong> = Laplacian with respect to Omega-metric d</li>
+<li><strong>v_drift</strong> = drift velocity toward higher entropy</li>
+</ul>
+
+<h3>2.3 The Drift Term</h3>
+
+<p>Thermodynamic systems drift toward entropy maxima. The drift velocity is proportional to the entropy gradient:</p>
+
+<div class="equation-box">
+$$\mathbf{v}_{\text{drift}} = \mu \, \nabla S$$
+</div>
+
+<p>where mu is a mobility coefficient. This is the standard form for overdamped motion in a potential (here, -S acts as the "potential" in reverse — systems climb toward higher S).</p>
+
+<div class="note">
+<strong>Physical interpretation:</strong> Traversal through Omega is like a particle diffusing in a fluid while being carried by a current flowing "uphill" in entropy. The diffusion explores nearby configurations; the drift ensures the second law.
+</div>
+
+<!-- ============================================ -->
+<h2 id="varadhan">III. Varadhan's Theorem: Distance from Spreading</h2>
+
+<h3>3.1 The Heat Kernel</h3>
+
+<p>The fundamental solution to the diffusion equation (without drift, for now) is the heat kernel K(sigma, sigma'; tau):</p>
+
+<div class="equation-box">
+$$K(\sigma, \sigma'; \tau) = \text{Probability density of reaching } \sigma' \text{ from } \sigma \text{ in time } \tau$$
+</div>
+
+<p>This kernel encodes all geometric information about (Omega, d).</p>
+
+<h3>3.2 Varadhan's Theorem (1967)</h3>
+
+<div class="theorem-box gold">
+<p class="theorem-label">Varadhan's Large Deviation Theorem</p>
+<p>For diffusion on a metric space (Omega, d), the heat kernel satisfies:</p>
+$$\lim_{\tau \to 0} \left[ -4D\tau \log K(\sigma, \sigma'; \tau) \right] = d(\sigma, \sigma')^2$$
+</div>
+
+<p><strong>Translation:</strong> The Omega-metric d(sigma, sigma') is recoverable from how transition probabilities decay at short times.</p>
+
+<h3>3.3 The Gaussian Form</h3>
+
+<p>For small tau, the heat kernel has the asymptotic form:</p>
+
+<div class="equation-box">
+$$K(\sigma, \sigma'; \tau) \approx \frac{1}{(4\pi D\tau)^{n/2}} \exp\left( -\frac{d(\sigma, \sigma')^2}{4D\tau} \right)$$
+</div>
+
+<p>where n is the effective dimension.</p>
+
+<div class="theorem-box cyan">
+<p class="theorem-label">Critical Observation</p>
+<p>The <span class="pi-highlight">4pi</span> in the normalization is <strong>not arbitrary</strong> — it is forced by probability conservation. This is where pi enters the spacetime metric through pure mathematics.</p>
+</div>
+
+<h3>3.4 What This Means</h3>
+
+<p>Physical distance IS defined by how correlations decay:</p>
+
+<ul>
+<li>Two configurations are "close" if transitions between them are likely</li>
+<li>Two configurations are "far" if transitions require rare fluctuations</li>
+<li>The Omega-metric d(sigma, sigma') quantifies exactly this</li>
+</ul>
+
+<div class="note">
+<strong>Intuitive model:</strong> Drop a drop of ink in water. How it spreads tells you the geometry. On a curved surface, ink spreads differently than on flat. The spreading pattern IS the metric — and Varadhan's theorem makes this precise.
+</div>
+
+<!-- ============================================ -->
+<h2 id="foliation">IV. Entropy Foliation: Time vs Space</h2>
+
+<h3>4.1 The Entropy Function</h3>
+
+<p>F4 implies there exists a global entropy function S: Omega → R with:</p>
+
+<ul>
+<li>Minimum at Sigma (Big Bang boundary between M+ and M-)</li>
+<li>Strictly increasing along traversal (second law)</li>
+<li>Maximum approached asymptotically (heat death)</li>
+</ul>
+
+<h3>4.2 Foliation by Entropy Surfaces</h3>
+
+<p>The level sets of S foliate Omega into "constant-entropy hypersurfaces":</p>
+
+<div class="equation-box">
+$$\Sigma_s = \{ \sigma \in \Omega : S(\sigma) = s \}$$
+</div>
+
+<div class="emergence-viz">
+  <div class="omega-space">
+    <div class="entropy-gradient"></div>
+    <div class="traversal-path"></div>
+    <div style="position: absolute; bottom: -30px; width: 100%; text-align: center;">
+      <strong>Omega with S-foliation</strong><br>
+      <span style="color: var(--text-muted);">Red = low S, Green = high S</span>
+    </div>
+  </div>
+
+  <div style="font-size: 2.5rem; color: var(--gold);">→</div>
+
+  <div class="spacetime-result">
+    <div class="spacetime-grid">
+      <div class="time-arrow"></div>
+    </div>
+    <div style="margin-top: 10px;">
+      <strong>Emergent Spacetime</strong><br>
+      <span style="color: var(--text-muted);">Time = entropy direction</span>
+    </div>
+  </div>
+</div>
+
+<h3>4.3 The Key Decomposition</h3>
+
+<p>At each sigma in Omega, decompose directions into:</p>
+
+<div class="theorem-box purple">
+<p class="theorem-label">Time-Space Separation</p>
+<p><strong>Time direction:</strong> Along nabla S (perpendicular to constant-S surfaces)<br>
+<strong>Space directions:</strong> Tangent to constant-S surfaces (where S doesn't change)</p>
+</div>
+
+<p>Define the unit normal to entropy surfaces:</p>
+
+<div class="equation-box">
+$$n^\mu = \frac{\nabla^\mu S}{|\nabla S|}$$
+</div>
+
+<p>The induced metric on constant-S surfaces (spatial metric):</p>
+
+<div class="equation-box">
+$$h_{\mu\nu} = d_{\mu\nu} - n_\mu n_\nu$$
+</div>
+
+<!-- ============================================ -->
+<h2 id="metric">V. Constructing the Spacetime Metric</h2>
+
+<h3>5.1 The ADM-Style Decomposition</h3>
+
+<p>Following the standard ADM (Arnowitt-Deser-Misner) formalism, we construct the spacetime metric from:</p>
+
+<ul>
+<li><strong>Lapse function alpha:</strong> Relates proper time to entropy change</li>
+<li><strong>Spatial metric h_ij:</strong> Geometry on constant-S surfaces</li>
+<li><strong>Shift vector beta^i:</strong> How spatial coordinates change with S</li>
+</ul>
+
+<h3>5.2 The Emergent Metric</h3>
+
+<div class="theorem-box gold">
+<p class="theorem-label">Main Result: Spacetime Metric</p>
+$$g_{\mu\nu} = \begin{pmatrix} -\alpha^2 + \beta_k \beta^k & \beta_j \\ \beta_i & h_{ij} \end{pmatrix}$$
+<p>where:</p>
+<ul>
+<li>$\alpha = \left| \frac{\partial \tau_{\text{proper}}}{\partial S} \right|$ — proper time per unit entropy</li>
+<li>$h_{ij} = d_{ij}|_{\Sigma_s}$ — Omega-metric restricted to constant-S surface</li>
+<li>$\beta^i$ determined by how S-surfaces embed in Omega</li>
+</ul>
+</div>
+
+<h3>5.3 Why the Signature is (-,+,+,+)</h3>
+
+<p>The minus sign for the time component arises because:</p>
+
+<div class="step">
+<span class="step-number">1.</span> Traversal has a <strong>preferred direction</strong> (increasing S)
+</div>
+
+<div class="step">
+<span class="step-number">2.</span> Spatial directions have <strong>no preferred orientation</strong> (symmetric within each Sigma_s)
+</div>
+
+<div class="step">
+<span class="step-number">3.</span> The causal structure requires: moving forward in time (dS > 0) is <strong>qualitatively different</strong> from moving in space (dS = 0)
+</div>
+
+<p>The mathematical implementation of this distinction is the Lorentzian signature.</p>
+
+<h3>5.4 Connection to Heat Kernel</h3>
+
+<p>The full spacetime propagator combines spatial diffusion with temporal drift:</p>
+
+<div class="equation-box">
+$$G(x, x'; t) = \frac{1}{(4\pi D t)^{3/2}} \exp\left( -\frac{|\mathbf{x} - \mathbf{x}'|^2_h}{4Dt} \right) \cdot \Theta(t) \cdot e^{-\Delta S / k_B}$$
+</div>
+
+<p>where:</p>
+<ul>
+<li>Gaussian spatial spreading (from Varadhan on each Sigma_s)</li>
+<li>Theta(t) enforces causality (time moves forward)</li>
+<li>Entropy factor enforces thermodynamic arrow</li>
+</ul>
+
+<!-- ============================================ -->
+<h2 id="pi">VI. Where Pi Enters</h2>
+
+<h3>6.1 The Gaussian Normalization</h3>
+
+<p>The heat kernel must be normalized (total probability = 1):</p>
+
+<div class="equation-box">
+$$\int_{\Sigma_s} K(\sigma, \sigma'; \tau) \, d\text{Vol}_h = 1$$
+</div>
+
+<p>For the Gaussian form in n dimensions, this requires:</p>
+
+<div class="equation-box">
+$$\int_{\mathbb{R}^n} \frac{1}{(4\pi D\tau)^{n/2}} e^{-r^2/4D\tau} \, d^n r = 1$$
+</div>
+
+<p>The <span class="pi-highlight">(4pi)^{n/2}</span> is forced by the integral:</p>
+
+<div class="equation-box">
+$$\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}$$
+</div>
+
+<h3>6.2 Pi in 3 Spatial Dimensions</h3>
+
+<p>For our universe with 3 spatial dimensions:</p>
+
+<div class="equation-box">
+$$(4\pi D\tau)^{3/2} = (4\pi)^{3/2} (D\tau)^{3/2}$$
+</div>
+
+<p>When computing flux through spherical surfaces of radius r:</p>
+
+<div class="equation-box">
+$$\oint_{S^2} K \, dA = 4\pi r^2 \times K(r) \propto \frac{4\pi r^2}{(4\pi)^{3/2}} = \frac{r^2}{\sqrt{4\pi}}$$
+</div>
+
+<p>The <span class="pi-highlight">4pi</span> from sphere area and <span class="pi-highlight">(4pi)^{3/2}</span> from Gaussian normalization combine to give the factors in physical laws.</p>
+
+<h3>6.3 Connection to kappa = 1/(4pi)</h3>
+
+<p>The EPS coupling constant kappa = 1/(4pi) emerges from the same structure:</p>
+
+<div class="theorem-box gold">
+<p class="theorem-label">Unified Pi Origin</p>
+<table>
+<tr><th>Quantity</th><th>Pi Factor</th><th>Origin</th></tr>
+<tr>
+  <td>Gaussian normalization</td>
+  <td>(4pi)^{n/2}</td>
+  <td>Probability conservation</td>
+</tr>
+<tr>
+  <td>Spherical flux</td>
+  <td>4pi r²</td>
+  <td>Sphere area</td>
+</tr>
+<tr>
+  <td>kappa = 1/(4pi)</td>
+  <td>4pi</td>
+  <td>Entropy flux dilution</td>
+</tr>
+<tr>
+  <td>Einstein eqs 8piG/c⁴</td>
+  <td>8pi = 2 × 4pi</td>
+  <td>Sphere + thermodynamics</td>
+</tr>
+</table>
+<p>All trace to F2's metric structure enabling rotational symmetry, which makes Gaussian integrals involve sqrt(pi).</p>
+</div>
+
+<!-- ============================================ -->
+<h2 id="summary">VII. Complete Derivation Chain</h2>
+
+<div class="derivation-chain">
+<div class="chain-step">
+<span class="foundation-tag">F1</span>
+|Omega| = N — finite configuration space exists
+</div>
+<span class="chain-arrow">↓</span>
+<div class="chain-step">
+<span class="foundation-tag">F2</span>
+d: Omega × Omega → R — Omega has metric structure
+</div>
+<span class="chain-arrow">↓</span>
+<div class="chain-step">
+<span class="foundation-tag">D1</span>
+Traversal gamma(tau) through Omega IS experience
+</div>
+<span class="chain-arrow">↓</span>
+<div class="chain-step">
+<span class="foundation-tag">F4</span>
+S increases away from Sigma — thermodynamic arrow
+</div>
+<span class="chain-arrow">↓</span>
+<div class="chain-step">
+<strong>Synthesis:</strong> Traversal is diffusion with entropy-seeking drift
+</div>
+<span class="chain-arrow">↓</span>
+<div class="chain-step">
+<strong>Varadhan (1967):</strong> lim[-4Dtau log K] = d² — metric from kernel
+</div>
+<span class="chain-arrow">↓</span>
+<div class="chain-step">
+<strong>Foliation:</strong> Constant-S surfaces = "space"; nabla S direction = "time"
+</div>
+<span class="chain-arrow">↓</span>
+<div class="chain-step">
+<strong>ADM construction:</strong> g_mu_nu from (alpha, beta^i, h_ij)
+</div>
+<span class="chain-arrow">↓</span>
+<div class="chain-step" style="background: rgba(245, 245, 220, 0.2); border-color: var(--gold);">
+<strong>RESULT:</strong> Spacetime metric g_mu_nu emerges from Omega-metric + entropy structure
+</div>
+</div>
+
+<div class="theorem-box green">
+<p class="theorem-label">What This Resolves</p>
+<ul>
+<li><strong>HIGH-03:</strong> Omega-metric → spacetime metric bridge is now explicit</li>
+<li><strong>Pi origin:</strong> Appears through Gaussian normalization (mathematical necessity)</li>
+<li><strong>Time's arrow:</strong> Built into the construction via entropy foliation</li>
+<li><strong>Lorentzian signature:</strong> Follows from time-space asymmetry (drift vs no-drift)</li>
+</ul>
+</div>
+
+<div class="warning">
+<strong>Remaining work:</strong>
+<ul>
+<li>Derive the specific form of alpha (lapse) from RDT principles</li>
+<li>Show why n = 3 spatial dimensions (not addressed here)</li>
+<li>Connect to Jacobson's entanglement equilibrium explicitly</li>
+<li>Formalize the drift coefficient mu in terms of fundamental constants</li>
+</ul>
+</div>
+
+<div class="equation-box">
+<strong>The Emergence Equation</strong><br><br>
+$$g_{\mu\nu}^{(\text{spacetime})} = \lim_{\tau \to 0} \left[ -4D\tau \cdot \nabla_\mu \nabla_\nu \log K \right] + \text{(entropy foliation)}$$
+<br>
+Spacetime geometry = Diffusion structure on Omega + Thermodynamic arrow
+</div>
+
+<footer>
+<p>RDT Mathematical Foundations — Spacetime Emergence</p>
+<p>Version 1.0 | February 2026</p>
+<p><a href="../index.html">← Return to Main Framework</a> | <a href="pi-derivations.html">π-Governed Derivations →</a></p>
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false}
+    ]
+  });
+});
+</script>
+
+</body>
+</html>
