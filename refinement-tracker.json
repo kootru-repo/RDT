@@ -1,0 +1,233 @@
+{
+  "metadata": {
+    "title": "RDT Refinement Tracker",
+    "purpose": "Track mathematical and conceptual gaps in RDT requiring resolution",
+    "created": "2026-02-02",
+    "last_updated": "2026-02-02",
+    "total_items": 15,
+    "resolved": 0,
+    "in_progress": 0,
+    "pending": 15
+  },
+
+  "priority_high": {
+    "description": "Core foundational gaps - must resolve for theoretical coherence",
+    "items": {
+      "F2_to_pi": {
+        "id": "HIGH-01",
+        "title": "F2 → π Emergence",
+        "current_state": "Claims π 'emerges from metric structure with rotational symmetry'",
+        "gap": "No rigorous proof that F2 necessarily implies rotational symmetry",
+        "needed": "Mathematical demonstration that any metric satisfying F2's properties must contain cyclic/rotational structure",
+        "impact": "Underpins all 2π/4π/8π derivations throughout RDT",
+        "status": "pending",
+        "related_files": ["innovations/pi-derivations.html", "rdt-master.json"],
+        "notes": []
+      },
+      "D1_metaphysical_status": {
+        "id": "HIGH-02",
+        "title": "D1's Metaphysical Status",
+        "current_state": "Labeled 'definition' but does heavy explanatory lifting",
+        "gap": "Document acknowledges 'this is an axiom in disguise'",
+        "needed": "Either honest reclassification as axiom with justification, or formal proof that traversal ≡ experience is purely definitional",
+        "impact": "Grounds the arrow of time, 'now', and frequency interpretation",
+        "status": "pending",
+        "related_files": ["rdt-master.json"],
+        "notes": []
+      },
+      "omega_to_spacetime_metric": {
+        "id": "HIGH-03",
+        "title": "Ω-Metric → Spacetime Metric Bridge",
+        "current_state": "d(σ,σ') exists on Ω; somehow g_μν emerges",
+        "gap": "Quantum metric tensor derivation assumes quadratic action on Ω but doesn't derive it from F1/F2",
+        "needed": "Explicit construction showing how configuration-space distance becomes spacetime geometry",
+        "impact": "Core to all geometric claims in RDT",
+        "status": "pending",
+        "related_files": ["innovations/quantum-metric-tensor.html", "rdt-master.json"],
+        "notes": []
+      },
+      "entanglement_equilibrium_motivation": {
+        "id": "HIGH-04",
+        "title": "Entanglement Equilibrium Motivation",
+        "current_state": "'F1+F2+D1 motivates maximal vacuum entanglement'",
+        "gap": "The word 'motivates' hides a derivational void",
+        "needed": "Formal proof or honest acknowledgment that this is interpretive compatibility, not derivation",
+        "impact": "Einstein equations claim rests on this bridge",
+        "status": "pending",
+        "related_files": ["rdt-master.json"],
+        "notes": []
+      },
+      "drainage_current_derivation": {
+        "id": "HIGH-05",
+        "title": "Drainage Current Derivation",
+        "current_state": "J^μ = (c³/4πG)∇^μ ln(S/S₀) stated without derivation",
+        "gap": "No chain from F1-F4 to this specific form",
+        "needed": "Step-by-step derivation or acknowledgment as ansatz",
+        "impact": "Central to 'gravity as drainage' claim",
+        "status": "pending",
+        "related_files": ["rdt-master.json"],
+        "notes": []
+      }
+    }
+  },
+
+  "priority_medium": {
+    "description": "Novel predictions needing formalization - required for testability",
+    "items": {
+      "d_max_derivation": {
+        "id": "MED-01",
+        "title": "d_max (Maximum Entanglement Distance)",
+        "current_state": "Listed as 'novel RDT prediction' but undefined",
+        "gap": "No formula, bounds, or derivation provided",
+        "needed": "Calculation from F1+F2 giving d_max in terms of known quantities",
+        "impact": "Only genuinely novel testable prediction unique to RDT",
+        "status": "pending",
+        "related_files": ["rdt-master.json"],
+        "notes": []
+      },
+      "w_z_quantitative": {
+        "id": "MED-02",
+        "title": "w(z) Dark Energy Evolution",
+        "current_state": "'Entropy differential ΔS drives w deviation from -1'",
+        "gap": "No quantitative prediction w(z) = f(z)",
+        "needed": "Derive w₀, w_a from RDT foundations",
+        "impact": "Directly testable with DESI/Euclid data",
+        "status": "pending",
+        "related_files": ["rdt-master.json"],
+        "notes": []
+      },
+      "psi_drainage_function": {
+        "id": "MED-03",
+        "title": "Drainage Rate Function Ψ(r/L_Λ)",
+        "current_state": "Γ(r) = GM/(r²c)·Ψ(r/L_Λ) but Ψ undefined",
+        "gap": "Critical function is a placeholder",
+        "needed": "Derive or constrain Ψ from first principles",
+        "impact": "Determines cosmological-scale behavior",
+        "status": "pending",
+        "related_files": ["rdt-master.json"],
+        "notes": []
+      },
+      "c_from_foundations": {
+        "id": "MED-04",
+        "title": "c from F1+F2",
+        "current_state": "Claims 'finite Ω has finite diameter → c_max exists'",
+        "gap": "No derivation; c's specific value unexplained",
+        "needed": "Show how N ≈ 10^(10^122) and metric structure determine c = 299,792,458 m/s",
+        "impact": "Would be profound if derivable",
+        "status": "pending",
+        "related_files": ["rdt-master.json"],
+        "notes": []
+      },
+      "F4_arrow_of_time": {
+        "id": "MED-05",
+        "title": "F4 → Arrow of Time Chain",
+        "current_state": "'Boyle-Turok show reflecting boundary → minimum entropy at Σ → dS/dτ > 0'",
+        "gap": "Relies entirely on external derivation",
+        "needed": "RDT-internal proof that F4 requires this boundary condition",
+        "impact": "Arrow of time is central claim",
+        "status": "pending",
+        "related_files": ["rdt-master.json"],
+        "notes": []
+      }
+    }
+  },
+
+  "priority_lower": {
+    "description": "Speculative extensions - clarify or demote",
+    "items": {
+      "model_a_vs_b": {
+        "id": "LOW-01",
+        "title": "Model A vs Model B (EPS)",
+        "current_state": "RDT 'predicts' Model B (geometry-based) but gives no derivation",
+        "gap": "Both models are consistent with F = P/(4πc)",
+        "needed": "Proof that entropic gravity must be mass-independent",
+        "impact": "Crucial for experimental design",
+        "status": "pending",
+        "related_files": ["innovations/entropic-propulsion.html", "rdt-master.json"],
+        "notes": []
+      },
+      "8pi_origin": {
+        "id": "LOW-02",
+        "title": "8π Origin in Einstein Equations",
+        "current_state": "'8π = 2 × 4π' with vague 'thermodynamic normalization'",
+        "gap": "The factor of 2 isn't derived",
+        "needed": "Show why spherical geometry + thermodynamics gives exactly 2×",
+        "impact": "Would strengthen π-unity claim",
+        "status": "pending",
+        "related_files": ["innovations/pi-derivations.html", "rdt-master.json"],
+        "notes": []
+      },
+      "black_hole_information": {
+        "id": "LOW-03",
+        "title": "Black Hole Information Paradox (F4)",
+        "current_state": "'Speculative — information conserved across M⁺ + M⁻'",
+        "gap": "No mechanism for cross-manifold information accounting",
+        "needed": "Either formalize or honestly demote from RDT claims",
+        "impact": "Currently generates unjustified claims",
+        "status": "pending",
+        "related_files": ["innovations/pi-derivations.html", "rdt-master.json"],
+        "notes": []
+      },
+      "born_rule_deviations": {
+        "id": "LOW-04",
+        "title": "Born Rule Deviations at Planck Scale",
+        "current_state": "'Possible deviations' predicted",
+        "gap": "No mechanism, magnitude, or testable signature",
+        "needed": "Derive expected deviation from finite Ω",
+        "impact": "Would distinguish RDT from standard QM",
+        "status": "pending",
+        "related_files": ["rdt-master.json"],
+        "notes": []
+      },
+      "tensor_product_structure": {
+        "id": "LOW-05",
+        "title": "Tensor Product Structure from F1+F2",
+        "current_state": "'F1+F2 → tensor product for composites'",
+        "gap": "Not demonstrated",
+        "needed": "Proof that finite metric space → Hilbert space tensor product",
+        "impact": "Required for Born rule derivation chain",
+        "status": "pending",
+        "related_files": ["rdt-master.json"],
+        "notes": []
+      }
+    }
+  },
+
+  "resolution_log": {
+    "description": "Log of completed refinements",
+    "entries": []
+  },
+
+  "recommended_order": [
+    {
+      "rank": 1,
+      "id": "HIGH-03",
+      "title": "Ω-metric → spacetime metric",
+      "rationale": "Unlocks all geometry claims"
+    },
+    {
+      "rank": 2,
+      "id": "MED-01",
+      "title": "d_max derivation",
+      "rationale": "Only truly novel prediction"
+    },
+    {
+      "rank": 3,
+      "id": "MED-02",
+      "title": "w(z) quantitative prediction",
+      "rationale": "Testable now with DESI"
+    },
+    {
+      "rank": 4,
+      "id": "HIGH-02",
+      "title": "D1 philosophical resolution",
+      "rationale": "Honest foundation"
+    },
+    {
+      "rank": 5,
+      "id": "HIGH-05",
+      "title": "Drainage current from foundations",
+      "rationale": "Central mechanism"
+    }
+  ]
+}
