@@ -323,6 +323,52 @@
       "category": "mathematically_derived",
       "sources": ["Varadhan (1967) Large Deviations", "ADM Formalism (1962)", "Jacobson (2016) Entanglement Equilibrium"],
       "document": "innovations/spacetime-emergence.html"
+    },
+    "maximum_entanglement_distance": {
+      "claim": "Maximum Ω-distance d_max beyond which entanglement is impossible",
+      "derivation_chain": [
+        "F1: |Ω| = N finite",
+        "F2: Metric d(σ,σ') on Ω",
+        "D1+F4: Traversal is diffusion (Fokker-Planck equation)",
+        "Heat kernel: K(σ,σ';τ) ≈ (4πDτ)^{-n/2} exp(-d²/4Dτ)",
+        "Correlation requires: K ≥ K_min = 1/N",
+        "Threshold condition: exp(-d²/4Dτ) ≥ (4πDτ)^{n/2}/N",
+        "For large N: d_max² ≈ 4Dτ ln N",
+        "Result: d_max = 2√(Dτ ln N)"
+      ],
+      "key_equations": {
+        "d_max_formula": "d_max = 2√(Dτ_max ln N)",
+        "formation_time": "τ_entangle = d_Ω²/(4D)",
+        "heat_kernel": "K(σ,σ';τ) ≈ (4πDτ)^{-n/2} exp(-d²/4Dτ)",
+        "coherence_threshold": "K_min = 1/N"
+      },
+      "experimental_calibration": {
+        "source": "TU Wien 2023 (Burgdörfer, Březinová)",
+        "measurement": "τ_entangle = 232 attoseconds (helium)",
+        "derived_parameter": "D_atomic ≈ 10^-6 m²/s"
+      },
+      "physical_interpretation": {
+        "entanglement_is": "Ω-adjacency (d_Ω ≈ 0 despite spatial distance)",
+        "formation_time": "Time for d_Ω to decrease from >> 0 to ≈ 0 via diffusion",
+        "instantaneous_correlation": "Once d_Ω ≈ 0, K ≈ 1 always — no propagation needed",
+        "d_max_meaning": "Fundamental limit from finite Ω, not decoherence"
+      },
+      "pi_connection": "4π appears in heat kernel normalization (4πDτ)^{n/2} — same Gaussian origin as κ = 1/(4π)",
+      "what_this_resolves": [
+        "MED-01: d_max derivation from F1+F2",
+        "Why entanglement formation takes finite time",
+        "Why already-entangled systems show 'instantaneous' correlation",
+        "First experimental constraint on Ω-diffusion coefficient D"
+      ],
+      "testable_predictions": [
+        "Formation time τ ∝ d_Ω² (quadratic scaling)",
+        "Cross-system fidelity depends on Ω-topology",
+        "Temperature affects formation beyond decoherence",
+        "Hard entanglement limit for sufficiently Ω-distant systems"
+      ],
+      "category": "mathematically_derived",
+      "sources": ["TU Wien 2023", "Varadhan (1967)", "RDT foundations"],
+      "document": "innovations/entanglement-distance.html"
     }
   },
 
@@ -629,8 +675,24 @@
     },
     "maximum_entanglement_distance": {
       "prediction": "d_max exists - maximum Ω-distance for entanglement",
+      "formula": "d_max = 2√(Dτ ln N)",
+      "derivation_chain": [
+        "F1+F2: Ω exists with metric d(σ,σ') and finite N = |Ω|",
+        "D1+F4: Traversal is diffusion with entropy drift (Fokker-Planck)",
+        "Heat kernel: K(σ,σ';τ) ≈ (4πDτ)^{-n/2} exp(-d²/4Dτ)",
+        "Coherence threshold: K ≥ K_min = 1/N (distinguishability limit)",
+        "Solving: d_max² = 4Dτ ln(N × normalization) ≈ 4Dτ ln N",
+        "Result: d_max = 2√(Dτ ln N)"
+      ],
+      "experimental_constraint": {
+        "source": "TU Wien (Burgdörfer, Březinová et al., 2023)",
+        "measurement": "Entanglement formation time τ = 232 attoseconds for helium electrons",
+        "implication": "D_atomic ≈ 10^-6 m²/s (first constraint on Ω-diffusion coefficient)"
+      },
+      "key_insight": "232 as is formation time (d_Ω decreasing to 0), not correlation speed. Once entangled (d_Ω ≈ 0), K ≈ 1 regardless of τ — 'instantaneous' correlation.",
       "note": "Novel RDT prediction with no standard QM equivalent",
-      "status": "untested"
+      "status": "derived",
+      "document": "innovations/entanglement-distance.html"
     },
     "born_rule_deviations": {
       "prediction": "Possible deviations from |ψ|² at Planck-scale statistics",

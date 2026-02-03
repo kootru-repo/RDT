@@ -5,9 +5,9 @@
     "created": "2026-02-02",
     "last_updated": "2026-02-02",
     "total_items": 15,
-    "resolved": 1,
+    "resolved": 2,
     "in_progress": 0,
-    "pending": 14
+    "pending": 13
   },
 
   "priority_high": {
@@ -91,13 +91,22 @@
       "d_max_derivation": {
         "id": "MED-01",
         "title": "d_max (Maximum Entanglement Distance)",
-        "current_state": "Listed as 'novel RDT prediction' but undefined",
-        "gap": "No formula, bounds, or derivation provided",
+        "current_state": "Derived from heat kernel coherence threshold",
+        "gap": "RESOLVED",
         "needed": "Calculation from F1+F2 giving d_max in terms of known quantities",
         "impact": "Only genuinely novel testable prediction unique to RDT",
-        "status": "pending",
-        "related_files": ["rdt-master.json"],
-        "notes": []
+        "status": "resolved",
+        "resolution_date": "2026-02-02",
+        "resolution_method": "Heat Kernel Coherence Threshold (Option A)",
+        "related_files": ["innovations/entanglement-distance.html", "rdt-master.json"],
+        "notes": [
+          "d_max = 2√(Dτ ln N) derived from coherence threshold K ≥ 1/N",
+          "TU Wien 232 attosecond measurement constrains D ≈ 10^-6 m²/s (atomic scale)",
+          "232 as = entanglement FORMATION time (d_Ω decreasing), not correlation speed",
+          "Once entangled (d_Ω ≈ 0), K ≈ 1 always → 'instantaneous' correlation explained",
+          "π enters through (4πDτ)^{n/2} heat kernel normalization",
+          "Testable predictions: τ ∝ d_Ω², cross-system fidelity differences, hard d_max wall"
+        ]
       },
       "w_z_quantitative": {
         "id": "MED-02",
@@ -234,6 +243,37 @@
             "result": "Diffusion equilibrium (ρ ∝ e^S) = entanglement equilibrium → Einstein equations",
             "pi_connection": "8π = 4π (sphere) × 2 (surface gravity factor)"
           }
+        ],
+        "status": "fully_resolved"
+      },
+      {
+        "id": "MED-01",
+        "title": "d_max (Maximum Entanglement Distance)",
+        "date": "2026-02-02",
+        "method": "Heat Kernel Coherence Threshold",
+        "summary": "Maximum entanglement distance d_max = 2√(Dτ ln N) derived from heat kernel coherence threshold K ≥ 1/N. The TU Wien 232 attosecond measurement (entanglement formation time for helium electrons) constrains the Ω-diffusion coefficient D ≈ 10^-6 m²/s. The 232 as is the formation time (d_Ω decreasing to 0), not correlation speed. Once entangled (d_Ω ≈ 0), K ≈ 1 always — explaining 'instantaneous' correlation. Pi enters through (4πDτ)^{n/2} heat kernel normalization.",
+        "document": "innovations/entanglement-distance.html",
+        "key_results": [
+          {
+            "item": "d_max formula",
+            "result": "d_max = 2√(Dτ ln N)",
+            "derivation": "Coherence threshold K ≥ 1/N applied to heat kernel"
+          },
+          {
+            "item": "Diffusion coefficient D",
+            "result": "D_atomic ≈ 10^-6 m²/s",
+            "source": "TU Wien 232 as measurement (2023)"
+          },
+          {
+            "item": "Formation vs correlation",
+            "result": "232 as = formation time, correlation is 'instantaneous' for d_Ω ≈ 0",
+            "insight": "Resolves apparent 'spooky action' paradox"
+          }
+        ],
+        "testable_predictions": [
+          "τ_entangle ∝ d_Ω² (quadratic scaling)",
+          "Cross-system fidelity depends on Ω-topology",
+          "Hard entanglement limit (d_max wall) exists"
         ],
         "status": "fully_resolved"
       }
