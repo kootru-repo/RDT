@@ -232,6 +232,7 @@
         "Coupling constant: κ = 1/(4π)"
       ],
       "pi_connection": "The same geometric structure that makes circles have C = 2πr makes spheres have A = 4πr², which forces κ = 1/(4π)",
+      "intuitive_model": "Think of a rubber band stretched in all directions at once — it forms a sphere. The 4π is the geometric 'price' of isotropic (all-directional) entropy flux versus 1D directional flux.",
       "category": "mathematically_derived",
       "status_upgrade": {
         "before": "empirically_constrained (○)",
@@ -400,6 +401,27 @@
         "why_4pi": "The 4π is the total solid angle of a sphere, forced by rotational geometry. Same factor appears in Coulomb's law, Newton's gravity, Stefan-Boltzmann.",
         "status": "DERIVED from F2 + entropy conservation, not assumed"
       },
+      "isotropic_rubber_band_analogy": {
+        "intuition": "EPS is geometrically analogous to a rubber band stretched in all directions simultaneously",
+        "comparison": {
+          "rubber_band_1D": {
+            "dimensionality": "1D stretch along single axis",
+            "geometric_factor": "None",
+            "entropy_source": "Polymer chain configurations (PROVEN physics)",
+            "force_equation": "F = T(∂S/∂L)",
+            "force_direction": "Along stretch axis"
+          },
+          "eps_3D_spherical": {
+            "dimensionality": "3D spherically symmetric",
+            "geometric_factor": "4π (total solid angle)",
+            "entropy_source": "Radiation-spacetime coupling (THEORETICAL)",
+            "force_equation": "F = P/(4πc)",
+            "force_direction": "Radially outward"
+          }
+        },
+        "why_4pi_appears": "A rubber band stretched equally in ALL directions forms a sphere. The 'entropic surface' dilutes over spherical area A = 4πr². The 4π in EPS is the 'price' of going from 1D entropic stretch to 3D isotropic entropic radiation.",
+        "critical_caveat": "The analogy holds GEOMETRICALLY, but mechanisms differ: rubber band entropy (polymer configurations) is proven; EPS entropy (spacetime coupling) requires experimental validation."
+      },
       "thermodynamics_clarification": {
         "does_it_violate_thermodynamics": "No",
         "how_it_works": "EPS converts thermal/electrical energy into directed momentum via entropy gradients, analogous to a heat engine. Total entropy still increases.",
@@ -434,6 +456,95 @@
       "category": "physically_connected",
       "note": "Technique validated by convergent frameworks; RDT mechanism (Ω-traversal) unverified"
     }
+  },
+
+  "black_hole_compatibility": {
+    "title": "Black Hole Thermodynamics and the 4π Unity",
+    "summary": "Black hole physics shares the same 4π geometric structure as EPS. RDT doesn't independently derive black holes, but they are deeply compatible through Jacobson's thermodynamic gravity.",
+    "epistemological_status": "physically_connected",
+    "honesty_note": "Black holes are solutions to Einstein's equations. RDT claims compatibility with Einstein via Jacobson, so black holes are COMPATIBLE WITH RDT, not DERIVED FROM RDT.",
+    "geometric_duality": {
+      "eps_outward": {
+        "description": "Entropy radiates OUTWARD from source",
+        "flux": "J = Ṡ/(4πr²) — dilutes over sphere",
+        "effect": "Creates thrust AWAY from source"
+      },
+      "black_hole_inward": {
+        "description": "Entropy accumulates INWARD on horizon",
+        "surface": "A = 4πr_s² — horizon IS a sphere",
+        "effect": "Creates gravity TOWARD center"
+      },
+      "intuitive_model": "EPS is a rubber band stretched outward in all directions. A black hole horizon is spacetime stretched INWARD to its limit — the geometric inverse."
+    },
+    "pi_in_black_hole_physics": {
+      "bekenstein_hawking_entropy": {
+        "formula": "S = A/(4ℓ_P²) = kc³A/(4Għ)",
+        "horizon_area": "A = 4πr_s² = 16πG²M²/c⁴",
+        "pi_origin": "4π from spherical horizon geometry (F2)",
+        "rdt_connection": "Same 4π as in κ = 1/(4π)"
+      },
+      "hawking_temperature": {
+        "formula": "T_H = ħc³/(8πGMk_B)",
+        "pi_factor": "8π = 2 × 4π",
+        "pi_origin": "4π from sphere, 2 from surface gravity definition",
+        "rdt_connection": "Same geometric structure as F2"
+      },
+      "hawking_radiation_power": {
+        "formula": "P = ħc⁶/(15360πG²M²)",
+        "derivation": "Stefan-Boltzmann applied to spherical horizon: P = 4πr_s² · σT_H⁴",
+        "pi_origin": "4π appears twice: in area and in thermal radiation",
+        "rdt_connection": "Same as EPS radiation geometry"
+      },
+      "unruh_temperature": {
+        "formula": "T_U = ħa/(2πck_B)",
+        "pi_factor": "2π",
+        "pi_origin": "Periodicity in imaginary (Euclidean) time — rotational structure",
+        "rdt_connection": "Same F2 rotational symmetry that gives C = 2πr"
+      },
+      "first_law_of_black_hole_thermodynamics": {
+        "formula": "dM = (κ_s/8πG)dA + ΩdJ + ΦdQ",
+        "pi_factor": "8π in denominator",
+        "note": "κ_s is surface gravity, not RDT's coupling constant κ"
+      },
+      "einstein_equations": {
+        "formula": "G_μν + Λg_μν = (8πG/c⁴)T_μν",
+        "pi_factor": "8π = 2 × 4π",
+        "jacobson_derivation": "Derived from Clausius relation δQ = TδS applied to local Rindler horizons"
+      }
+    },
+    "unified_pi_structure": {
+      "2pi_circular": {
+        "contexts": ["Unruh temperature", "ħ = h/(2π)", "Wave periods"],
+        "geometric_origin": "Circumference of circle (1D rotation)"
+      },
+      "4pi_spherical": {
+        "contexts": ["Black hole area A = 4πr_s²", "EPS flux dilution", "κ = 1/(4π)", "Coulomb's law", "Stefan-Boltzmann"],
+        "geometric_origin": "Surface area of sphere (2D rotation)"
+      },
+      "8pi_combined": {
+        "contexts": ["Einstein equations 8πG/c⁴", "Hawking temperature", "First law dM = (κ/8πG)dA"],
+        "geometric_origin": "Combining spherical geometry with thermodynamic normalization"
+      },
+      "rdt_claim": "All these π factors trace to the same source: F2's rotational symmetry. This is not coincidence but geometric necessity."
+    },
+    "f1_connection": {
+      "bekenstein_bound": "S ≤ 2πkER/(ħc) — maximum entropy in region",
+      "holographic_principle": "Entropy scales with boundary AREA, not volume",
+      "rdt_interpretation": "F1 (finite totality) REQUIRES black hole entropy to be finite. The Bekenstein bound is a necessary consequence of |Ω| = N < ∞."
+    },
+    "f4_speculation": {
+      "information_paradox": "Information 'lost' in M⁺ black hole may be preserved in CPT-conjugate M⁻",
+      "total_information_conservation": "F4 suggests information is conserved across M⁺ + M⁻, not necessarily within each manifold alone",
+      "status": "Speculative — not a formal RDT prediction"
+    },
+    "key_formulas": {
+      "schwarzschild_radius": "r_s = 2GM/c²",
+      "horizon_area": "A = 4πr_s²",
+      "bekenstein_hawking": "S = kc³A/(4Għ)",
+      "hawking_temp": "T_H = ħc³/(8πGMk_B)",
+      "unruh_temp": "T_U = ħa/(2πck_B)"
+    },
+    "document": "innovations/pi-derivations.html"
   },
 
   "testable_predictions": {
